@@ -24,8 +24,8 @@ extern "C"
 	///
 	__force_inline cb_endian_enum cb_native_endian()
 	{
-		uint32_t u32 = 1;
-		uint8_t *p = (uint8_t *)&u32;
+		uint16_t number = 1;
+		uint8_t *p = (uint8_t *)&number;
 		if (p[0])
 		{
 			return cb_endian_little_endian;
