@@ -1,5 +1,5 @@
 #pragma once
-#include "c-bsp-interface/endian.h"
+#include "cb/endian.h"
 #include <stdbool.h>
 #include <stdint.h>
 

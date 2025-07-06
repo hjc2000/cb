@@ -1,6 +1,6 @@
 #include "auto_bit_converter.h" // IWYU pragma: keep
-#include "c-bsp-interface/bit_converter.h"
-#include "c-bsp-interface/reverse.h"
+#include "cb/bit_converter.h"
+#include "cb/reverse.h"
 
 void bsp_auto_bit_converter_initialize(bsp_auto_bit_converter *self, bsp_endian_enum remote_endian)
 {
