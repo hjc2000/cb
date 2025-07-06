@@ -1,10 +1,11 @@
 #include "auto_bit_converter.h" // IWYU pragma: keep
 #include "cb/bit_converter.h"
 #include "cb/reverse.h"
+#include "endian.h"
 
 void cb_auto_bit_converter_initialize(cb_auto_bit_converter *self, cb_endian_enum remote_endian)
 {
-	self->_should_reverse = cb_local_host_endian() != remote_endian;
+	self->_should_reverse = cb_native_endian != remote_endian;
 }
 
 /* #region 转数字 */
