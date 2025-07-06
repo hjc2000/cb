@@ -1,4 +1,6 @@
 #pragma once
+#include "define.h"
+#include <stdint.h>
 
 #ifdef __cplusplus
 extern "C"
@@ -16,10 +18,21 @@ extern "C"
 	} cb_endian_enum;
 
 	///
-	/// @brief 本机字节序。
+	/// @brief 获取本机字节序。
 	///
+	/// @return
 	///
-	extern cb_endian_enum const cb_native_endian;
+	__force_inline cb_endian_enum cb_native_endian()
+	{
+		uint32_t u32 = 1;
+		uint8_t *p = (uint8_t *)&u32;
+		if (p[0])
+		{
+			return cb_endian_little_endian;
+		}
+
+		return cb_endian_big_endian;
+	}
 
 #ifdef __cplusplus
 }
