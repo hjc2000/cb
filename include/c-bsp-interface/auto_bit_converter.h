@@ -1,6 +1,6 @@
 #pragma once
 #include "c-bsp-interface/endian.h"
-#include "type.h"
+#include <stdbool.h>
 #include <stdint.h>
 
 ///
@@ -15,7 +15,7 @@ typedef struct bsp_auto_bit_converter
 	/// @note 本机字节序和远程字节序不同时就需要翻转字节数组。
 	///
 	///
-	bsp_bool _should_reverse;
+	bool _should_reverse;
 
 } bsp_auto_bit_converter;
 

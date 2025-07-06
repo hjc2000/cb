@@ -1,5 +1,5 @@
 #pragma once
-#include "c-bsp-interface/type.h"
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 
@@ -8,7 +8,7 @@ typedef struct bsp_int_circle_queue
 	size_t _max_count;
 	size_t _start;
 	size_t _end;
-	bsp_bool _is_full;
+	bool _is_full;
 
 	int _array[];
 
@@ -43,10 +43,10 @@ bsp_int_circle_queue *bsp_int_circle_queue_placement_new(uint64_t *memory_block,
 
 int *bsp_int_circle_queue_get(bsp_int_circle_queue *self, size_t index);
 
-bsp_bool bsp_int_circle_queue_is_empty(bsp_int_circle_queue *self);
+bool bsp_int_circle_queue_is_empty(bsp_int_circle_queue *self);
 
 size_t bsp_int_circle_queue_count(bsp_int_circle_queue *self);
 
-bsp_bool bsp_int_circle_queue_enqueue(bsp_int_circle_queue *self, int const *element);
+bool bsp_int_circle_queue_enqueue(bsp_int_circle_queue *self, int const *element);
 
-bsp_bool bsp_int_circle_queue_dequeue(bsp_int_circle_queue *self, int *out);
+bool bsp_int_circle_queue_dequeue(bsp_int_circle_queue *self, int *out);
