@@ -4,15 +4,15 @@
 /// @brief 字节序枚举。
 ///
 ///
-typedef enum bsp_endian_enum
+typedef enum cb_endian_enum
 {
-	bsp_endian_big_endian,
-	bsp_endian_little_endian,
-} bsp_endian_enum;
+	cb_endian_big_endian,
+	cb_endian_little_endian,
+} cb_endian_enum;
 
 ///
 /// @brief 获取本机字节序
 ///
 /// @return
 ///
-bsp_endian_enum bsp_local_host_endian();
+cb_endian_enum cb_local_host_endian();
