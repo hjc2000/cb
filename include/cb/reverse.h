@@ -50,11 +50,6 @@ extern "C"
 			return;
 		}
 
-		if (element_count <= 0)
-		{
-			return;
-		}
-
 		for (int32_t i = 0; i < element_count; i++)
 		{
 			cb_reverse_byte_array(array + element_size * i, element_size);
