@@ -1,6 +1,7 @@
+#include "cb/endian.h"
 #include <iostream>
 
 int main()
 {
-	std::cout << "Hello World!" << std::endl;
+	std::cout << cb_native_endian << std::endl;
 }
