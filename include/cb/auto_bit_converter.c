@@ -12,7 +12,7 @@ void cb_auto_bit_converter_initialize(cb_auto_bit_converter *self, cb_endian_enu
 
 uint16_t cb_auto_bit_converter_to_uint16(cb_auto_bit_converter *self, uint8_t const *buffer, int32_t offset)
 {
-	uint16_t ret = cb_bit_converter_byte_array_to_uint16(buffer, offset);
+	uint16_t ret = cb_byte_array_to_uint16(buffer, offset);
 	if (self->_should_reverse)
 	{
 		cb_reverse_byte_array((uint8_t *)(&ret), sizeof(ret));
@@ -23,7 +23,7 @@ uint16_t cb_auto_bit_converter_to_uint16(cb_auto_bit_converter *self, uint8_t co
 
 int16_t cb_auto_bit_converter_to_int16(cb_auto_bit_converter *self, uint8_t const *buffer, int32_t offset)
 {
-	int16_t ret = cb_bit_converter_byte_array_to_int16(buffer, offset);
+	int16_t ret = cb_byte_array_to_int16(buffer, offset);
 	if (self->_should_reverse)
 	{
 		cb_reverse_byte_array((uint8_t *)(&ret), sizeof(ret));
