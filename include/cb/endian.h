@@ -1,5 +1,4 @@
 #pragma once
-#include "define.h"
 #include <stdint.h>
 
 #ifdef __cplusplus
@@ -22,7 +21,7 @@ extern "C"
 	///
 	/// @return
 	///
-	__force_inline cb_endian_enum cb_native_endian()
+	static inline cb_endian_enum cb_native_endian()
 	{
 		uint16_t number = 1;
 		uint8_t *p = (uint8_t *)&number;

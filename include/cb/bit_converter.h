@@ -1,30 +1,29 @@
 #pragma once
-#include "define.h"
 #include <stdint.h>
 #include <string.h>
 
 /* #region 转数字 */
 
-__force_inline uint16_t cb_byte_array_to_uint16(uint8_t const *buffer, int32_t offset)
+static inline uint16_t cb_byte_array_to_uint16(uint8_t const *buffer, int32_t offset)
 {
 	uint16_t ret;
 	memcpy((uint8_t *)(&ret), buffer + offset, sizeof(ret));
 	return ret;
 }
 
-__force_inline int16_t cb_byte_array_to_int16(uint8_t const *buffer, int32_t offset)
+static inline int16_t cb_byte_array_to_int16(uint8_t const *buffer, int32_t offset)
 {
 	int16_t ret;
 	memcpy((uint8_t *)(&ret), buffer + offset, sizeof(ret));
 	return ret;
 }
 
-__force_inline uint16_t cb_2_byte_to_uint16(uint8_t high, uint8_t low)
+static inline uint16_t cb_2_byte_to_uint16(uint8_t high, uint8_t low)
 {
 	return ((uint16_t)high << 8) | low;
 }
 
-__force_inline uint32_t cb_bit_converter_byte_array_to_uint32(uint8_t const *buffer, int32_t offset)
+static inline uint32_t cb_bit_converter_byte_array_to_uint32(uint8_t const *buffer, int32_t offset)
 {
 	uint32_t ret;
 	memcpy((uint8_t *)(&ret), buffer + offset, sizeof(ret));
