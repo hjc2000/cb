@@ -35,4 +35,5 @@ namespace
 
 } // namespace
 
+__attribute__((section(".rodata")))
 cb_endian_enum const cb_native_endian = _provider.NativeEndian();
