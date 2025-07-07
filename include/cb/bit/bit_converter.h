@@ -1,5 +1,5 @@
 #pragma once
-#include "define.h"
+#include "cb/define.h"
 #include <stdint.h>
 #include <string.h>
 
