@@ -14,7 +14,7 @@ extern "C"
 	///
 	/// @param size
 	///
-	__force_inline void cb_reverse_byte_array(uint8_t *array, int32_t size)
+	__cb_force_inline void cb_reverse_byte_array(uint8_t *array, int32_t size)
 	{
 		if (size <= 1)
 		{
@@ -39,9 +39,9 @@ extern "C"
 	///
 	/// @param element_count 单元的个数。
 	///
-	__force_inline void cb_reverse_byte_array_per_element(uint8_t *array,
-														  int32_t element_size,
-														  int32_t element_count)
+	__cb_force_inline void cb_reverse_byte_array_per_element(uint8_t *array,
+															 int32_t element_size,
+															 int32_t element_count)
 	{
 		if (element_size <= 1)
 		{

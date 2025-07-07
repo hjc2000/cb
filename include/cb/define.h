@@ -5,7 +5,7 @@ extern "C"
 {
 #endif
 
-#define __force_inline static inline __attribute__((always_inline))
+#define __cb_force_inline inline __attribute__((always_inline))
 
 #ifdef __cplusplus
 }
