@@ -44,6 +44,42 @@ extern "C"
 		return ret;
 	}
 
+	__cb_force_inline int16_t cb_auto_bit_converter_byte_array_to_int16(auto_bit_converter *self,
+																		uint8_t const *buffer)
+	{
+		int16_t ret = cb_byte_array_to_int16(buffer);
+		if (cb_auto_bit_converter_should_reverse(self))
+		{
+			cb_reverse_byte_array((uint8_t *)(&ret), sizeof(ret));
+		}
+
+		return ret;
+	}
+
+	__cb_force_inline uint32_t cb_auto_bit_converter_byte_array_to_uint32(auto_bit_converter *self,
+																		  uint8_t const *buffer)
+	{
+		uint32_t ret = cb_byte_array_to_uint32(buffer);
+		if (cb_auto_bit_converter_should_reverse(self))
+		{
+			cb_reverse_byte_array((uint8_t *)(&ret), sizeof(ret));
+		}
+
+		return ret;
+	}
+
+	__cb_force_inline int32_t cb_auto_bit_converter_byte_array_to_int32(auto_bit_converter *self,
+																		uint8_t const *buffer)
+	{
+		int32_t ret = cb_byte_array_to_int32(buffer);
+		if (cb_auto_bit_converter_should_reverse(self))
+		{
+			cb_reverse_byte_array((uint8_t *)(&ret), sizeof(ret));
+		}
+
+		return ret;
+	}
+
 #ifdef __cplusplus
 }
 #endif
