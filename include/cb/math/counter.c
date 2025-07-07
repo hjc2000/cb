@@ -8,7 +8,7 @@ void cb_counter_32_initialize(cb_counter_32 *self,
 	cb_counter_32_add(self, current_value);
 }
 
-uint32_t cb_counter_32_add(cb_counter_32 *self, uint32_t value)
+void cb_counter_32_add(cb_counter_32 *self, uint32_t value)
 {
 	// 将要加的值约束在一个最小正周期内。
 	value %= self->_max_value + 1;
@@ -35,11 +35,9 @@ uint32_t cb_counter_32_add(cb_counter_32 *self, uint32_t value)
 	{
 		self->_count += value;
 	}
-
-	return self->_count;
 }
 
-uint32_t cb_counter_32_subtract(cb_counter_32 *self, uint32_t value)
+void cb_counter_32_subtract(cb_counter_32 *self, uint32_t value)
 {
 	// 将要减的值约束在一个最小正周期内。
 	value %= self->_max_value + 1;
@@ -59,6 +57,4 @@ uint32_t cb_counter_32_subtract(cb_counter_32 *self, uint32_t value)
 	{
 		self->_count -= value;
 	}
-
-	return self->_count;
 }
