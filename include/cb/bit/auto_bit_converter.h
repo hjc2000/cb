@@ -80,6 +80,54 @@ extern "C"
 		return ret;
 	}
 
+	__cb_force_inline uint64_t cb_auto_bit_converter_byte_array_to_uint64(auto_bit_converter *self,
+																		  uint8_t const *buffer)
+	{
+		uint64_t ret = cb_byte_array_to_uint64(buffer);
+		if (cb_auto_bit_converter_should_reverse(self))
+		{
+			cb_reverse_byte_array((uint8_t *)(&ret), sizeof(ret));
+		}
+
+		return ret;
+	}
+
+	__cb_force_inline int64_t cb_auto_bit_converter_byte_array_to_int64(auto_bit_converter *self,
+																		uint8_t const *buffer)
+	{
+		int64_t ret = cb_byte_array_to_int64(buffer);
+		if (cb_auto_bit_converter_should_reverse(self))
+		{
+			cb_reverse_byte_array((uint8_t *)(&ret), sizeof(ret));
+		}
+
+		return ret;
+	}
+
+	__cb_force_inline float cb_auto_bit_converter_byte_array_to_float(auto_bit_converter *self,
+																	  uint8_t const *buffer)
+	{
+		float ret = cb_byte_array_to_float(buffer);
+		if (cb_auto_bit_converter_should_reverse(self))
+		{
+			cb_reverse_byte_array((uint8_t *)(&ret), sizeof(ret));
+		}
+
+		return ret;
+	}
+
+	__cb_force_inline double cb_auto_bit_converter_byte_array_to_double(auto_bit_converter *self,
+																		uint8_t const *buffer)
+	{
+		double ret = cb_byte_array_to_double(buffer);
+		if (cb_auto_bit_converter_should_reverse(self))
+		{
+			cb_reverse_byte_array((uint8_t *)(&ret), sizeof(ret));
+		}
+
+		return ret;
+	}
+
 #ifdef __cplusplus
 }
 #endif
