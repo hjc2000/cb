@@ -109,6 +109,8 @@ extern "C"
 		cb_counter_32_add(self, value);
 	}
 
+	/* #region 比较大小 */
+
 	///
 	/// @brief self 是否等于 other.
 	///
@@ -168,6 +170,8 @@ extern "C"
 	{
 		return self->_count <= other->_count;
 	}
+
+	/* #endregion */
 
 #ifdef __cplusplus
 }
