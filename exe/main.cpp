@@ -1,14 +1,14 @@
-#include "cb/reverse.h"
+#include "cb/math/counter.h"
 #include <iostream>
-#include <stdint.h>
-#include <string>
 
 int main()
 {
-	uint8_t arr[] = {1, 2, 3, 4, 5, 6, 7, 8};
-	cb_reverse_byte_array_per_element(arr, 4, 2);
-	for (uint8_t num : arr)
+	cb_counter_32 counter{};
+	cb_counter_32_initialize(&counter, 0, 9);
+
+	for (int i = 0; i < 30; i++)
 	{
-		std::cout << std::to_string(num) << std::endl;
+		std::cout << cb_counter_32_current_value(&counter) << std::endl;
+		cb_counter_32_add(&counter, 1);
 	}
 }
