@@ -1,6 +1,5 @@
 #pragma once
 #include "define.h"
-#include <corecrt.h>
 #include <stdint.h>
 #include <string.h>
 
