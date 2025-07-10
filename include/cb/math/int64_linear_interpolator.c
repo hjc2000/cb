@@ -16,7 +16,7 @@ void cb_int64_linear_interpolator_initialize(cb_int64_linear_interpolator *self,
 	self->_step_length = step_length;
 }
 
-int64_t cb_int64_linear_interpolator_update(cb_int64_linear_interpolator *self)
+int64_t cb_int64_linear_interpolator_step(cb_int64_linear_interpolator *self)
 {
 	int64_t error = self->_end_value - self->_current_value;
 	if (error < 0)
