@@ -89,7 +89,7 @@ extern "C"
 	/// @param self
 	/// @return
 	///
-	__cb_force_inline uint32_t cb_counter_32_current_value(cb_counter_32 *self)
+	__cb_force_inline uint32_t cb_counter_32_current_value(cb_counter_32 const *self)
 	{
 		return self->_count;
 	}
@@ -118,7 +118,7 @@ extern "C"
 	/// @param other
 	/// @return
 	///
-	__cb_force_inline bool cb_counter_32_equal(cb_counter_32 *self, cb_counter_32 *other)
+	__cb_force_inline bool cb_counter_32_equal(cb_counter_32 const *self, cb_counter_32 const *other)
 	{
 		return self->_count == other->_count;
 	}
@@ -130,7 +130,7 @@ extern "C"
 	/// @param other
 	/// @return
 	///
-	__cb_force_inline bool cb_counter_32_greater_than(cb_counter_32 *self, cb_counter_32 *other)
+	__cb_force_inline bool cb_counter_32_greater_than(cb_counter_32 const *self, cb_counter_32 const *other)
 	{
 		return self->_count > other->_count;
 	}
@@ -142,7 +142,7 @@ extern "C"
 	/// @param other
 	/// @return
 	///
-	__cb_force_inline bool cb_counter_32_less_than(cb_counter_32 *self, cb_counter_32 *other)
+	__cb_force_inline bool cb_counter_32_less_than(cb_counter_32 const *self, cb_counter_32 const *other)
 	{
 		return self->_count < other->_count;
 	}
@@ -154,7 +154,7 @@ extern "C"
 	/// @param other
 	/// @return
 	///
-	__cb_force_inline bool cb_counter_32_greater_than_or_equal(cb_counter_32 *self, cb_counter_32 *other)
+	__cb_force_inline bool cb_counter_32_greater_than_or_equal(cb_counter_32 const *self, cb_counter_32 const *other)
 	{
 		return self->_count >= other->_count;
 	}
@@ -166,7 +166,7 @@ extern "C"
 	/// @param other
 	/// @return
 	///
-	__cb_force_inline bool cb_counter_32_less_than_or_equal(cb_counter_32 *self, cb_counter_32 *other)
+	__cb_force_inline bool cb_counter_32_less_than_or_equal(cb_counter_32 const *self, cb_counter_32 const *other)
 	{
 		return self->_count <= other->_count;
 	}
