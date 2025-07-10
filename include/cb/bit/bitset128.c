@@ -2,6 +2,11 @@
 
 bool cb_bitset128_read_bit(cb_bitset128 const *self, uint8_t bit_index)
 {
+	if (bit_index >= 128)
+	{
+		return false;
+	}
+
 	int32_t byte_index = bit_index / 8;
 	int32_t bit_index_in_byte = bit_index % 8;
 	uint8_t byte = self->_array[byte_index];
@@ -10,6 +15,11 @@ bool cb_bitset128_read_bit(cb_bitset128 const *self, uint8_t bit_index)
 
 void cb_bitset128_write_bit(cb_bitset128 *self, uint8_t bit_index, bool value)
 {
+	if (bit_index >= 128)
+	{
+		return;
+	}
+
 	int32_t byte_index = bit_index / 8;
 	int32_t bit_index_in_byte = bit_index % 8;
 	uint8_t byte = self->_array[byte_index];
