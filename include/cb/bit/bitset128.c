@@ -1,4 +1,10 @@
 #include "bitset128.h" // IWYU pragma: keep
+#include <string.h>
+
+void cb_bitset128_initialize(cb_bitset128 *self)
+{
+	memset(self->_array, 0, sizeof(self->_array));
+}
 
 bool cb_bitset128_read_bit(cb_bitset128 const *self, uint8_t bit_index)
 {
