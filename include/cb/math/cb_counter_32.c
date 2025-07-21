@@ -5,6 +5,7 @@ void cb_counter_32_initialize(cb_counter_32 *self,
 							  uint32_t max_value)
 {
 	self->_max_value = max_value;
+	self->_count = 0;
 	cb_counter_32_add(self, current_value);
 }
 
