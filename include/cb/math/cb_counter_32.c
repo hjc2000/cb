@@ -1,4 +1,4 @@
-#include "counter.h" // IWYU pragma: keep
+#include "cb_counter_32.h" // IWYU pragma: keep
 
 void cb_counter_32_initialize(cb_counter_32 *self,
 							  uint32_t current_value,
