@@ -11,6 +11,6 @@ if(("${platform}" STREQUAL "msys") OR
 	add_executable(${test_exe_target_name})
 	target_import_test(${test_exe_target_name})
 
-	target_import_base(${ProjectName} PUBLIC)
-	target_link_libraries(${test_exe_target_name} ${ProjectName})
+	target_import_base(${test_exe_target_name} PUBLIC)
+	target_link_libraries(${test_exe_target_name} PUBLIC "${ProjectName}")
 endif()
