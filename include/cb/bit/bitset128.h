@@ -15,13 +15,19 @@ extern "C"
 ///
 #define __template_cb_bitset128_bit_width ((uint32_t)128)
 
+///
+/// @brief 位集所需的字节数。
+///
+///
+#define __cb_bitset128_byte_count ((uint32_t)((__template_cb_bitset128_bit_width / 8) + (bool)(__template_cb_bitset128_bit_width % 8)))
+
 	///
 	/// @brief 具有 128 位的位集。
 	///
 	///
 	typedef struct cb_bitset128
 	{
-		uint8_t _array[__template_cb_bitset128_bit_width / 8];
+		uint8_t _array[__cb_bitset128_byte_count];
 	} cb_bitset128;
 
 	///
