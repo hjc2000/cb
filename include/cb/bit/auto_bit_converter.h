@@ -37,7 +37,7 @@ extern "C"
 	__cb_force_inline uint16_t cb_auto_bit_converter_byte_array_to_uint16(cb_auto_bit_converter *self,
 																		  uint8_t const *buffer)
 	{
-		uint16_t ret = cb_byte_array_to_uint16(buffer);
+		uint16_t ret = cb_bit_converter_byte_array_to_uint16(buffer);
 		if (__cb_auto_bit_converter_should_reverse__(self))
 		{
 			cb_reverse_byte_array((uint8_t *)(&ret), sizeof(ret));
@@ -49,7 +49,7 @@ extern "C"
 	__cb_force_inline int16_t cb_auto_bit_converter_byte_array_to_int16(cb_auto_bit_converter *self,
 																		uint8_t const *buffer)
 	{
-		int16_t ret = cb_byte_array_to_int16(buffer);
+		int16_t ret = cb_bit_converter_byte_array_to_int16(buffer);
 		if (__cb_auto_bit_converter_should_reverse__(self))
 		{
 			cb_reverse_byte_array((uint8_t *)(&ret), sizeof(ret));
@@ -61,7 +61,7 @@ extern "C"
 	__cb_force_inline uint32_t cb_auto_bit_converter_byte_array_to_uint32(cb_auto_bit_converter *self,
 																		  uint8_t const *buffer)
 	{
-		uint32_t ret = cb_byte_array_to_uint32(buffer);
+		uint32_t ret = cb_bit_converter_byte_array_to_uint32(buffer);
 		if (__cb_auto_bit_converter_should_reverse__(self))
 		{
 			cb_reverse_byte_array((uint8_t *)(&ret), sizeof(ret));
@@ -73,7 +73,7 @@ extern "C"
 	__cb_force_inline int32_t cb_auto_bit_converter_byte_array_to_int32(cb_auto_bit_converter *self,
 																		uint8_t const *buffer)
 	{
-		int32_t ret = cb_byte_array_to_int32(buffer);
+		int32_t ret = cb_bit_converter_byte_array_to_int32(buffer);
 		if (__cb_auto_bit_converter_should_reverse__(self))
 		{
 			cb_reverse_byte_array((uint8_t *)(&ret), sizeof(ret));
@@ -85,7 +85,7 @@ extern "C"
 	__cb_force_inline uint64_t cb_auto_bit_converter_byte_array_to_uint64(cb_auto_bit_converter *self,
 																		  uint8_t const *buffer)
 	{
-		uint64_t ret = cb_byte_array_to_uint64(buffer);
+		uint64_t ret = cb_bit_converter_byte_array_to_uint64(buffer);
 		if (__cb_auto_bit_converter_should_reverse__(self))
 		{
 			cb_reverse_byte_array((uint8_t *)(&ret), sizeof(ret));
@@ -97,7 +97,7 @@ extern "C"
 	__cb_force_inline int64_t cb_auto_bit_converter_byte_array_to_int64(cb_auto_bit_converter *self,
 																		uint8_t const *buffer)
 	{
-		int64_t ret = cb_byte_array_to_int64(buffer);
+		int64_t ret = cb_bit_converter_byte_array_to_int64(buffer);
 		if (__cb_auto_bit_converter_should_reverse__(self))
 		{
 			cb_reverse_byte_array((uint8_t *)(&ret), sizeof(ret));
@@ -109,7 +109,7 @@ extern "C"
 	__cb_force_inline float cb_auto_bit_converter_byte_array_to_float(cb_auto_bit_converter *self,
 																	  uint8_t const *buffer)
 	{
-		float ret = cb_byte_array_to_float(buffer);
+		float ret = cb_bit_converter_byte_array_to_float(buffer);
 		if (__cb_auto_bit_converter_should_reverse__(self))
 		{
 			cb_reverse_byte_array((uint8_t *)(&ret), sizeof(ret));
@@ -121,7 +121,7 @@ extern "C"
 	__cb_force_inline double cb_auto_bit_converter_byte_array_to_double(cb_auto_bit_converter *self,
 																		uint8_t const *buffer)
 	{
-		double ret = cb_byte_array_to_double(buffer);
+		double ret = cb_bit_converter_byte_array_to_double(buffer);
 		if (__cb_auto_bit_converter_should_reverse__(self))
 		{
 			cb_reverse_byte_array((uint8_t *)(&ret), sizeof(ret));
@@ -138,7 +138,7 @@ extern "C"
 																	   uint16_t value,
 																	   uint8_t *out_buffer)
 	{
-		cb_get_bytes_from_uint16(value, out_buffer);
+		cb_bit_converter_get_bytes_from_uint16(value, out_buffer);
 		if (__cb_auto_bit_converter_should_reverse__(self))
 		{
 			cb_reverse_byte_array(out_buffer, sizeof(value));
@@ -149,7 +149,7 @@ extern "C"
 																	  int16_t value,
 																	  uint8_t *out_buffer)
 	{
-		cb_get_bytes_from_int16(value, out_buffer);
+		cb_bit_converter_get_bytes_from_int16(value, out_buffer);
 		if (__cb_auto_bit_converter_should_reverse__(self))
 		{
 			cb_reverse_byte_array(out_buffer, sizeof(value));
@@ -160,7 +160,7 @@ extern "C"
 																	   uint32_t value,
 																	   uint8_t *out_buffer)
 	{
-		cb_get_bytes_from_uint32(value, out_buffer);
+		cb_bit_converter_get_bytes_from_uint32(value, out_buffer);
 		if (__cb_auto_bit_converter_should_reverse__(self))
 		{
 			cb_reverse_byte_array(out_buffer, sizeof(value));
@@ -171,7 +171,7 @@ extern "C"
 																	  int32_t value,
 																	  uint8_t *out_buffer)
 	{
-		cb_get_bytes_from_int32(value, out_buffer);
+		cb_bit_converter_get_bytes_from_int32(value, out_buffer);
 		if (__cb_auto_bit_converter_should_reverse__(self))
 		{
 			cb_reverse_byte_array(out_buffer, sizeof(value));
@@ -182,7 +182,7 @@ extern "C"
 																	   uint64_t value,
 																	   uint8_t *out_buffer)
 	{
-		cb_get_bytes_from_uint64(value, out_buffer);
+		cb_bit_converter_get_bytes_from_uint64(value, out_buffer);
 		if (__cb_auto_bit_converter_should_reverse__(self))
 		{
 			cb_reverse_byte_array(out_buffer, sizeof(value));
@@ -193,7 +193,7 @@ extern "C"
 																	  int64_t value,
 																	  uint8_t *out_buffer)
 	{
-		cb_get_bytes_from_int64(value, out_buffer);
+		cb_bit_converter_get_bytes_from_int64(value, out_buffer);
 		if (__cb_auto_bit_converter_should_reverse__(self))
 		{
 			cb_reverse_byte_array(out_buffer, sizeof(value));
@@ -204,7 +204,7 @@ extern "C"
 																	  float value,
 																	  uint8_t *out_buffer)
 	{
-		cb_get_bytes_from_float(value, out_buffer);
+		cb_bit_converter_get_bytes_from_float(value, out_buffer);
 		if (__cb_auto_bit_converter_should_reverse__(self))
 		{
 			cb_reverse_byte_array(out_buffer, sizeof(value));
@@ -215,7 +215,7 @@ extern "C"
 																	   double value,
 																	   uint8_t *out_buffer)
 	{
-		cb_get_bytes_from_double(value, out_buffer);
+		cb_bit_converter_get_bytes_from_double(value, out_buffer);
 		if (__cb_auto_bit_converter_should_reverse__(self))
 		{
 			cb_reverse_byte_array(out_buffer, sizeof(value));
