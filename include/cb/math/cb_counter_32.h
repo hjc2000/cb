@@ -166,7 +166,8 @@ extern "C"
 	/// @param other
 	/// @return
 	///
-	__cb_force_inline bool cb_counter_32_less_than_or_equal(cb_counter_32 const *self, cb_counter_32 const *other)
+	__cb_force_inline bool cb_counter_32_less_than_or_equal(cb_counter_32 const *self,
+															cb_counter_32 const *other)
 	{
 		return self->_count <= other->_count;
 	}
