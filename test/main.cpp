@@ -2,8 +2,6 @@
 #include "base/string/ToHexString.h"
 #include "cb/bit/big_endian_remote_bit_converter.h"
 #include "cb/bit/little_endian_remote_bit_converter.h"
-#include "cb/test/test_bit_converter.h"
-#include "cb/test/test_bitset128.h"
 #include "cb/test/test_counter_32.h"
 #include <cstdint>
 #include <iostream>
@@ -36,7 +34,5 @@ int main()
 		}
 	}
 
-	// cb::test::test_bitset128();
-	// cb::test::test_bit_converter();
 	cb::test::test_counter_32();
 }

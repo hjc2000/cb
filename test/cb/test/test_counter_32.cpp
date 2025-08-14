@@ -54,7 +54,7 @@ void cb::test::test_counter_32()
 		cb_counter_32_add(&counter, 107);
 		std::cout << cb_counter_32_current_value(&counter) << std::endl;
 
-		cb_counter_32_subtract(&counter, 107);
+		cb_counter_32_subtract(&counter, 106);
 		std::cout << cb_counter_32_current_value(&counter) << std::endl;
 
 		std::cout << std::endl;
