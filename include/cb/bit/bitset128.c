@@ -8,7 +8,7 @@ void cb_bitset128_initialize(cb_bitset128 *self)
 
 bool cb_bitset128_read_bit(cb_bitset128 const *self, uint8_t bit_index)
 {
-	if (bit_index >= __cb_bitset128_bit_width)
+	if (bit_index >= __template_cb_bitset128_bit_width)
 	{
 		return false;
 	}
@@ -21,7 +21,7 @@ bool cb_bitset128_read_bit(cb_bitset128 const *self, uint8_t bit_index)
 
 void cb_bitset128_write_bit(cb_bitset128 *self, uint8_t bit_index, bool value)
 {
-	if (bit_index >= __cb_bitset128_bit_width)
+	if (bit_index >= __template_cb_bitset128_bit_width)
 	{
 		return;
 	}

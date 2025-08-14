@@ -13,7 +13,7 @@ extern "C"
 ///
 /// @note 这个宏就相当于 C++ 的模板参数。
 ///
-#define __cb_bitset128_bit_width ((uint32_t)128)
+#define __template_cb_bitset128_bit_width ((uint32_t)128)
 
 	///
 	/// @brief 具有 128 位的位集。
@@ -21,7 +21,7 @@ extern "C"
 	///
 	typedef struct cb_bitset128
 	{
-		uint8_t _array[__cb_bitset128_bit_width / 8];
+		uint8_t _array[__template_cb_bitset128_bit_width / 8];
 	} cb_bitset128;
 
 	///
