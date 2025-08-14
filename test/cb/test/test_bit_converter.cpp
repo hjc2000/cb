@@ -35,4 +35,26 @@ void cb::test::test_bit_converter()
 			throw std::runtime_error{CODE_POS_STR + "测试不通过。"};
 		}
 	}
+
+	{
+		float value = 1.0;
+		uint8_t *array = reinterpret_cast<uint8_t *>(&value);
+		value = cb_bit_converter_byte_array_to_float(array);
+		std::cout << value << std::endl;
+		if (value != static_cast<float>(1.0))
+		{
+			throw std::runtime_error{CODE_POS_STR + "测试不通过。"};
+		}
+	}
+
+	{
+		double value = 1.0;
+		uint8_t *array = reinterpret_cast<uint8_t *>(&value);
+		value = cb_bit_converter_byte_array_to_double(array);
+		std::cout << value << std::endl;
+		if (value != 1.0)
+		{
+			throw std::runtime_error{CODE_POS_STR + "测试不通过。"};
+		}
+	}
 }
