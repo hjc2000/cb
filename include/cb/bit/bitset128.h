@@ -7,13 +7,21 @@ extern "C"
 {
 #endif
 
+///
+/// @brief cb_bitset128 的位宽。需要实现其他位宽的位集时可以复制一份代码，
+/// 修改此宏。
+///
+/// @note 这个宏就相当于 C++ 的模板参数。
+///
+#define __cb_bitset128_bit_width ((uint32_t)128)
+
 	///
 	/// @brief 具有 128 位的位集。
 	///
 	///
 	typedef struct cb_bitset128
 	{
-		uint8_t _array[128 / 8];
+		uint8_t _array[__cb_bitset128_bit_width / 8];
 	} cb_bitset128;
 
 	///
