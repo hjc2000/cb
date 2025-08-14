@@ -10,6 +10,13 @@
 void cb::test::test_bitset128()
 {
 	cb_bitset128 bitset;
+	base::ReadOnlySpan span{bitset._array, sizeof(bitset._array)};
+	base::ToHexStringOptions options{};
+	options.width = 2;
+
+	// 这里打印出来应该是没有初始化的垃圾数据。
+	std::cout << base::ToHexString(span, options) << std::endl;
+
 	cb_bitset128_initialize(&bitset);
 	cb_bitset128_write_bit(&bitset, 8 * 12, true);
 	bool value = cb_bitset128_read_bit(&bitset, 8 * 12);
@@ -24,8 +31,5 @@ void cb::test::test_bitset128()
 		cb_bitset128_write_bit(&bitset, 8 * i + 2, true);
 	}
 
-	base::ReadOnlySpan span{bitset._array, sizeof(bitset._array)};
-	base::ToHexStringOptions options{};
-	options.width = 2;
 	std::cout << base::ToHexString(span, options) << std::endl;
 }
