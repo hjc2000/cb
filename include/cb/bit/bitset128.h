@@ -23,8 +23,22 @@ extern "C"
 	///
 	void cb_bitset128_initialize(cb_bitset128 *self);
 
+	///
+	/// @brief 读取位集的一个位。
+	///
+	/// @param self
+	/// @param bit_index
+	/// @return
+	///
 	bool cb_bitset128_read_bit(cb_bitset128 const *self, uint8_t bit_index);
 
+	///
+	/// @brief 写位集的一个位。
+	///
+	/// @param self
+	/// @param bit_index
+	/// @param value
+	///
 	void cb_bitset128_write_bit(cb_bitset128 *self, uint8_t bit_index, bool value);
 
 #ifdef __cplusplus
