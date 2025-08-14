@@ -16,6 +16,8 @@ extern "C"
 		cb_endian_enum _remote_endian;
 	} cb_auto_bit_converter;
 
+	/* #region 私有函数 */
+
 	__cb_force_inline bool __cb_auto_bit_converter_should_reverse__(cb_auto_bit_converter *self)
 	{
 		if (cb_endian_native_endian() == self->_remote_endian)
@@ -25,6 +27,8 @@ extern "C"
 
 		return true;
 	}
+
+	/* #endregion */
 
 	__cb_force_inline void cb_auto_bit_converter_initialize(cb_auto_bit_converter *self,
 															cb_endian_enum remote_endian)
