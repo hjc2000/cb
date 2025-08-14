@@ -14,21 +14,7 @@ extern "C"
 	///
 	/// @param size
 	///
-	__cb_force_inline void cb_reverse_byte_array(uint8_t *array, int32_t size)
-	{
-		if (size <= 1)
-		{
-			return;
-		}
-
-		for (int32_t i = 0; i < size / 2; i++)
-		{
-			// 交换数组中的元素
-			uint8_t temp = array[i];
-			array[i] = array[size - 1 - i];
-			array[size - 1 - i] = temp;
-		}
-	}
+	void cb_reverse_byte_array(uint8_t *array, int32_t size);
 
 	///
 	/// @brief 将字节数组中的字节以每个单元为单位，在单元内进行字节序反转。

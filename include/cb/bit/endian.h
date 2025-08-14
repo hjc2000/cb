@@ -22,7 +22,7 @@ extern "C"
 	///
 	/// @return
 	///
-	__cb_force_inline cb_endian_enum cb_native_endian()
+	__cb_force_inline cb_endian_enum cb_endian_native_endian()
 	{
 		uint16_t number = 1;
 		uint8_t *p = (uint8_t *)&number;

@@ -2,6 +2,8 @@
 #include "base/string/ToHexString.h"
 #include "cb/bit/big_endian_remote_bit_converter.h"
 #include "cb/bit/little_endian_remote_bit_converter.h"
+#include "cb/test/test_endian.h"
+#include "cb/test/test_reverse.h"
 #include <cstdint>
 #include <iostream>
 
@@ -32,4 +34,7 @@ int main()
 			std::cout << base::ToHexString(num, options) << std::endl;
 		}
 	}
+
+	// cb::test::test_reverse();
+	// cb::test::test_endian();
 }
