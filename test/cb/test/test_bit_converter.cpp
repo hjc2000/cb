@@ -57,4 +57,6 @@ void cb::test::test_bit_converter()
 			throw std::runtime_error{CODE_POS_STR + "测试不通过。"};
 		}
 	}
+
+	std::cout << CODE_POS_STR << "测试通过。" << std::endl;
 }
