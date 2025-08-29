@@ -2,7 +2,7 @@
 #include "base/stream/ReadOnlySpan.h"
 #include "base/string/define.h"
 #include "base/string/ToHexString.h"
-#include "cb/bit/bitset128.h"
+#include "cb/bit/cb_bitset128.h"
 #include <cstddef>
 #include <iostream>
 #include <stdexcept>

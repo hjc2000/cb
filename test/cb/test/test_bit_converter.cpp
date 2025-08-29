@@ -1,6 +1,6 @@
 #include "test_bit_converter.h" // IWYU pragma: keep
 #include "base/string/define.h"
-#include "cb/bit/bit_converter.h"
+#include "cb/bit/cb_bit_converter.h"
 #include <cstdint>
 #include <iostream>
 #include <stdexcept>

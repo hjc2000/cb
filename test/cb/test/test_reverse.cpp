@@ -1,7 +1,7 @@
 #include "test_reverse.h" // IWYU pragma: keep
 #include "base/stream/ReadOnlySpan.h"
 #include "base/string/ToHexString.h"
-#include "cb/bit/reverse.h"
+#include "cb/bit/cb_reverse.h"
 #include <iostream>
 #include <stdint.h>
 

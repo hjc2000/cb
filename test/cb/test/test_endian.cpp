@@ -1,5 +1,5 @@
 #include "test_endian.h" // IWYU pragma: keep
-#include "cb/bit/endian.h"
+#include "cb/bit/cb_endian.h"
 #include <iostream>
 
 void cb::test::test_endian()
