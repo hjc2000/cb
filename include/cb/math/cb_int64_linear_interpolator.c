@@ -1,4 +1,4 @@
-#include "int64_linear_interpolator.h" // IWYU pragma: keep
+#include "cb_int64_linear_interpolator.h" // IWYU pragma: keep
 
 void cb_int64_linear_interpolator_initialize(cb_int64_linear_interpolator *self,
 											 int64_t current_value,
