@@ -2,7 +2,7 @@
 #include "bit_converter.h"
 #include "cb/bit/endian.h"
 #include "cb/define.h"
-#include "reverse.h"
+#include "cb_reverse.h"
 #include <stdbool.h>
 #include <stdint.h>
 
