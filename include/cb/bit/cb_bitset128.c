@@ -1,4 +1,4 @@
-#include "bitset128.h" // IWYU pragma: keep
+#include "cb_bitset128.h" // IWYU pragma: keep
 #include <string.h>
 
 void cb_bitset128_initialize(cb_bitset128 *self)
