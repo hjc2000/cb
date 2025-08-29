@@ -1,6 +1,6 @@
 #pragma once
 #include "cb/bit/endian.h"
-#include "cb/define.h"
+#include "cb/cb_define.h"
 #include "cb_bit_converter.h"
 #include "cb_reverse.h"
 #include <stdbool.h>

@@ -1,5 +1,5 @@
 #pragma once
-#include "cb/define.h"
+#include "cb/cb_define.h"
 #include <stdbool.h>
 #include <stdint.h>
 
