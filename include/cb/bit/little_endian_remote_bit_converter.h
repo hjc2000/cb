@@ -1,5 +1,5 @@
 #pragma once
-#include "cb/bit/auto_bit_converter.h"
+#include "cb/bit/cb_auto_bit_converter.h"
 
 #ifdef __cplusplus
 extern "C"
