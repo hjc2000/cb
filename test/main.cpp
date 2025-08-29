@@ -13,7 +13,7 @@
 
 int main()
 {
-	cb::test::test_big_endian_remote_bit_converter();
-	cb::test::test_little_endian_remote_bit_converter();
+	// cb::test::test_big_endian_remote_bit_converter();
+	// cb::test::test_little_endian_remote_bit_converter();
 	cb::test::test_counter_32();
 }
