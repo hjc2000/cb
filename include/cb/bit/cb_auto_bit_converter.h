@@ -1,5 +1,5 @@
 #pragma once
-#include "cb/bit/endian.h"
+#include "cb/bit/cb_endian.h"
 #include "cb/cb_define.h"
 #include "cb_bit_converter.h"
 #include "cb_reverse.h"
