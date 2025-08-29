@@ -19,6 +19,8 @@ int main()
 		{
 			std::cout << base::ToHexString(num, options) << std::endl;
 		}
+
+		std::cout << std::endl;
 	}
 
 	{
@@ -32,6 +34,8 @@ int main()
 		{
 			std::cout << base::ToHexString(num, options) << std::endl;
 		}
+
+		std::cout << std::endl;
 	}
 
 	cb::test::test_counter_32();
