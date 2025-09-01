@@ -156,6 +156,14 @@ extern "C"
 		return true;
 	}
 
+	///
+	/// @brief 获取队列中指定索引的元素。
+	///
+	/// @param self
+	/// @param index
+	/// @param out
+	/// @return
+	///
 	__cb_force_inline bool cb_int_circle_deque_get(cb_int_circle_deque *self,
 												   int index,
 												   __template_cb_int_circle_deque_element_type *out)

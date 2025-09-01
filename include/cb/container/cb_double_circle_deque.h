@@ -151,6 +151,28 @@ extern "C"
 		return true;
 	}
 
+	///
+	/// @brief 获取队列中指定索引的元素。
+	///
+	/// @param self
+	/// @param index
+	/// @param out
+	/// @return
+	///
+	__cb_force_inline bool cb_double_circle_deque_get(cb_double_circle_deque *self,
+													  int index,
+													  __template_cb_double_circle_deque_element_type *out)
+	{
+		if (index < 0 || index >= cb_double_circle_deque_count(self))
+		{
+			return false;
+		}
+
+		uint32_t pos = self->_begin + index % __template_cb_double_circle_deque_size;
+		*out = self->_buffer[pos];
+		return true;
+	}
+
 #ifdef __cplusplus
 }
 #endif
