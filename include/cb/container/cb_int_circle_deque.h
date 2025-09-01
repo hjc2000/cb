@@ -173,7 +173,7 @@ extern "C"
 			return false;
 		}
 
-		uint32_t pos = self->_begin + index % __template_cb_int_circle_deque_size;
+		uint32_t pos = (self->_begin + index) % __template_cb_int_circle_deque_size;
 		*out = self->_buffer[pos];
 		return true;
 	}
