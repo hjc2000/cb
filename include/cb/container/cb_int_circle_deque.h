@@ -148,7 +148,7 @@ extern "C"
 		*value = self->_buffer[self->_begin];
 		self->_begin = (self->_begin + 1) % __template_cb_int_circle_deque_size;
 		self->_is_full = false;
-		return false;
+		return true;
 	}
 
 #ifdef __cplusplus
