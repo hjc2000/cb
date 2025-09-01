@@ -50,7 +50,12 @@ extern "C"
 			return __template_cb_int_circle_deque_size;
 		}
 
-		return self->_end - self->_begin;
+		if (self->_end >= self->_begin)
+		{
+			return self->_end - self->_begin;
+		}
+
+		return __template_cb_int_circle_deque_size - (self->_begin - self->_end);
 	}
 
 	///
