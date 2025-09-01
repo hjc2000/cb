@@ -1,0 +1,156 @@
+#pragma once
+#include "cb/cb_define.h"
+#include <stdbool.h>
+#include <stdint.h>
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+#define __template_cb_double_circle_deque_element_type int
+#define __template_cb_double_circle_deque_size 100
+
+	///
+	/// @brief int 类型的循环队列。
+	///
+	///
+	typedef struct cb_double_circle_deque
+	{
+		__template_cb_double_circle_deque_element_type _buffer[__template_cb_double_circle_deque_size];
+		uint32_t _begin;
+		uint32_t _end;
+		bool _is_full;
+
+	} cb_double_circle_deque;
+
+	///
+	/// @brief 初始化。
+	///
+	/// @param self
+	/// @return
+	///
+	__cb_force_inline void cb_int_circle_deque_initialize(cb_double_circle_deque *self)
+	{
+		self->_begin = 0;
+		self->_end = 0;
+		self->_is_full = false;
+	}
+
+	///
+	/// @brief 队列中的元素个数。
+	///
+	/// @param self
+	/// @return
+	///
+	__cb_force_inline int cb_int_circle_deque_count(cb_double_circle_deque *self)
+	{
+		if (self->_is_full)
+		{
+			return __template_cb_double_circle_deque_size;
+		}
+
+		return self->_end - self->_begin;
+	}
+
+	///
+	/// @brief 队列为空。
+	///
+	/// @param self
+	/// @return
+	///
+	__cb_force_inline bool cb_int_circle_deque_is_empty(cb_double_circle_deque *self)
+	{
+		return self->_begin == self->_end && !self->_is_full;
+	}
+
+	///
+	/// @brief 向队列末尾添加元素。
+	///
+	/// @param self
+	/// @param value
+	/// @return 添加成功返回 true, 添加失败返回 false.
+	///
+	__cb_force_inline bool cb_int_circle_deque_push_back(cb_double_circle_deque *self,
+														 __template_cb_double_circle_deque_element_type *value)
+	{
+		if (self->_is_full)
+		{
+			return false;
+		}
+
+		self->_buffer[self->_end] = *value;
+		self->_end = (self->_end + 1) % __template_cb_double_circle_deque_size;
+		if (self->_end == self->_begin)
+		{
+			self->_is_full = true;
+		}
+
+		return true;
+	}
+
+	///
+	/// @brief 向队列头部添加元素。
+	///
+	/// @param self
+	/// @param value
+	/// @return 添加成功返回 true, 添加失败返回 false.
+	///
+	__cb_force_inline bool cb_int_circle_deque_push_front(cb_double_circle_deque *self,
+														  __template_cb_double_circle_deque_element_type *value)
+	{
+		if (self->_is_full)
+		{
+			return false;
+		}
+
+		self->_begin = (self->_begin + __template_cb_double_circle_deque_size - 1) % __template_cb_double_circle_deque_size;
+		self->_buffer[self->_begin] = *value;
+		return true;
+	}
+
+	///
+	/// @brief 弹出队列末尾元素。
+	///
+	/// @param self
+	/// @param value
+	/// @return
+	///
+	__cb_force_inline bool cb_int_circle_deque_pop_back(cb_double_circle_deque *self,
+														__template_cb_double_circle_deque_element_type *value)
+	{
+		if (cb_int_circle_deque_is_empty(self))
+		{
+			return false;
+		}
+
+		*value = self->_buffer[self->_end - 1];
+		self->_end = (self->_end + __template_cb_double_circle_deque_size - 1) % __template_cb_double_circle_deque_size;
+		self->_is_full = false;
+		return true;
+	}
+
+	///
+	/// @brief 弹出队列头部元素。
+	///
+	/// @param self
+	/// @param value
+	/// @return
+	///
+	__cb_force_inline bool cb_int_circle_deque_pop_front(cb_double_circle_deque *self,
+														 __template_cb_double_circle_deque_element_type *value)
+	{
+		if (cb_int_circle_deque_is_empty(self))
+		{
+			return false;
+		}
+
+		*value = self->_buffer[self->_begin];
+		self->_begin = (self->_begin + 1) % __template_cb_double_circle_deque_size;
+		self->_is_full = false;
+		return true;
+	}
+
+#ifdef __cplusplus
+}
+#endif
