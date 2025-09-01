@@ -8,7 +8,7 @@ extern "C"
 {
 #endif
 
-#define __template_cb_double_circle_deque_element_type int
+#define __template_cb_double_circle_deque_element_type double
 #define __template_cb_double_circle_deque_size 100
 
 	///
