@@ -64,6 +64,17 @@ void cb::test::test_cb_int_circle_deque()
 
 	int value;
 
+	result = cb_int_circle_deque_get(&deque, 0, &value);
+	if (result == false)
+	{
+		throw std::runtime_error{CODE_POS_STR + "无法获取 0 索引位置的元素。"};
+	}
+
+	if (value != 30)
+	{
+		throw std::runtime_error{CODE_POS_STR + "0 索引位置的元素的值应该是 30."};
+	}
+
 	// 测试 5: 弹出队头，应为 30
 	result = cb_int_circle_deque_pop_front(&deque, &value);
 	if (result == false || value != 30)
@@ -138,10 +149,7 @@ void cb::test::test_cb_int_circle_deque()
 		throw std::runtime_error{"测试 11 失败：满队列从队头插入不应成功。"};
 	}
 
-	std::cout << "测试 11: 满队列插入失败，符合预期。PASSED" << std::endl;
-
 	// 测试 12: 弹出所有元素并验证顺序
-	std::cout << "测试 12: 开始从队头依次弹出所有元素，验证顺序..." << std::endl;
 	for (int i = 0; i < __template_cb_int_circle_deque_size; ++i)
 	{
 		result = cb_int_circle_deque_pop_front(&deque, &value);
@@ -155,8 +163,6 @@ void cb::test::test_cb_int_circle_deque()
 	{
 		throw std::runtime_error{"测试 12 失败：所有元素弹出后，队列应为空。"};
 	}
-
-	std::cout << "测试 12: 所有元素按序弹出，队列为空。PASSED" << std::endl;
 
 	std::cout << "=== 所有测试通过！===" << std::endl;
 }
