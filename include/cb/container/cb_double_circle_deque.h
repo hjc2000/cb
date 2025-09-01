@@ -30,7 +30,7 @@ extern "C"
 	/// @param self
 	/// @return
 	///
-	__cb_force_inline void cb_int_circle_deque_initialize(cb_double_circle_deque *self)
+	__cb_force_inline void cb_double_circle_deque_initialize(cb_double_circle_deque *self)
 	{
 		self->_begin = 0;
 		self->_end = 0;
@@ -43,7 +43,7 @@ extern "C"
 	/// @param self
 	/// @return
 	///
-	__cb_force_inline int cb_int_circle_deque_count(cb_double_circle_deque *self)
+	__cb_force_inline int cb_double_circle_deque_count(cb_double_circle_deque *self)
 	{
 		if (self->_is_full)
 		{
@@ -59,7 +59,7 @@ extern "C"
 	/// @param self
 	/// @return
 	///
-	__cb_force_inline bool cb_int_circle_deque_is_empty(cb_double_circle_deque *self)
+	__cb_force_inline bool cb_double_circle_deque_is_empty(cb_double_circle_deque *self)
 	{
 		return self->_begin == self->_end && !self->_is_full;
 	}
@@ -71,8 +71,8 @@ extern "C"
 	/// @param value
 	/// @return 添加成功返回 true, 添加失败返回 false.
 	///
-	__cb_force_inline bool cb_int_circle_deque_push_back(cb_double_circle_deque *self,
-														 __template_cb_double_circle_deque_element_type *value)
+	__cb_force_inline bool cb_double_circle_deque_push_back(cb_double_circle_deque *self,
+															__template_cb_double_circle_deque_element_type *value)
 	{
 		if (self->_is_full)
 		{
@@ -96,8 +96,8 @@ extern "C"
 	/// @param value
 	/// @return 添加成功返回 true, 添加失败返回 false.
 	///
-	__cb_force_inline bool cb_int_circle_deque_push_front(cb_double_circle_deque *self,
-														  __template_cb_double_circle_deque_element_type *value)
+	__cb_force_inline bool cb_double_circle_deque_push_front(cb_double_circle_deque *self,
+															 __template_cb_double_circle_deque_element_type *value)
 	{
 		if (self->_is_full)
 		{
@@ -116,10 +116,10 @@ extern "C"
 	/// @param value
 	/// @return
 	///
-	__cb_force_inline bool cb_int_circle_deque_pop_back(cb_double_circle_deque *self,
-														__template_cb_double_circle_deque_element_type *value)
+	__cb_force_inline bool cb_double_circle_deque_pop_back(cb_double_circle_deque *self,
+														   __template_cb_double_circle_deque_element_type *value)
 	{
-		if (cb_int_circle_deque_is_empty(self))
+		if (cb_double_circle_deque_is_empty(self))
 		{
 			return false;
 		}
@@ -137,10 +137,10 @@ extern "C"
 	/// @param value
 	/// @return
 	///
-	__cb_force_inline bool cb_int_circle_deque_pop_front(cb_double_circle_deque *self,
-														 __template_cb_double_circle_deque_element_type *value)
+	__cb_force_inline bool cb_double_circle_deque_pop_front(cb_double_circle_deque *self,
+															__template_cb_double_circle_deque_element_type *value)
 	{
-		if (cb_int_circle_deque_is_empty(self))
+		if (cb_double_circle_deque_is_empty(self))
 		{
 			return false;
 		}
