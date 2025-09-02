@@ -62,13 +62,13 @@ void cb::test::test_cb_int_circle_deque()
 		throw std::runtime_error{CODE_POS_STR + "插入三个元素后，元素个数应为 3."};
 	}
 
-	int value;
-
-	result = cb_int_circle_deque_get(&deque, 0, &value);
-	if (result == false)
+	int *get_result = cb_int_circle_deque_get(&deque, 0);
+	if (get_result == nullptr)
 	{
 		throw std::runtime_error{CODE_POS_STR + "无法获取 0 索引位置的元素。"};
 	}
+
+	int value = *get_result;
 
 	if (value != 30)
 	{
