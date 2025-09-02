@@ -2,6 +2,7 @@
 #include "cb/cb_define.h"
 #include <stdbool.h>
 #include <stdint.h>
+#include <string.h>
 
 #ifdef __cplusplus
 extern "C"
@@ -129,7 +130,11 @@ extern "C"
 			return false;
 		}
 
-		*out = self->_buffer[self->_end - 1];
+		if (out != NULL)
+		{
+			*out = self->_buffer[self->_end - 1];
+		}
+
 		self->_end = (self->_end + __template_cb_int_circle_deque_size - 1) % __template_cb_int_circle_deque_size;
 		self->_is_full = false;
 		return true;
@@ -150,7 +155,11 @@ extern "C"
 			return false;
 		}
 
-		*out = self->_buffer[self->_begin];
+		if (out != NULL)
+		{
+			*out = self->_buffer[self->_begin];
+		}
+
 		self->_begin = (self->_begin + 1) % __template_cb_int_circle_deque_size;
 		self->_is_full = false;
 		return true;
