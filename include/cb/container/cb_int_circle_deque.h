@@ -6,6 +6,16 @@ extern "C"
 {
 #endif
 
+#define __template_cb_circle_deque_element_type int
+#define __template_cb_circle_deque_size ((int32_t)(100))
+#include "cb/container/cb_circle_deque.h"
+
+	typedef struct cb_int_circle_deque
+	{
+		cb_circle_deque _deque;
+
+	} cb_int_circle_deque;
+
 	///
 	/// @brief int 类型的循环队列。
 	///

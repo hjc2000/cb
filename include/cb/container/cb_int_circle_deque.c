@@ -1,15 +1,5 @@
 #include "cb_int_circle_deque.h" // IWYU pragma: keep
 
-#define __template_cb_circle_deque_element_type int
-#define __template_cb_circle_deque_size ((int32_t)(100))
-#include "cb/container/cb_circle_deque.h"
-
-typedef struct cb_int_circle_deque
-{
-	cb_circle_deque _deque;
-
-} cb_int_circle_deque;
-
 void cb_int_circle_deque_initialize(cb_int_circle_deque *self)
 {
 	cb_circle_deque_initialize(&self->_deque);

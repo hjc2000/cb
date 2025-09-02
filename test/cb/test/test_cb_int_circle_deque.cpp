@@ -1,13 +1,8 @@
 #include "test_cb_int_circle_deque.h" // IWYU pragma: keep
 #include "base/string/define.h"
+#include "cb/container/cb_int_circle_deque.h"
 #include <iostream>
 #include <stdexcept>
-
-#define __template_cb_circle_deque_element_type int
-#define __template_cb_circle_deque_size ((int32_t)(100))
-#include "cb/container/cb_circle_deque.h"
-
-#include "cb/container/cb_int_circle_deque.h"
 
 void cb::test::test_cb_int_circle_deque()
 {
