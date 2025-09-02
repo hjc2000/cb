@@ -168,18 +168,16 @@ extern "C"
 	/// @param out
 	/// @return
 	///
-	__cb_force_inline bool cb_double_circle_deque_get(cb_double_circle_deque *self,
-													  int index,
-													  __template_cb_double_circle_deque_element_type *out)
+	__cb_force_inline __template_cb_double_circle_deque_element_type *cb_double_circle_deque_get(cb_double_circle_deque *self,
+																								 int index)
 	{
 		if (index < 0 || index >= cb_double_circle_deque_count(self))
 		{
-			return false;
+			return NULL;
 		}
 
 		uint32_t pos = self->_begin + index % __template_cb_double_circle_deque_size;
-		*out = self->_buffer[pos];
-		return true;
+		return &self->_buffer[pos];
 	}
 
 	///
