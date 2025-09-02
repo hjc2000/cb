@@ -121,7 +121,7 @@ void cb::test::test_cb_int_circle_deque()
 	}
 
 	// 测试 10: 填满队列
-	for (int i = 0; i < 100; ++i)
+	for (int i = 0; i < __template_cb_circle_deque_size; ++i)
 	{
 		result = cb_int_circle_deque_push_back(&deque, &i);
 		if (result == false)
@@ -130,7 +130,7 @@ void cb::test::test_cb_int_circle_deque()
 		}
 	}
 
-	if (cb_int_circle_deque_count(&deque) != 100)
+	if (cb_int_circle_deque_count(&deque) != __template_cb_circle_deque_size)
 	{
 		throw std::runtime_error{"队列未达到满容量。"};
 	}
@@ -150,7 +150,7 @@ void cb::test::test_cb_int_circle_deque()
 	}
 
 	// 测试 12: 弹出所有元素并验证顺序
-	for (int i = 0; i < 100; ++i)
+	for (int i = 0; i < __template_cb_circle_deque_size; ++i)
 	{
 		result = cb_int_circle_deque_pop_front(&deque, &value);
 		if (result == false || value != i)
