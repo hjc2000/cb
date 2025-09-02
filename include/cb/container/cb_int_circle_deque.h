@@ -178,6 +178,19 @@ extern "C"
 		return true;
 	}
 
+	///
+	/// @brief 清空队列。
+	///
+	/// @param self
+	/// @return
+	///
+	__cb_force_inline void cb_int_circle_deque_clear(cb_int_circle_deque *self)
+	{
+		self->_begin = 0;
+		self->_end = 0;
+		self->_is_full = false;
+	}
+
 #ifdef __cplusplus
 }
 #endif
