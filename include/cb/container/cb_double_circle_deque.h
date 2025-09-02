@@ -165,8 +165,8 @@ extern "C"
 	///
 	/// @param self
 	/// @param index
-	/// @param out
-	/// @return
+	///
+	/// @return 如果指定索引处有元素，则返回该元素的指针，否则返回空指针。
 	///
 	__cb_force_inline __template_cb_double_circle_deque_element_type *cb_double_circle_deque_get(cb_double_circle_deque *self,
 																								 int index)
