@@ -113,18 +113,18 @@ extern "C"
 	/// @brief 弹出队列末尾元素。
 	///
 	/// @param self
-	/// @param value
+	/// @param out
 	/// @return
 	///
 	__cb_force_inline bool cb_double_circle_deque_pop_back(cb_double_circle_deque *self,
-														   __template_cb_double_circle_deque_element_type *value)
+														   __template_cb_double_circle_deque_element_type *out)
 	{
 		if (cb_double_circle_deque_is_empty(self))
 		{
 			return false;
 		}
 
-		*value = self->_buffer[self->_end - 1];
+		*out = self->_buffer[self->_end - 1];
 		self->_end = (self->_end + __template_cb_double_circle_deque_size - 1) % __template_cb_double_circle_deque_size;
 		self->_is_full = false;
 		return true;
@@ -134,18 +134,18 @@ extern "C"
 	/// @brief 弹出队列头部元素。
 	///
 	/// @param self
-	/// @param value
+	/// @param out
 	/// @return
 	///
 	__cb_force_inline bool cb_double_circle_deque_pop_front(cb_double_circle_deque *self,
-															__template_cb_double_circle_deque_element_type *value)
+															__template_cb_double_circle_deque_element_type *out)
 	{
 		if (cb_double_circle_deque_is_empty(self))
 		{
 			return false;
 		}
 
-		*value = self->_buffer[self->_begin];
+		*out = self->_buffer[self->_begin];
 		self->_begin = (self->_begin + 1) % __template_cb_double_circle_deque_size;
 		self->_is_full = false;
 		return true;
