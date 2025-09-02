@@ -157,12 +157,13 @@ extern "C"
 			return false;
 		}
 
+		self->_end = (self->_end + __template_cb_circle_deque_size - 1) % __template_cb_circle_deque_size;
+
 		if (out != NULL)
 		{
-			*out = self->_buffer[self->_end - 1];
+			*out = self->_buffer[self->_end];
 		}
 
-		self->_end = (self->_end + __template_cb_circle_deque_size - 1) % __template_cb_circle_deque_size;
 		self->_is_full = false;
 		return true;
 	}
