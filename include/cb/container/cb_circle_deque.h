@@ -9,17 +9,17 @@ extern "C"
 {
 #endif
 
-#ifndef __template_cb_circle_deque_element_type
 	///
 	/// @brief 模板参数。队列元素类型。
 	///
+#ifndef __template_cb_circle_deque_element_type
 	#define __template_cb_circle_deque_element_type int
 #endif
 
-#ifndef __template_cb_circle_deque_size
 	///
 	/// @brief 模板参数。队列大小。
 	///
+#ifndef __template_cb_circle_deque_size
 	#define __template_cb_circle_deque_size 100
 #endif
 
