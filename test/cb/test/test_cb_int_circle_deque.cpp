@@ -1,8 +1,13 @@
 #include "test_cb_int_circle_deque.h" // IWYU pragma: keep
 #include "base/string/define.h"
-#include "cb/container/cb_int_circle_deque.h"
 #include <iostream>
 #include <stdexcept>
+
+#define __template_cb_circle_deque_element_type int
+#define __template_cb_circle_deque_size ((int32_t)(100))
+#include "cb/container/cb_circle_deque.h"
+
+#include "cb/container/cb_int_circle_deque.h"
 
 void cb::test::test_cb_int_circle_deque()
 {
@@ -121,7 +126,7 @@ void cb::test::test_cb_int_circle_deque()
 	}
 
 	// 测试 10: 填满队列
-	for (int i = 0; i < __template_cb_int_circle_deque_size; ++i)
+	for (int i = 0; i < 100; ++i)
 	{
 		result = cb_int_circle_deque_push_back(&deque, &i);
 		if (result == false)
@@ -130,7 +135,7 @@ void cb::test::test_cb_int_circle_deque()
 		}
 	}
 
-	if (cb_int_circle_deque_count(&deque) != __template_cb_int_circle_deque_size)
+	if (cb_int_circle_deque_count(&deque) != 100)
 	{
 		throw std::runtime_error{"队列未达到满容量。"};
 	}
@@ -150,7 +155,7 @@ void cb::test::test_cb_int_circle_deque()
 	}
 
 	// 测试 12: 弹出所有元素并验证顺序
-	for (int i = 0; i < __template_cb_int_circle_deque_size; ++i)
+	for (int i = 0; i < 100; ++i)
 	{
 		result = cb_int_circle_deque_pop_front(&deque, &value);
 		if (result == false || value != i)
