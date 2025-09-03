@@ -22,8 +22,7 @@ extern "C"
 /// @brief 位集所需的字节数。
 ///
 ///
-#define __cb_bitset_byte_count ((uint32_t)((__template_cb_bitset_bit_width / 8) + \
-										   (bool)(__template_cb_bitset_bit_width % 8)))
+#define __cb_bitset_byte_count ((uint32_t)((__template_cb_bitset_bit_width / 8) + (bool)(__template_cb_bitset_bit_width % 8)))
 
 	typedef struct cb_bitset
 	{
