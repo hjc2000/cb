@@ -4,7 +4,7 @@ namespace cb
 {
 	namespace test
 	{
-		void test_counter_32();
+		void test_counter();
 
 	} // namespace test
 } // namespace cb
