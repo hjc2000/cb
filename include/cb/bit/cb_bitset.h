@@ -18,14 +18,14 @@ extern "C"
 	#define __template_cb_bitset_bit_width ((uint32_t)(128))
 #endif
 
-///
-/// @brief 位集所需的字节数。
-///
-///
-#define __cb_bitset_byte_count ((uint32_t)((__template_cb_bitset_bit_width / 8) + (bool)(__template_cb_bitset_bit_width % 8)))
-
 	typedef struct cb_bitset
 	{
+		///
+		/// @brief 位集所需的字节数。
+		///
+		///
+#define __cb_bitset_byte_count ((uint32_t)((__template_cb_bitset_bit_width / 8) + (bool)(__template_cb_bitset_bit_width % 8)))
+
 		uint8_t _array[__cb_bitset_byte_count];
 	} cb_bitset;
 
