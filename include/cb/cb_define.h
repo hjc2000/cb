@@ -17,7 +17,7 @@ extern "C"
 
 #define CB_PAD_CAT(a, b) CB_PAD_CAT_(a, b)
 #define CB_PAD_CAT_(a, b) a##b
-#define __cb_padding(N) \
+#define __cb_padding_32(N) \
 	uint32_t volatile CB_PAD_CAT(__cb_padding_, __COUNTER__)[N]
 
 #ifdef __cplusplus
