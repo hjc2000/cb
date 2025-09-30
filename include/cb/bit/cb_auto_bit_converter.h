@@ -1,14 +1,59 @@
 #pragma once
 #include "cb/bit/cb_endian.h"
+#include "cb_bit_converter.h"
 #include <stdbool.h>
 #include <stdint.h>
 
 #ifdef __cplusplus
 
+	#include <algorithm>
+
 namespace cb
 {
+	namespace bit_converter
+	{
+		class AutoBitConverter
+		{
+		private:
+			cb::endian::Endian _remote_endian{};
 
-}
+			constexpr bool ShouldReverse() const
+			{
+				return cb::endian::NativeEndian() != _remote_endian;
+			}
+
+		public:
+			constexpr AutoBitConverter(cb::endian::Endian remote_endian)
+			{
+				_remote_endian = remote_endian;
+			}
+
+			template <typename ReturnType>
+			ReturnType FromByte(uint8_t const *buffer)
+			{
+				ReturnType ret = cb::bit_converter::FromBytes<ReturnType>(buffer);
+
+				if (ShouldReverse())
+				{
+					uint8_t *p = reinterpret_cast<uint8_t *>(&ret);
+					std::reverse(p, p + sizeof(ReturnType));
+				}
+			}
+
+			template <typename ValueType>
+			void GetBytes(ValueType value, uint8_t *out_buffer)
+			{
+				cb::bit_converter::GetBytes<ValueType>(value, out_buffer);
+
+				if (ShouldReverse())
+				{
+					std::reverse(out_buffer, out_buffer + sizeof(ValueType));
+				}
+			}
+		};
+
+	} // namespace bit_converter
+} // namespace cb
 
 #endif
 
