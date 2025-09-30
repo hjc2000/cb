@@ -2,7 +2,7 @@
 #include <cstdint> // IWYU pragma: keep
 #include <new>     // IWYU pragma: keep
 
-namespace base
+namespace cb
 {
 	template <typename T>
 	class SingletonProvider
@@ -37,4 +37,4 @@ namespace base
 		}
 	};
 
-} // namespace base
+} // namespace cb
