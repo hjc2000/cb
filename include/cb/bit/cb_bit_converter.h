@@ -10,6 +10,12 @@ namespace cb
 {
 	namespace bit_converter
 	{
+		///
+		/// @brief 从字节缓冲区中反序列化出指定类型对象。
+		///
+		/// @param buffer
+		/// @return
+		///
 		template <typename ReturnType>
 		ReturnType FromBytes(uint8_t const *buffer)
 		{
@@ -22,6 +28,13 @@ namespace cb
 			return ret;
 		}
 
+		///
+		/// @brief 将指定类型对象序列化到字节缓冲区中。
+		///
+		/// @param value
+		/// @param out_buffer
+		/// @return
+		///
 		template <typename T>
 		void GetBytes(T value, uint8_t *out_buffer)
 		{

@@ -52,6 +52,10 @@ namespace cb
 			}
 		};
 
+		constexpr cb::bit_converter::AutoBitConverter big_endian_remote_converter{cb::endian::Endian::BigEndian};
+
+		constexpr cb::bit_converter::AutoBitConverter little_endian_remote_converter{cb::endian::Endian::LittleEndian};
+
 	} // namespace bit_converter
 } // namespace cb
 
