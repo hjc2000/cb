@@ -22,12 +22,6 @@ extern "C"
 		cb_endian_enum _remote_endian;
 	} cb_auto_bit_converter;
 
-	/* #region 私有函数 */
-
-	bool __cb_auto_bit_converter_should_reverse__(cb_auto_bit_converter *self);
-
-	/* #endregion */
-
 	void cb_auto_bit_converter_initialize(cb_auto_bit_converter *self,
 										  cb_endian_enum remote_endian);
 
