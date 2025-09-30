@@ -29,7 +29,7 @@ namespace cb
 			}
 
 			template <typename ReturnType>
-			ReturnType FromByte(uint8_t const *buffer)
+			ReturnType FromByte(uint8_t const *buffer) const
 			{
 				ReturnType ret = cb::bit_converter::FromBytes<ReturnType>(buffer);
 
@@ -38,10 +38,12 @@ namespace cb
 					uint8_t *p = reinterpret_cast<uint8_t *>(&ret);
 					std::reverse(p, p + sizeof(ReturnType));
 				}
+
+				return ret;
 			}
 
 			template <typename ValueType>
-			void GetBytes(ValueType value, uint8_t *out_buffer)
+			void GetBytes(ValueType value, uint8_t *out_buffer) const
 			{
 				cb::bit_converter::GetBytes<ValueType>(value, out_buffer);
 
