@@ -28,6 +28,14 @@ namespace cb
 				_remote_endian = remote_endian;
 			}
 
+			///
+			/// @brief 从字节缓冲区中反序列化出对象。
+			///
+			/// @note 会自动根据本机字节序和远端字节序进行字节序转换。
+			///
+			/// @param buffer
+			/// @return
+			///
 			template <typename ReturnType>
 			ReturnType FromByte(uint8_t const *buffer) const
 			{
@@ -42,6 +50,15 @@ namespace cb
 				return ret;
 			}
 
+			///
+			/// @brief 将对象序列化到字节缓冲区中。
+			///
+			/// @note 会自动根据本机字节序和远端字节序进行字节序转换。
+			///
+			/// @param value
+			/// @param out_buffer
+			/// @return
+			///
 			template <typename ValueType>
 			void GetBytes(ValueType value, uint8_t *out_buffer) const
 			{
