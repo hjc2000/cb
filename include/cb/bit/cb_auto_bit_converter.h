@@ -7,6 +7,15 @@
 #include <stdint.h>
 
 #ifdef __cplusplus
+
+namespace cb
+{
+
+}
+
+#endif
+
+#ifdef __cplusplus
 extern "C"
 {
 #endif
