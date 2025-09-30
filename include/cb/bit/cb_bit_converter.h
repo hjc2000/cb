@@ -1,7 +1,5 @@
 #pragma once
-#include "cb/cb_define.h"
 #include <stdint.h>
-#include <string.h>
 
 #ifdef __cplusplus
 extern "C"
