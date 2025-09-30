@@ -11,7 +11,7 @@ namespace cb
 	namespace bit_converter
 	{
 		template <typename ReturnType>
-		constexpr ReturnType FromBytes(uint8_t const *buffer)
+		ReturnType FromBytes(uint8_t const *buffer)
 		{
 			ReturnType ret;
 
@@ -23,7 +23,7 @@ namespace cb
 		}
 
 		template <typename T>
-		constexpr void GetBytes(T value, uint8_t *out_buffer)
+		void GetBytes(T value, uint8_t *out_buffer)
 		{
 			uint8_t const *buffer = reinterpret_cast<uint8_t const *>(&value);
 
