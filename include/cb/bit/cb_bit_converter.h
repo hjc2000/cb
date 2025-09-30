@@ -2,6 +2,42 @@
 #include <stdint.h>
 
 #ifdef __cplusplus
+
+	#include <algorithm>
+	#include <cstdint>
+
+namespace cb
+{
+	namespace bit_converter
+	{
+		template <typename ReturnType>
+		constexpr ReturnType FromBytes(uint8_t const *buffer)
+		{
+			ReturnType ret;
+
+			std::copy(buffer,
+					  buffer + sizeof(ret),
+					  reinterpret_cast<uint8_t *>(&ret));
+
+			return ret;
+		}
+
+		template <typename T>
+		constexpr void GetBytes(T value, uint8_t *out_buffer)
+		{
+			uint8_t const *buffer = reinterpret_cast<uint8_t const *>(&value);
+
+			std::copy(buffer,
+					  buffer + sizeof(value),
+					  out_buffer);
+		}
+
+	} // namespace bit_converter
+} // namespace cb
+
+#endif // __cplusplus
+
+#ifdef __cplusplus
 extern "C"
 {
 #endif
