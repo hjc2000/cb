@@ -2,7 +2,6 @@
 
 #include "base/string/define.h"
 #include "base/string/ToHexString.h"
-#include "cb/test/test_bitset.h"
 #include "cb/test/test_cb_circle_deque.h"
 #include "cb/test/test_counter.h"
 #include <cstdint>
@@ -14,5 +13,4 @@ int main()
 {
 	cb::test::test_counter();
 	// cb::test::test_cb_circle_deque();
-	// cb::test::test_bitset();
 }
