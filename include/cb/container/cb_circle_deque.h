@@ -240,29 +240,59 @@ namespace cb
 			return Get(Count() - 1);
 		}
 
+		///
+		/// @brief 获取指定索引的元素。
+		///
+		/// @param index
+		/// @return
+		///
 		T &Get(int64_t index)
 		{
 			int64_t real_index = _begin + index;
 			return Buffer()[real_index];
 		}
 
+		///
+		/// @brief 获取指定索引的元素。
+		///
+		/// @param index
+		/// @return
+		///
 		T const &Get(int64_t index) const
 		{
 			int64_t real_index = _begin + index;
 			return Buffer()[real_index];
 		}
 
+		///
+		/// @brief 设置指定索引的元素。
+		///
+		/// @param index
+		/// @param value
+		///
 		void Set(int64_t index, T const &value)
 		{
 			int64_t real_index = _begin + index;
 			Buffer()[real_index] = value;
 		}
 
+		///
+		/// @brief 获取指定索引的元素。
+		///
+		/// @param index
+		/// @return
+		///
 		T &operator[](int64_t index)
 		{
 			return Get(index);
 		}
 
+		///
+		/// @brief 获取指定索引的元素。
+		///
+		/// @param index
+		/// @return
+		///
 		T const &operator[](int64_t index) const
 		{
 			return Get(index);
