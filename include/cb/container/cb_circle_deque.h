@@ -1,5 +1,5 @@
 #pragma once
-#include "cb/math/Counter.h"
+#include "cb/math/cb_counter.h"
 #include <algorithm>
 #include <cstdint>
 
