@@ -111,6 +111,21 @@ namespace cb
 		}
 
 		///
+		/// @brief 丢弃末尾的元素。
+		///
+		void DiscardBack()
+		{
+			if (Count() == 0)
+			{
+				return;
+			}
+
+			_end--;
+			_is_full = false;
+			Buffer()[_end.CurrentValue()].~T();
+		}
+
+		///
 		/// @brief 尝试从队列末端退队。
 		///
 		/// @param out
@@ -128,6 +143,22 @@ namespace cb
 			out = std::move(Buffer()[_end.CurrentValue()]);
 			Buffer()[_end.CurrentValue()].~T();
 			return true;
+		}
+
+		///
+		/// @brief 丢弃队列前端的元素。
+		///
+		void DiscardFront()
+		{
+			if (Count() == 0)
+			{
+				return;
+			}
+
+			int64_t index = _begin.CurrentValue();
+			Buffer()[index].~T();
+			_begin++;
+			_is_full = false;
 		}
 
 		///
