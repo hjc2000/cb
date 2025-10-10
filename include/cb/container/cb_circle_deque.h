@@ -1,231 +1,203 @@
 #pragma once
-#include "cb/cb_define.h"
-#include <stdbool.h>
-#include <stdint.h>
-#include <string.h>
+#include "cb/math/Counter.h"
+#include <algorithm>
+#include <cstdint>
 
-#ifdef __cplusplus
-extern "C"
+namespace cb
 {
-#endif
-
 	///
-	/// @brief 模板参数。队列元素类型。
+	/// @brief 循环缓冲区的双端队列。
 	///
-#ifndef __template_cb_circle_deque_element_type
-	#define __template_cb_circle_deque_element_type int
-#endif
-
-	///
-	/// @brief 模板参数。队列大小。
-	///
-#ifndef __template_cb_circle_deque_size
-	#define __template_cb_circle_deque_size 100
-#endif
-
-	///
-	/// @brief 循环队列。
-	///
-	typedef struct cb_circle_deque
+	template <typename T, int64_t Size>
+	class CircleDeque final
 	{
-		__template_cb_circle_deque_element_type _buffer[__template_cb_circle_deque_size];
-		uint32_t _begin;
-		uint32_t _end;
-		bool _is_full;
+	private:
+		alignas(T) uint8_t _memory_block[sizeof(T) * Size]{};
+		cb::Counter<uint64_t> _begin{0, Size - 1};
+		cb::Counter<uint64_t> _end{0, Size - 1};
+		bool _is_full = false;
 
-	} cb_circle_deque;
-
-	///
-	/// @brief 初始化。
-	///
-	/// @param self
-	/// @return
-	///
-	__cb_force_inline void cb_circle_deque_initialize(cb_circle_deque *self)
-	{
-		self->_begin = 0;
-		self->_end = 0;
-		self->_is_full = false;
-	}
-
-	///
-	/// @brief 队列中的元素个数。
-	///
-	/// @param self
-	/// @return
-	///
-	__cb_force_inline int cb_circle_deque_count(cb_circle_deque *self)
-	{
-		if (self->_is_full)
+		T *Buffer()
 		{
-			return __template_cb_circle_deque_size;
+			return reinterpret_cast<T *>(_memory_block);
 		}
 
-		if (self->_end >= self->_begin)
+		T const *Buffer() const
 		{
-			return self->_end - self->_begin;
+			return reinterpret_cast<T const *>(_memory_block);
 		}
 
-		return __template_cb_circle_deque_size - (self->_begin - self->_end);
-	}
-
-	///
-	/// @brief 队列为空。
-	///
-	/// @param self
-	/// @return
-	///
-	__cb_force_inline bool cb_circle_deque_is_empty(cb_circle_deque *self)
-	{
-		return self->_begin == self->_end && !self->_is_full;
-	}
-
-	///
-	/// @brief 向队列末尾添加元素。
-	///
-	/// @param self
-	/// @param value
-	/// @return 添加成功返回 true, 添加失败返回 false.
-	///
-	__cb_force_inline bool cb_circle_deque_push_back(cb_circle_deque *self,
-													 __template_cb_circle_deque_element_type *value)
-	{
-		if (value == NULL)
+	public:
+		~CircleDeque()
 		{
-			return false;
+			Clear();
 		}
 
-		if (self->_is_full)
+		///
+		/// @brief 队列中当前元素的数量。
+		///
+		/// @return
+		///
+		int64_t Count() const
 		{
-			return false;
+			if (_is_full)
+			{
+				return Size;
+			}
+
+			return _end - _begin;
 		}
 
-		self->_buffer[self->_end] = *value;
-		self->_end = (self->_end + 1) % __template_cb_circle_deque_size;
-
-		if (self->_end == self->_begin)
+		bool IsFull() const
 		{
-			self->_is_full = true;
+			return _is_full;
 		}
 
-		return true;
-	}
-
-	///
-	/// @brief 向队列头部添加元素。
-	///
-	/// @param self
-	/// @param value
-	/// @return 添加成功返回 true, 添加失败返回 false.
-	///
-	__cb_force_inline bool cb_circle_deque_push_front(cb_circle_deque *self,
-													  __template_cb_circle_deque_element_type *value)
-	{
-		if (value == NULL)
+		///
+		/// @brief 队列的容纳能力。即最多容纳多少个元素。
+		///
+		/// @return
+		///
+		int64_t Capacity() const
 		{
-			return false;
+			return Size;
 		}
 
-		if (self->_is_full)
+		///
+		/// @brief 从队列末端入队。
+		///
+		/// @param obj
+		///
+		/// @return
+		///
+		bool TryPushBack(T const &obj)
 		{
-			return false;
+			if (_is_full)
+			{
+				return false;
+			}
+
+			new (&Buffer()[_end.CurrentValue()]) T{obj};
+			_end++;
+			if (_begin == _end)
+			{
+				_is_full = true;
+			}
+
+			return true;
 		}
 
-		self->_begin = (self->_begin + __template_cb_circle_deque_size - 1) % __template_cb_circle_deque_size;
-		self->_buffer[self->_begin] = *value;
-
-		if (self->_end == self->_begin)
+		///
+		/// @brief 从队列前端入队。
+		///
+		/// @param obj
+		///
+		bool TryPushFront(T const &obj)
 		{
-			self->_is_full = true;
+			if (_is_full)
+			{
+				return false;
+			}
+
+			_begin--;
+
+			new (&Buffer()[_begin.CurrentValue()]) T{obj};
+			if (_begin == _end)
+			{
+				_is_full = true;
+			}
+
+			return true;
 		}
 
-		return true;
-	}
-
-	///
-	/// @brief 弹出队列末尾元素。
-	///
-	/// @param self
-	/// @param out
-	/// @return
-	///
-	__cb_force_inline bool cb_circle_deque_pop_back(cb_circle_deque *self,
-													__template_cb_circle_deque_element_type *out)
-	{
-		if (cb_circle_deque_is_empty(self))
+		///
+		/// @brief 尝试从队列末端退队。
+		///
+		/// @param out
+		/// @return
+		///
+		bool TryPopBack(T &out)
 		{
-			return false;
+			if (Count() == 0)
+			{
+				return false;
+			}
+
+			_end--;
+			_is_full = false;
+			out = std::move(Buffer()[_end.CurrentValue()]);
+			Buffer()[_end.CurrentValue()].~T();
+			return true;
 		}
 
-		self->_end = (self->_end + __template_cb_circle_deque_size - 1) % __template_cb_circle_deque_size;
-
-		if (out != NULL)
+		///
+		/// @brief 尝试从队列前端退队。
+		///
+		/// @param out
+		/// @return
+		///
+		bool TryPopFront(T &out)
 		{
-			*out = self->_buffer[self->_end];
+			if (Count() == 0)
+			{
+				return false;
+			}
+
+			int64_t index = _begin.CurrentValue();
+			out = std::move(Buffer()[index]);
+			Buffer()[index].~T();
+			_begin++;
+			_is_full = false;
+			return true;
 		}
 
-		self->_is_full = false;
-		return true;
-	}
-
-	///
-	/// @brief 弹出队列头部元素。
-	///
-	/// @param self
-	/// @param out
-	/// @return
-	///
-	__cb_force_inline bool cb_circle_deque_pop_front(cb_circle_deque *self,
-													 __template_cb_circle_deque_element_type *out)
-	{
-		if (cb_circle_deque_is_empty(self))
+		///
+		/// @brief 清空队列。
+		///
+		///
+		void Clear()
 		{
-			return false;
+			for (int64_t i = 0; i < Count(); i++)
+			{
+				Get(i).~T();
+			}
+
+			_begin.Reset();
+			_end.Reset();
+			_is_full = false;
 		}
 
-		if (out != NULL)
+		/* #region 索引器 */
+
+		T &Get(int64_t index)
 		{
-			*out = self->_buffer[self->_begin];
+			int64_t real_index = _begin + index;
+			return Buffer()[real_index];
 		}
 
-		self->_begin = (self->_begin + 1) % __template_cb_circle_deque_size;
-		self->_is_full = false;
-		return true;
-	}
-
-	///
-	/// @brief 获取队列中指定索引的元素。
-	///
-	/// @param self
-	/// @param index
-	///
-	/// @return 如果指定索引处有元素，则返回该元素的指针，否则返回空指针。
-	///
-	__cb_force_inline __template_cb_circle_deque_element_type *cb_circle_deque_get(cb_circle_deque *self,
-																				   int index)
-	{
-		if (index < 0 || index >= cb_circle_deque_count(self))
+		T const &Get(int64_t index) const
 		{
-			return NULL;
+			int64_t real_index = _begin + index;
+			return Buffer()[real_index];
 		}
 
-		uint32_t pos = (self->_begin + index) % __template_cb_circle_deque_size;
-		return &self->_buffer[pos];
-	}
+		void Set(int64_t index, T const &value)
+		{
+			int64_t real_index = _begin + index;
+			Buffer()[real_index] = value;
+		}
 
-	///
-	/// @brief 清空队列。
-	///
-	/// @param self
-	/// @return
-	///
-	__cb_force_inline void cb_circle_deque_clear(cb_circle_deque *self)
-	{
-		self->_begin = 0;
-		self->_end = 0;
-		self->_is_full = false;
-	}
+		T &operator[](int64_t index)
+		{
+			return Get(index);
+		}
 
-#ifdef __cplusplus
-}
-#endif
+		T const &operator[](int64_t index) const
+		{
+			return Get(index);
+		}
+
+		/* #endregion */
+	};
+
+} // namespace cb
