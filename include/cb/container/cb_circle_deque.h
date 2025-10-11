@@ -1,5 +1,7 @@
 #pragma once
+#include "cb/cb_define.h"
 #include "cb/math/cb_counter.h"
+#include "cb/Placement.h"
 #include <algorithm>
 #include <cstdint>
 
@@ -68,23 +70,15 @@ namespace cb
 		///
 		/// @param obj
 		///
-		/// @return
-		///
-		bool TryPushBack(T const &obj)
+		void PushBack(T const &obj)
 		{
-			if (_is_full)
-			{
-				return false;
-			}
-
+			__cb_assert(!_is_full, "队列已满，无法入队。");
 			new (&Buffer()[_end.CurrentValue()]) T{obj};
 			_end++;
 			if (_begin == _end)
 			{
 				_is_full = true;
 			}
-
-			return true;
 		}
 
 		///
@@ -92,13 +86,9 @@ namespace cb
 		///
 		/// @param obj
 		///
-		bool TryPushFront(T const &obj)
+		void PushFront(T const &obj)
 		{
-			if (_is_full)
-			{
-				return false;
-			}
-
+			__cb_assert(!_is_full, "队列已满，无法入队。");
 			_begin--;
 
 			new (&Buffer()[_begin.CurrentValue()]) T{obj};
@@ -106,8 +96,6 @@ namespace cb
 			{
 				_is_full = true;
 			}
-
-			return true;
 		}
 
 		///
@@ -126,23 +114,34 @@ namespace cb
 		}
 
 		///
-		/// @brief 尝试从队列末端退队。
+		/// @brief 从队列末端退队。
 		///
-		/// @param out
 		/// @return
 		///
-		bool TryPopBack(T &out)
+		T PopBack()
+		{
+			__cb_assert(Count() > 0, "队列为空，无法退队。");
+			_end--;
+			_is_full = false;
+			T ret{std::move(Buffer()[_end.CurrentValue()])};
+			Buffer()[_end.CurrentValue()].~T();
+			return ret;
+		}
+
+		///
+		/// @brief 尝试从队列末端退队。
+		///
+		void TryPopBack(cb::Placement<T> &placement)
 		{
 			if (Count() == 0)
 			{
-				return false;
+				return;
 			}
 
 			_end--;
 			_is_full = false;
-			out = std::move(Buffer()[_end.CurrentValue()]);
+			placement = std::move(Buffer()[_end.CurrentValue()]);
 			Buffer()[_end.CurrentValue()].~T();
-			return true;
 		}
 
 		///
@@ -162,24 +161,36 @@ namespace cb
 		}
 
 		///
-		/// @brief 尝试从队列前端退队。
+		/// @brief 从队列前端退队。
 		///
-		/// @param out
 		/// @return
 		///
-		bool TryPopFront(T &out)
+		T PopFront()
 		{
-			if (Count() == 0)
-			{
-				return false;
-			}
-
+			__cb_assert(Count() > 0, "队列为空，无法退队。");
 			int64_t index = _begin.CurrentValue();
-			out = std::move(Buffer()[index]);
+			T ret{std::move(Buffer()[index])};
 			Buffer()[index].~T();
 			_begin++;
 			_is_full = false;
-			return true;
+			return ret;
+		}
+
+		///
+		/// @brief 尝试从队列前端退队。
+		///
+		void TryPopFront(cb::Placement<T> &placement)
+		{
+			if (Count() == 0)
+			{
+				return;
+			}
+
+			int64_t index = _begin.CurrentValue();
+			placement = std::move(Buffer()[index]);
+			Buffer()[index].~T();
+			_begin++;
+			_is_full = false;
 		}
 
 		///
@@ -248,6 +259,7 @@ namespace cb
 		///
 		T &Get(int64_t index)
 		{
+			__cb_assert(index >= 0 && index < Count(), "索引越界。");
 			int64_t real_index = _begin + index;
 			return Buffer()[real_index];
 		}
@@ -260,6 +272,7 @@ namespace cb
 		///
 		T const &Get(int64_t index) const
 		{
+			__cb_assert(index >= 0 && index < Count(), "索引越界。");
 			int64_t real_index = _begin + index;
 			return Buffer()[real_index];
 		}
@@ -272,6 +285,7 @@ namespace cb
 		///
 		void Set(int64_t index, T const &value)
 		{
+			__cb_assert(index >= 0 && index < Count(), "索引越界。");
 			int64_t real_index = _begin + index;
 			Buffer()[real_index] = value;
 		}

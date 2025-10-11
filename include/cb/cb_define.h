@@ -30,19 +30,21 @@ extern "C"
 	/// @param x 断言条件。
 	/// @param message 断言失败时打印的消息。
 	///
-	#define __cb_assert(x, message) \
-		do                          \
-		{                           \
-			printf(__FILE__);       \
-			printf(", ");           \
-			printf(__LINE__);       \
-			printf(", ");           \
-			printf(message);        \
-                                    \
-			while (true)            \
-			{                       \
-			}                       \
-                                    \
+	#define __cb_assert(x, message)          \
+		do                                   \
+		{                                    \
+			if (!x)                          \
+			{                                \
+				printf(__FILE__);            \
+				printf(", ");                \
+				printf("LINE %d", __LINE__); \
+				printf(", ");                \
+				printf(message);             \
+                                             \
+				while (true)                 \
+				{                            \
+				}                            \
+			}                                \
 		} while (false)
 
 #else
