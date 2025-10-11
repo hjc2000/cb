@@ -37,11 +37,11 @@ extern "C"
 		{                                    \
 			if (!x)                          \
 			{                                \
-				printf(__FILE__);            \
-				printf(", ");                \
-				printf("LINE %d", __LINE__); \
-				printf(", ");                \
-				printf(message);             \
+				fprintf(stderr,              \
+						"%s, LINE %d, %s\n", \
+						__FILE__,            \
+						__LINE__,            \
+						(message));          \
                                              \
 				cb_assert_block();           \
 			}                                \
