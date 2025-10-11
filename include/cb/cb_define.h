@@ -24,6 +24,8 @@ extern "C"
 
 #ifdef __cb_use_assert
 
+	void cb_assert_block();
+
 	///
 	/// @brief 断言
 	///
@@ -41,9 +43,7 @@ extern "C"
 				printf(", ");                \
 				printf(message);             \
                                              \
-				while (true)                 \
-				{                            \
-				}                            \
+				cb_assert_block();           \
 			}                                \
 		} while (false)
 
