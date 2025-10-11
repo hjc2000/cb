@@ -2,7 +2,9 @@
 
 // IWYU pragma: begin_keep
 
+#include <stdbool.h>
 #include <stdint.h>
+#include <stdio.h>
 
 // IWYU pragma: end_keep
 
@@ -19,6 +21,33 @@ extern "C"
 #define CB_PAD_CAT_(a, b) a##b
 #define __cb_padding_32(N) \
 	uint32_t CB_PAD_CAT(__cb_padding_, __COUNTER__)[N]
+
+#ifdef __cb_use_assert
+
+	///
+	/// @brief 断言
+	///
+	/// @param x 断言条件。
+	/// @param message 断言失败时打印的消息。
+	///
+	#define __cb_assert(x, message) \
+		do                          \
+		{                           \
+			printf(__FILE__);       \
+			printf(", ");           \
+			printf(__LINE__);       \
+			printf(", ");           \
+			printf(message);        \
+                                    \
+			while (true)            \
+			{                       \
+			}                       \
+                                    \
+		} while (false)
+
+#else
+	#define __cb_assert(x, message)
+#endif
 
 #ifdef __cplusplus
 }
