@@ -1,11 +1,7 @@
 #pragma once
 #include "cb/cb_define.h"
-#include <algorithm>
-#include <array>
-#include <bit>
 #include <cstddef>
 #include <cstdint>
-#include <type_traits>
 
 namespace cb
 {
@@ -35,87 +31,6 @@ namespace cb
 
 		/* #endregion */
 
-		///
-		/// @brief 从最高位开始数，有多少个连续的 0.
-		///
-		/// @param num
-		/// @return
-		///
-		template <typename RegisterType>
-			requires(std::is_integral_v<RegisterType>)
-		constexpr int HighZeroCount(RegisterType num)
-		{
-			return std::countl_zero(num);
-		}
-
-		///
-		/// @brief 从最高位开始数，有多少个连续的 1.
-		///
-		/// @param num
-		/// @return
-		///
-		template <typename RegisterType>
-			requires(std::is_integral_v<RegisterType>)
-		constexpr int HighOneCount(RegisterType num)
-		{
-			return std::countl_one(num);
-		}
-
-		///
-		/// @brief 从最低位开始数，有多少个连续的 0.
-		/// @return
-		///
-		template <typename RegisterType>
-			requires(std::is_integral_v<RegisterType>)
-		constexpr int LowZeroCount(RegisterType num)
-		{
-			return std::countr_zero(num);
-		}
-
-		///
-		/// @brief 最高位的 1 的索引。
-		///
-		/// @note 例如 0x1 的 bit0 是最高位的 1，于是返回 0.
-		///
-		/// @param num
-		/// @return
-		///
-		template <typename RegisterType>
-			requires(std::is_integral_v<RegisterType>)
-		constexpr int HighestOneBitIndex(RegisterType num)
-		{
-			int count = HighZeroCount(num);
-			return sizeof(num) * 8 - count - 1;
-		}
-
-		///
-		/// @brief 最低位的 1 所在的索引。
-		///
-		/// @param num
-		/// @return
-		///
-		template <typename RegisterType>
-			requires(std::is_integral_v<RegisterType>)
-		constexpr int LowestOneBitIndex(RegisterType num)
-		{
-			return LowZeroCount(num);
-		}
-
-		///
-		/// @brief 将 num 进行左对齐。
-		///
-		/// @note 即将 num 进行左移位，使最高位的 1 位于最高有效位，即去除所有的前导 0.
-		///
-		/// @param num
-		/// @return
-		///
-		template <typename RegisterType>
-			requires(std::is_integral_v<RegisterType>)
-		constexpr uint8_t AlignToLeft(RegisterType num)
-		{
-			return num << HighZeroCount(num);
-		}
-
 		/* #region 掩码 */
 
 		///
@@ -135,7 +50,6 @@ namespace cb
 		///
 		///
 		template <typename RegisterType>
-			requires(std::is_integral_v<RegisterType>)
 		constexpr RegisterType LSB()
 		{
 			return static_cast<RegisterType>(1);
@@ -146,7 +60,6 @@ namespace cb
 		///
 		///
 		template <typename RegisterType>
-			requires(std::is_integral_v<RegisterType>)
 		constexpr RegisterType MSB()
 		{
 			uint8_t bit_count = sizeof(RegisterType) * 8;
@@ -188,7 +101,6 @@ namespace cb
 		/// @param bit_index 要置位的位的索引。
 		///
 		template <typename RegisterType>
-			requires(std::is_integral_v<RegisterType>)
 		constexpr void SetBit(RegisterType &reg, int bit_index)
 		{
 			CheckBitIndex<RegisterType>(bit_index);
@@ -203,7 +115,6 @@ namespace cb
 		/// @param end 要置位的区间终点。开端点。
 		///
 		template <typename RegisterType>
-			requires(std::is_integral_v<RegisterType>)
 		constexpr void SetBits(RegisterType &reg, int begin, int end)
 		{
 			CheckBitRange<RegisterType>(begin, end);
@@ -224,7 +135,6 @@ namespace cb
 		/// @param bit_index 要复位的位的索引。
 		///
 		template <typename RegisterType>
-			requires(std::is_integral_v<RegisterType>)
 		constexpr void ResetBit(RegisterType &reg, int bit_index)
 		{
 			CheckBitIndex<RegisterType>(bit_index);
@@ -239,7 +149,6 @@ namespace cb
 		/// @param end 要复位的区间终点。开端点。
 		///
 		template <typename RegisterType>
-			requires(std::is_integral_v<RegisterType>)
 		constexpr void ResetBits(RegisterType &reg, int begin, int end)
 		{
 			CheckBitRange<RegisterType>(begin, end);
@@ -259,7 +168,6 @@ namespace cb
 		/// @return
 		///
 		template <typename RegisterType>
-			requires(std::is_integral_v<RegisterType>)
 		constexpr bool ReadBit(RegisterType const &reg, int bit_index)
 		{
 			CheckBitIndex<RegisterType>(bit_index);
@@ -276,7 +184,6 @@ namespace cb
 		/// @return
 		///
 		template <typename RegisterType>
-			requires(std::is_integral_v<RegisterType>)
 		constexpr RegisterType ReadBits(RegisterType const &reg, int begin, int end)
 		{
 			CheckBitRange<RegisterType>(begin, end);
@@ -298,7 +205,6 @@ namespace cb
 		/// @return
 		///
 		template <typename RegisterType>
-			requires(std::is_integral_v<RegisterType>)
 		constexpr void WriteBit(RegisterType &reg, int bit_index, bool value)
 		{
 			CheckBitIndex<RegisterType>(bit_index);
@@ -321,7 +227,6 @@ namespace cb
 		/// @param value 要写入 reg 的指定范围内的值。
 		///
 		template <typename RegisterType>
-			requires(std::is_integral_v<RegisterType>)
 		constexpr void WriteBits(RegisterType &reg, int begin, int end, uint64_t value)
 		{
 			CheckBitRange<RegisterType>(begin, end);
@@ -350,7 +255,6 @@ namespace cb
 		/// @return
 		///
 		template <typename AddressType>
-			requires(std::is_same_v<AddressType, size_t> || std::is_same_v<AddressType, uint8_t *>)
 		constexpr AddressType AlignUp(AddressType address, size_t align_byte_count = 8)
 		{
 			size_t size = reinterpret_cast<size_t>(address);
@@ -372,7 +276,6 @@ namespace cb
 		/// @return
 		///
 		template <typename AddressType>
-			requires(std::is_same_v<AddressType, size_t> || std::is_same_v<AddressType, uint8_t *>)
 		constexpr AddressType AlignDown(AddressType address, size_t align_byte_count = 8)
 		{
 			size_t size = reinterpret_cast<size_t>(address);
@@ -389,120 +292,6 @@ namespace cb
 		constexpr size_t GetAlignedSize()
 		{
 			return cb::bit::AlignUp(sizeof(T), AlignByteCount);
-		}
-
-		/* #endregion */
-
-		/* #region 循环移位 */
-
-		///
-		/// @brief 循环左移。
-		///
-		///
-		template <typename T>
-			requires(std::is_integral_v<T>)
-		constexpr T CircularLeftShift(T value, int32_t count) noexcept
-		{
-			return std::rotl(value, count);
-		}
-
-		///
-		/// @brief 循环右移。
-		///
-		///
-		template <typename T>
-			requires(std::is_integral_v<T>)
-		constexpr T CircularRightShift(T value, int32_t count) noexcept
-		{
-			return std::rotr(value, count);
-		}
-
-		/* #endregion */
-
-		/* #region 位镜像翻转 */
-
-		///
-		/// @brief 左右翻转位。
-		///
-		/// @note 翻转后，最低位位将变为最高位，最高位将变为最低位。
-		///
-		///
-		template <typename T>
-			requires(std::is_same_v<T, uint8_t>)
-		constexpr T Reverse(T value)
-		{
-			int32_t bit_count = sizeof(T) * 8;
-			for (int32_t i = 0; i < bit_count / 2; i++)
-			{
-				int32_t left_index = bit_count - 1 - i;
-				int32_t right_index = i;
-				bool left_bit = cb::bit::ReadBit(value, left_index);
-				bool right_bit = cb::bit::ReadBit(value, right_index);
-				cb::bit::WriteBit(value, left_index, right_bit);
-				cb::bit::WriteBit(value, right_index, left_bit);
-			}
-
-			return value;
-		}
-
-		///
-		/// @brief 左右翻转位。
-		///
-		/// @note 翻转后，最低位位将变为最高位，最高位将变为最低位。
-		///
-		///
-		template <typename T>
-			requires(std::is_integral_v<T> && !std::is_same_v<T, uint8_t>)
-		constexpr T Reverse(T value)
-		{
-			if (std::is_constant_evaluated())
-			{
-				// 编译时计算路径
-				int32_t bit_count = sizeof(T) * 8;
-				for (int32_t i = 0; i < bit_count / 2; i++)
-				{
-					int32_t left_index = bit_count - 1 - i;
-					int32_t right_index = i;
-					bool left_bit = cb::bit::ReadBit(value, left_index);
-					bool right_bit = cb::bit::ReadBit(value, right_index);
-					cb::bit::WriteBit(value, left_index, right_bit);
-					cb::bit::WriteBit(value, right_index, left_bit);
-				}
-
-				return value;
-			}
-
-			// 运行时计算路径
-			class Table
-			{
-			private:
-				std::array<uint8_t, 256> _table{};
-
-			public:
-				constexpr Table()
-				{
-					for (int32_t i = 0; i < 256; i++)
-					{
-						_table[i] = cb::bit::Reverse(static_cast<uint8_t>(i));
-					}
-				}
-
-				constexpr uint8_t operator[](uint8_t index) const
-				{
-					return _table[index];
-				}
-			};
-
-			constexpr Table table{};
-			uint8_t *bytes = reinterpret_cast<uint8_t *>(&value);
-
-			for (size_t i = 0; i < sizeof(T); i++)
-			{
-				bytes[i] = table[bytes[i]];
-			}
-
-			std::reverse(bytes, bytes + sizeof(T));
-			return value;
 		}
 
 		/* #endregion */
