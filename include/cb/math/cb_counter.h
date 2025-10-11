@@ -1,4 +1,5 @@
 #pragma once
+#include "cb/cb_define.h"
 #include <limits>
 
 namespace cb
@@ -26,6 +27,8 @@ namespace cb
 		///
 		constexpr Counter(T current_value, T max_value)
 		{
+			__cb_assert(max_value > 0, "计数的最大值不允许 == 0");
+			__cb_assert(current_value <= max_value, "计数器的当前值不允许 > 计数器的最大值");
 			_max_value = max_value;
 			*this += current_value;
 		}

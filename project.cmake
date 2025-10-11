@@ -2,6 +2,9 @@
 add_library(${ProjectName} STATIC)
 target_import_src(${ProjectName})
 
+target_compile_definitions(${ProjectName} PUBLIC
+	__cb_use_assert
+)
 
 
 # 添加测试程序

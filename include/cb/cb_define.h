@@ -35,7 +35,7 @@ extern "C"
 	#define __cb_assert(x, message)          \
 		do                                   \
 		{                                    \
-			if (!x)                          \
+			if (!(x))                        \
 			{                                \
 				fprintf(stderr,              \
 						"%s, LINE %d, %s\n", \
