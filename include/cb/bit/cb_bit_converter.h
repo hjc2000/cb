@@ -37,10 +37,10 @@ namespace cb
 		/// @param span
 		/// @return
 		///
-		template <typename T>
-		void GetBytes(T value, cb::Span const &span)
+		template <typename ValueType>
+		void GetBytes(ValueType value, cb::Span const &span)
 		{
-			__cb_assert(span.Size() == static_cast<int64_t>(sizeof(T)), "传入的 span 大小不符。");
+			__cb_assert(span.Size() == static_cast<int64_t>(sizeof(ValueType)), "传入的 span 大小不符。");
 
 			uint8_t const *buffer = reinterpret_cast<uint8_t const *>(&value);
 
