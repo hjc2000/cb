@@ -2,7 +2,7 @@
 #include "cb/cb_define.h"
 #include <cstdint>
 
-namespace base
+namespace cb
 {
 	///
 	/// @brief 分数类
@@ -108,7 +108,7 @@ namespace base
 		///
 		constexpr Int64Fraction Reciprocal() const
 		{
-			base::Int64Fraction ret{_den, _num};
+			cb::Int64Fraction ret{_den, _num};
 			return ret;
 		}
 
@@ -193,7 +193,7 @@ namespace base
 		///
 		/// @param resolution
 		///
-		constexpr void ReduceResolution(base::Int64Fraction const &resolution)
+		constexpr void ReduceResolution(cb::Int64Fraction const &resolution)
 		{
 			__cb_assert(resolution > 0, "分辨率不能 <= 0.");
 
@@ -243,7 +243,7 @@ namespace base
 
 		constexpr Int64Fraction operator*(Int64Fraction const &value) const
 		{
-			base::Int64Fraction ret;
+			cb::Int64Fraction ret;
 			ret.SetNum(_num * value.Num());
 			ret.SetDen(_den * value.Den());
 			return ret;
@@ -417,7 +417,7 @@ namespace base
 	/// @param value
 	/// @return
 	///
-	constexpr base::Int64Fraction abs(base::Int64Fraction const &value)
+	constexpr cb::Int64Fraction abs(cb::Int64Fraction const &value)
 	{
 		return value.Abs();
 	}
@@ -429,7 +429,7 @@ namespace base
 	///
 	/// @return
 	///
-	constexpr int64_t floor(base::Int64Fraction const &value)
+	constexpr int64_t floor(cb::Int64Fraction const &value)
 	{
 		return value.Floor();
 	}
@@ -441,7 +441,7 @@ namespace base
 	///
 	/// @return
 	///
-	constexpr int64_t ceil(base::Int64Fraction const &value)
+	constexpr int64_t ceil(cb::Int64Fraction const &value)
 	{
 		return value.Ceil();
 	}
@@ -451,15 +451,15 @@ namespace base
 	///
 	/// @return 降低分辨率后的值。
 	///
-	constexpr base::Int64Fraction reduce_resolution(base::Int64Fraction const &value,
-													base::Int64Fraction const &resolution)
+	constexpr cb::Int64Fraction reduce_resolution(cb::Int64Fraction const &value,
+												  cb::Int64Fraction const &resolution)
 	{
-		base::Int64Fraction copy = value;
+		cb::Int64Fraction copy = value;
 		copy.ReduceResolution(resolution);
 		return copy;
 	}
 
-} // namespace base
+} // namespace cb
 
 /* #region 全局四则运算符 */
 
@@ -471,9 +471,9 @@ namespace base
 ///
 /// @return
 ///
-inline base::Int64Fraction operator*(int64_t left, base::Int64Fraction const &right)
+inline cb::Int64Fraction operator*(int64_t left, cb::Int64Fraction const &right)
 {
-	return base::Int64Fraction(left) * right;
+	return cb::Int64Fraction(left) * right;
 }
 
 ///
@@ -484,9 +484,9 @@ inline base::Int64Fraction operator*(int64_t left, base::Int64Fraction const &ri
 ///
 /// @return
 ///
-inline base::Int64Fraction operator/(int64_t left, base::Int64Fraction const &right)
+inline cb::Int64Fraction operator/(int64_t left, cb::Int64Fraction const &right)
 {
-	return base::Int64Fraction{left} / right;
+	return cb::Int64Fraction{left} / right;
 }
 
 /* #endregion */
