@@ -1,7 +1,7 @@
 #pragma once
 #include "cb/cb_define.h"
 #include "cb/container/cb_range.h"
-#include "cb/stream/ReadOnlySpan.h"
+#include "cb/stream/cb_read_only_span.h"
 #include <cstdint>
 
 namespace cb
