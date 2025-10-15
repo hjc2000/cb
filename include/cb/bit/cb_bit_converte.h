@@ -8,7 +8,7 @@
 
 namespace cb
 {
-	namespace bit_converter
+	namespace bit_converte
 	{
 		///
 		/// @brief 从字节缓冲区中反序列化出指定类型对象。
@@ -49,5 +49,5 @@ namespace cb
 					  span.Buffer());
 		}
 
-	} // namespace bit_converter
+	} // namespace bit_converte
 } // namespace cb

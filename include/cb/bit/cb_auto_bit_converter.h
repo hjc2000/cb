@@ -2,7 +2,7 @@
 #include "cb/bit/cb_endian.h"
 #include "cb/stream/cb_read_only_span.h"
 #include "cb/stream/cb_span.h"
-#include "cb_bit_converter.h"
+#include "cb_bit_converte.h"
 #include <algorithm>
 #include <stdbool.h>
 #include <stdint.h>
@@ -36,7 +36,7 @@ namespace cb
 		template <typename ReturnType>
 		ReturnType FromBytes(cb::ReadOnlySpan const &span) const
 		{
-			ReturnType ret = cb::bit_converter::FromBytes<ReturnType>(span);
+			ReturnType ret = cb::bit_converte::FromBytes<ReturnType>(span);
 
 			if (ShouldReverse())
 			{
@@ -59,7 +59,7 @@ namespace cb
 		template <typename ValueType>
 		void GetBytes(ValueType value, cb::Span const &span) const
 		{
-			cb::bit_converter::GetBytes<ValueType>(value, span);
+			cb::bit_converte::GetBytes<ValueType>(value, span);
 
 			if (ShouldReverse())
 			{
