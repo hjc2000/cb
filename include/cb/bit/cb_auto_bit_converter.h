@@ -1,5 +1,6 @@
 #pragma once
 #include "cb/bit/cb_endian.h"
+#include "cb/stream/cb_read_only_span.h"
 #include "cb_bit_converter.h"
 #include <algorithm>
 #include <stdbool.h>
@@ -34,9 +35,9 @@ namespace cb
 			/// @return
 			///
 			template <typename ReturnType>
-			ReturnType FromByte(uint8_t const *buffer) const
+			ReturnType FromByte(cb::ReadOnlySpan const &span) const
 			{
-				ReturnType ret = cb::bit_converter::FromBytes<ReturnType>(buffer);
+				ReturnType ret = cb::bit_converter::FromBytes<ReturnType>(span);
 
 				if (ShouldReverse())
 				{

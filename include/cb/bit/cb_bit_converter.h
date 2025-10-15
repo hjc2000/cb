@@ -1,4 +1,6 @@
 #pragma once
+#include "cb/cb_define.h"
+#include "cb/stream/cb_read_only_span.h"
 #include <algorithm>
 #include <cstdint>
 #include <stdint.h>
@@ -14,12 +16,14 @@ namespace cb
 		/// @return
 		///
 		template <typename ReturnType>
-		ReturnType FromBytes(uint8_t const *buffer)
+		ReturnType FromBytes(cb::ReadOnlySpan const &span)
 		{
+			__cb_assert(span.Size() == static_cast<int64_t>(sizeof(ReturnType)), "传入的 span 太小。");
+
 			ReturnType ret;
 
-			std::copy(buffer,
-					  buffer + sizeof(ret),
+			std::copy(span.Buffer(),
+					  span.Buffer() + sizeof(ret),
 					  reinterpret_cast<uint8_t *>(&ret));
 
 			return ret;
