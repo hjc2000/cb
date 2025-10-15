@@ -26,29 +26,35 @@ extern "C"
 
 	void cb_assert_block();
 
+	#ifdef __use_cb_assert_print
+		#define __cb_assert_print(...) fprintf(__VA_ARGS__)
+	#else
+		#define __cb_assert_print(...) ((void)0)
+	#endif
+
 	///
 	/// @brief 断言
 	///
 	/// @param x 断言条件。
 	/// @param message 断言失败时打印的消息。
 	///
-	#define __cb_assert(x, message)          \
-		do                                   \
-		{                                    \
-			if (!(x))                        \
-			{                                \
-				fprintf(stderr,              \
-						"%s, LINE %d, %s\n", \
-						__FILE__,            \
-						__LINE__,            \
-						(message));          \
-                                             \
-				cb_assert_block();           \
-			}                                \
+	#define __cb_assert(x, message)                    \
+		do                                             \
+		{                                              \
+			if (!(x))                                  \
+			{                                          \
+				__cb_assert_print(stderr,              \
+								  "%s, LINE %d, %s\n", \
+								  __FILE__,            \
+								  __LINE__,            \
+								  (message));          \
+                                                       \
+				cb_assert_block();                     \
+			}                                          \
 		} while (false)
 
 #else
-	#define __cb_assert(x, message)
+	#define __cb_assert(x, message) ((void)0)
 #endif
 
 #ifdef __cplusplus
