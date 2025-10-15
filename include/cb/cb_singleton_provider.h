@@ -15,11 +15,8 @@ namespace cb
 		{
 			if (!_initialized)
 			{
-				if (!_initialized)
-				{
-					new (_instance_buffer) T{};
-					_initialized = true;
-				}
+				new (_instance_buffer) T{};
+				_initialized = true;
 			}
 
 			return *reinterpret_cast<T *>(_instance_buffer);
