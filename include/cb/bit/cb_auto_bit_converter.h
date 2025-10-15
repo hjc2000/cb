@@ -1,6 +1,7 @@
 #pragma once
 #include "cb/bit/cb_endian.h"
 #include "cb/stream/cb_read_only_span.h"
+#include "cb/stream/cb_span.h"
 #include "cb_bit_converter.h"
 #include <algorithm>
 #include <stdbool.h>
@@ -29,7 +30,7 @@ namespace cb
 		///
 		/// @note 会自动根据本机字节序和远端字节序进行字节序转换。
 		///
-		/// @param buffer
+		/// @param span
 		/// @return
 		///
 		template <typename ReturnType>
@@ -52,17 +53,17 @@ namespace cb
 		/// @note 会自动根据本机字节序和远端字节序进行字节序转换。
 		///
 		/// @param value
-		/// @param out_buffer
+		/// @param span
 		/// @return
 		///
 		template <typename ValueType>
-		void GetBytes(ValueType value, uint8_t *out_buffer) const
+		void GetBytes(ValueType value, cb::Span const &span) const
 		{
-			cb::bit_converter::GetBytes<ValueType>(value, out_buffer);
+			cb::bit_converter::GetBytes<ValueType>(value, span);
 
 			if (ShouldReverse())
 			{
-				std::reverse(out_buffer, out_buffer + sizeof(ValueType));
+				std::reverse(span.Buffer(), span.Buffer() + sizeof(ValueType));
 			}
 		}
 	};
