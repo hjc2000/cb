@@ -6,7 +6,6 @@ namespace cb
 	///
 	/// @brief 表示范围。是个左闭右开区间。
 	///
-	///
 	class Range
 	{
 	private:
