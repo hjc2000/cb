@@ -26,7 +26,7 @@ extern "C"
 
 	void cb_assert_block();
 
-	#ifdef __use_cb_assert_print
+	#ifdef __cb_use_assert_print
 		#define __cb_assert_print(...) fprintf(__VA_ARGS__)
 	#else
 		#define __cb_assert_print(...) ((void)0)
