@@ -15,35 +15,35 @@ namespace cb
 		T _current_output = 0;
 
 	public:
-		constexpr FeedbackInertialElement(T const &k_error,
-										  T const &feedback_div)
+		FeedbackInertialElement(T const &k_error,
+								T const &feedback_div)
 		{
 			_k_error = k_error;
 			_feedback_div = feedback_div;
 		}
 
-		constexpr T KError() const
+		T KError() const
 		{
 			return _k_error;
 		}
 
-		constexpr void SetKError(T value)
+		void SetKError(T value)
 		{
 			_k_error = value;
 		}
 
-		constexpr T FeedbackDiv() const
+		T FeedbackDiv() const
 		{
 			return _feedback_div;
 		}
 
-		constexpr void SetFeedbackDiv(T value)
+		void SetFeedbackDiv(T value)
 		{
 			_feedback_div = value;
 		}
 
-		constexpr void ChangeParameter(T const &k_error,
-									   T const &feedback_div)
+		void ChangeParameter(T const &k_error,
+							 T const &feedback_div)
 		{
 			_k_error = k_error.Value();
 			_feedback_div = feedback_div.Value();
@@ -56,7 +56,7 @@ namespace cb
 		///
 		/// @return
 		///
-		constexpr T Input(T x)
+		T Input(T x)
 		{
 			T error = x - Feedback();
 			_current_output += error * _k_error;
@@ -68,7 +68,7 @@ namespace cb
 		///
 		/// @return
 		///
-		constexpr T Feedback() const
+		T Feedback() const
 		{
 			return _current_output / _feedback_div;
 		}
@@ -80,7 +80,7 @@ namespace cb
 		///
 		/// @return
 		///
-		constexpr void SetFeedback(T value)
+		void SetFeedback(T value)
 		{
 			_current_output = value * _feedback_div;
 		}
@@ -92,7 +92,7 @@ namespace cb
 		///
 		/// @return
 		///
-		constexpr T TimeConstant(T sample_interval)
+		T TimeConstant(T sample_interval)
 		{
 			//
 			// 		k_error = (sample_interval * k) / T1
