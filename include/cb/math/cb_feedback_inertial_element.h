@@ -15,8 +15,7 @@ namespace cb
 		T _current_output = 0;
 
 	public:
-		FeedbackInertialElement(T const &k_error,
-								T const &feedback_div)
+		FeedbackInertialElement(T const &k_error, T const &feedback_div)
 		{
 			_k_error = k_error;
 			_feedback_div = feedback_div;
@@ -42,8 +41,7 @@ namespace cb
 			_feedback_div = value;
 		}
 
-		void ChangeParameter(T const &k_error,
-							 T const &feedback_div)
+		void ChangeParameter(T const &k_error, T const &feedback_div)
 		{
 			_k_error = k_error.Value();
 			_feedback_div = feedback_div.Value();
