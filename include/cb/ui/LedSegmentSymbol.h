@@ -17,7 +17,14 @@ namespace cb
 		Number_7,
 		Number_8,
 		Number_9,
+
+		///
+		/// @brief 小数点。
+		///
+		/// @note 7 段数码管没有小数点。8 段数码管才有。
+		///
 		DigitalDot,
+
 		A,
 		B,
 		C,
@@ -62,6 +69,21 @@ namespace cb
 		/// @brief 位于下方的横杠。
 		///
 		LowerDash,
+
+		///
+		/// @brief 位于上方的 2 条横杠。
+		///
+		UpperTwoDash,
+
+		///
+		/// @brief 位于下方的 2 条横杠。
+		///
+		LowerTwoDash,
+
+		///
+		/// @brief 3 条横杠。
+		///
+		ThreeDash,
 	};
 
 } // namespace cb
