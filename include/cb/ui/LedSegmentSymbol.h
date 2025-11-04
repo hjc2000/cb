@@ -12,7 +12,12 @@ namespace cb
 		Number_2,
 		Number_3,
 		Number_4,
-		Number_5,
+
+		///
+		/// @brief 数字 5 或大写字母 S.
+		///
+		Number_5_or_S,
+
 		Number_6,
 		Number_7,
 		Number_8,
@@ -42,12 +47,9 @@ namespace cb
 		P,
 		q,
 		r,
-		S,
 		t,
-		U,
-		u,
-		V,
-		v,
+		U_or_V,
+		u_or_v,
 		y,
 
 		///
