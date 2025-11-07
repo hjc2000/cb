@@ -136,6 +136,7 @@ namespace base
 
 		///
 		/// @brief 向下取整
+		///
 		/// @return
 		///
 		constexpr int64_t Floor() const
@@ -321,6 +322,7 @@ namespace base
 
 		///
 		/// @brief 将分数转化为字符串
+		///
 		/// @return
 		///
 		std::string ToString() const
