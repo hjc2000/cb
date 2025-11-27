@@ -11,7 +11,7 @@
 int main()
 {
 	constexpr uint64_t factor = static_cast<uint64_t>(1) << 30;
-	cb::Int64Fraction f1 = static_cast<int64_t>(cb::Int64Fraction{100, 3000} * factor);
+	cb::Int64Fraction f1 = static_cast<int64_t>(cb::Int64Fraction{100, -3000} * factor);
 	std::cout << "f1 = " << f1.ToString() << std::endl;
 
 	f1 *= 3000;
