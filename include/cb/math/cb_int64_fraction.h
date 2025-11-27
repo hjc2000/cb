@@ -45,12 +45,12 @@ namespace cb
 			if (num == 0)
 			{
 				_den = 1;
+				return;
 			}
-			else
-			{
-				_den = den;
-				Simplify();
-			}
+
+			__cb_assert(den != 0, "分母不能为 0.");
+			_den = den;
+			Simplify();
 		}
 
 		/* #endregion */
