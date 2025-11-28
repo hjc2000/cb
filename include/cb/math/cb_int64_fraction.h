@@ -92,20 +92,20 @@ namespace cb
 				return;
 			}
 
-			// 分子分母同时除以最大公约数
-			int64_t gcd_value = std::gcd(_num, _den);
-			int64_t scaled_num = _num / gcd_value;
-			int64_t scaled_den = _den / gcd_value;
+			// // 分子分母同时除以最大公约数
+			// int64_t gcd_value = std::gcd(_num, _den);
+			// int64_t scaled_num = _num / gcd_value;
+			// int64_t scaled_den = _den / gcd_value;
 
-			if (scaled_den < 0)
-			{
-				// 如果分母小于 0，分子分母同时取相反数，保证分母为正。
-				scaled_num = -scaled_num;
-				scaled_den = -scaled_den;
-			}
+			// if (scaled_den < 0)
+			// {
+			// 	// 如果分母小于 0，分子分母同时取相反数，保证分母为正。
+			// 	scaled_num = -scaled_num;
+			// 	scaled_den = -scaled_den;
+			// }
 
-			_num = scaled_num;
-			_den = scaled_den;
+			// _num = scaled_num;
+			// _den = scaled_den;
 		}
 
 		///
