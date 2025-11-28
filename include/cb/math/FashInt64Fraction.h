@@ -14,7 +14,6 @@ namespace cb
 	private:
 		int64_t _num = 0;
 		int64_t _den = 1;
-		inline static bool _simplification_disabled = false;
 
 	public:
 		/* #region 构造函数 */
@@ -82,16 +81,6 @@ namespace cb
 
 		/* #region 计算函数 */
 
-		static bool SimplificationDisabled()
-		{
-			return _simplification_disabled;
-		}
-
-		static void SetSimplificationDisabled(bool value)
-		{
-			_simplification_disabled = value;
-		}
-
 		///
 		/// @brief 化简。
 		///
@@ -100,11 +89,6 @@ namespace cb
 			if (_num == 0)
 			{
 				_den = 1;
-				return;
-			}
-
-			if (_simplification_disabled)
-			{
 				return;
 			}
 
