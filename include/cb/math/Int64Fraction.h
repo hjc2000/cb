@@ -14,7 +14,6 @@ namespace cb
 	private:
 		int64_t _num = 0;
 		int64_t _den = 1;
-		inline static bool _simplification_disabled = false;
 
 	public:
 		/* #region 构造函数 */
@@ -22,14 +21,14 @@ namespace cb
 		///
 		/// @brief 默认构造，分子为 0，分母为 1.
 		///
-		Int64Fraction() = default;
+		constexpr Int64Fraction() = default;
 
 		///
 		/// @brief 从整型值构造。分子为 num, 分母为 1.
 		///
 		/// @param num 分子。
 		///
-		Int64Fraction(int64_t int_num)
+		constexpr Int64Fraction(int64_t int_num)
 		{
 			_num = int_num;
 			_den = 1;
@@ -40,7 +39,7 @@ namespace cb
 		/// @param num 分子
 		/// @param den 分母
 		///
-		Int64Fraction(int64_t num, int64_t den)
+		constexpr Int64Fraction(int64_t num, int64_t den)
 		{
 			_num = num;
 			if (num == 0)
@@ -63,7 +62,7 @@ namespace cb
 		///
 		/// @return
 		///
-		int64_t Num() const
+		constexpr int64_t Num() const
 		{
 			return _num;
 		}
@@ -73,7 +72,7 @@ namespace cb
 		///
 		/// @return
 		///
-		int64_t Den() const
+		constexpr int64_t Den() const
 		{
 			return _den;
 		}
@@ -82,29 +81,14 @@ namespace cb
 
 		/* #region 计算函数 */
 
-		static bool SimplificationDisabled()
-		{
-			return _simplification_disabled;
-		}
-
-		static void SetSimplificationDisabled(bool value)
-		{
-			_simplification_disabled = value;
-		}
-
 		///
 		/// @brief 化简。
 		///
-		void Simplify()
+		constexpr void Simplify()
 		{
 			if (_num == 0)
 			{
 				_den = 1;
-				return;
-			}
-
-			if (_simplification_disabled)
-			{
 				return;
 			}
 
@@ -129,7 +113,7 @@ namespace cb
 		///
 		/// @return
 		///
-		Int64Fraction Reciprocal() const
+		constexpr Int64Fraction Reciprocal() const
 		{
 			cb::Int64Fraction ret{_den, _num};
 			return ret;
@@ -140,7 +124,7 @@ namespace cb
 		///
 		/// @return
 		///
-		Int64Fraction Abs() const
+		constexpr Int64Fraction Abs() const
 		{
 			if (*this < 0)
 			{
@@ -155,7 +139,7 @@ namespace cb
 		///
 		/// @return
 		///
-		int64_t Floor() const
+		constexpr int64_t Floor() const
 		{
 			int64_t ret = Div();
 			if (*this < 0)
@@ -180,7 +164,7 @@ namespace cb
 		/// @brief 向上取整
 		/// @return
 		///
-		int64_t Ceil() const
+		constexpr int64_t Ceil() const
 		{
 			int64_t ret = Div();
 			if (*this > 0)
@@ -198,7 +182,7 @@ namespace cb
 		/// @brief 获取分子除以分母的值
 		/// @return
 		///
-		int64_t Div() const
+		constexpr int64_t Div() const
 		{
 			return _num / _den;
 		}
@@ -207,7 +191,7 @@ namespace cb
 		/// @brief 获取分子除以分母的余数
 		/// @return
 		///
-		int64_t Mod() const
+		constexpr int64_t Mod() const
 		{
 			return _num % _den;
 		}
@@ -217,7 +201,7 @@ namespace cb
 		///
 		/// @param resolution
 		///
-		void ReduceResolution(cb::Int64Fraction const &resolution)
+		constexpr void ReduceResolution(cb::Int64Fraction const &resolution)
 		{
 			__cb_assert(resolution > 0, "分辨率不能 <= 0.");
 
@@ -259,7 +243,7 @@ namespace cb
 
 		/* #endregion */
 
-		Int64Fraction operator-() const
+		constexpr Int64Fraction operator-() const
 		{
 			Int64Fraction ret{-_num, _den};
 			return ret;
@@ -267,7 +251,7 @@ namespace cb
 
 		/* #region 四则运算符 */
 
-		Int64Fraction operator+(Int64Fraction const &value) const
+		constexpr Int64Fraction operator+(Int64Fraction const &value) const
 		{
 			// 通分后的分母为本对象的分母和 value 的分母的最小公倍数
 			int64_t scaled_den = cb::lcm(_den, value.Den());
@@ -284,13 +268,13 @@ namespace cb
 			return ret;
 		}
 
-		Int64Fraction operator-(Int64Fraction const &value) const
+		constexpr Int64Fraction operator-(Int64Fraction const &value) const
 		{
 			Int64Fraction ret = *this + (-value);
 			return ret;
 		}
 
-		Int64Fraction operator*(Int64Fraction const &value) const
+		constexpr Int64Fraction operator*(Int64Fraction const &value) const
 		{
 			cb::Int64Fraction ret{
 				_num * value.Num(),
@@ -300,7 +284,7 @@ namespace cb
 			return ret;
 		}
 
-		Int64Fraction operator/(Int64Fraction const &value) const
+		constexpr Int64Fraction operator/(Int64Fraction const &value) const
 		{
 			Int64Fraction ret{*this * value.Reciprocal()};
 			return ret;
@@ -310,25 +294,25 @@ namespace cb
 
 		/* #region 自改变四则运算符 */
 
-		Int64Fraction &operator+=(Int64Fraction const &value)
+		constexpr Int64Fraction &operator+=(Int64Fraction const &value)
 		{
 			*this = *this + value;
 			return *this;
 		}
 
-		Int64Fraction &operator-=(Int64Fraction const &value)
+		constexpr Int64Fraction &operator-=(Int64Fraction const &value)
 		{
 			*this = *this - value;
 			return *this;
 		}
 
-		Int64Fraction &operator*=(Int64Fraction const &value)
+		constexpr Int64Fraction &operator*=(Int64Fraction const &value)
 		{
 			*this = *this * value;
 			return *this;
 		}
 
-		Int64Fraction &operator/=(Int64Fraction const &value)
+		constexpr Int64Fraction &operator/=(Int64Fraction const &value)
 		{
 			*this = *this / value;
 			return *this;
@@ -348,47 +332,47 @@ namespace cb
 
 		/* #region 强制转换运算符 */
 
-		explicit operator int64_t() const
+		constexpr explicit operator int64_t() const
 		{
 			return Div();
 		}
 
-		explicit operator uint64_t() const
+		constexpr explicit operator uint64_t() const
 		{
 			return static_cast<uint64_t>(Div());
 		}
 
-		explicit operator int32_t() const
+		constexpr explicit operator int32_t() const
 		{
 			return static_cast<int32_t>(Div());
 		}
 
-		explicit operator uint32_t() const
+		constexpr explicit operator uint32_t() const
 		{
 			return static_cast<uint32_t>(Div());
 		}
 
-		explicit operator int16_t() const
+		constexpr explicit operator int16_t() const
 		{
 			return static_cast<int16_t>(Div());
 		}
 
-		explicit operator uint16_t() const
+		constexpr explicit operator uint16_t() const
 		{
 			return static_cast<uint16_t>(Div());
 		}
 
-		explicit operator int8_t() const
+		constexpr explicit operator int8_t() const
 		{
 			return static_cast<int8_t>(Div());
 		}
 
-		explicit operator uint8_t() const
+		constexpr explicit operator uint8_t() const
 		{
 			return static_cast<uint8_t>(Div());
 		}
 
-		explicit operator double() const
+		constexpr explicit operator double() const
 		{
 			cb::Int64Fraction copy{*this};
 			double int_part = static_cast<double>(copy.Div());
@@ -397,7 +381,7 @@ namespace cb
 			return int_part + fraction_part;
 		}
 
-		explicit operator float() const
+		constexpr explicit operator float() const
 		{
 			cb::Int64Fraction copy{*this};
 			float int_part = static_cast<float>(copy.Div());
@@ -415,20 +399,8 @@ namespace cb
 		/// @param another
 		/// @return
 		///
-		bool operator==(Int64Fraction const &another) const
+		constexpr bool operator==(Int64Fraction const &another) const
 		{
-			if (_simplification_disabled)
-			{
-				if (Num() == 0 && another.Num() == 0)
-				{
-					// 2 个分子都为 0 直接返回相等，这样更加安全，避免分子都为 0
-					// 分母不相等时错误地将两个分数判断为不相等。
-					return true;
-				}
-
-				return Num() * another.Den() == another.Num() * Den();
-			}
-
 			if (Num() == 0 && another.Num() == 0)
 			{
 				// 2 个分子都为 0 直接返回相等，这样更加安全，避免分子都为 0
@@ -444,7 +416,7 @@ namespace cb
 		/// @param another
 		/// @return
 		///
-		bool operator>(Int64Fraction const &another) const
+		constexpr bool operator>(Int64Fraction const &another) const
 		{
 			return Num() * another.Den() > another.Num() * Den();
 		}
@@ -454,7 +426,7 @@ namespace cb
 		/// @param another
 		/// @return
 		///
-		bool operator<(Int64Fraction const &another) const
+		constexpr bool operator<(Int64Fraction const &another) const
 		{
 			return Num() * another.Den() < another.Num() * Den();
 		}
@@ -466,7 +438,7 @@ namespace cb
 		///
 		/// @return
 		///
-		bool operator>=(Int64Fraction const &another) const
+		constexpr bool operator>=(Int64Fraction const &another) const
 		{
 			if (*this == another)
 			{
@@ -488,7 +460,7 @@ namespace cb
 		///
 		/// @return
 		///
-		bool operator<=(Int64Fraction const &another) const
+		constexpr bool operator<=(Int64Fraction const &another) const
 		{
 			if (*this == another)
 			{
@@ -512,7 +484,7 @@ namespace cb
 	/// @param value
 	/// @return
 	///
-	inline cb::Int64Fraction abs(cb::Int64Fraction const &value)
+	constexpr cb::Int64Fraction abs(cb::Int64Fraction const &value)
 	{
 		return value.Abs();
 	}
@@ -524,7 +496,7 @@ namespace cb
 	///
 	/// @return
 	///
-	inline int64_t floor(cb::Int64Fraction const &value)
+	constexpr int64_t floor(cb::Int64Fraction const &value)
 	{
 		return value.Floor();
 	}
@@ -536,7 +508,7 @@ namespace cb
 	///
 	/// @return
 	///
-	inline int64_t ceil(cb::Int64Fraction const &value)
+	constexpr int64_t ceil(cb::Int64Fraction const &value)
 	{
 		return value.Ceil();
 	}
@@ -546,8 +518,8 @@ namespace cb
 	///
 	/// @return 降低分辨率后的值。
 	///
-	inline cb::Int64Fraction reduce_resolution(cb::Int64Fraction const &value,
-											   cb::Int64Fraction const &resolution)
+	constexpr cb::Int64Fraction reduce_resolution(cb::Int64Fraction const &value,
+												  cb::Int64Fraction const &resolution)
 	{
 		cb::Int64Fraction copy = value;
 		copy.ReduceResolution(resolution);
