@@ -445,17 +445,7 @@ namespace cb
 		///
 		constexpr bool operator>=(FashInt64Fraction const &another) const
 		{
-			if (*this == another)
-			{
-				return true;
-			}
-
-			if (*this > another)
-			{
-				return true;
-			}
-
-			return false;
+			return Num() * another.Den() >= another.Num() * Den();
 		}
 
 		///
@@ -467,17 +457,7 @@ namespace cb
 		///
 		constexpr bool operator<=(FashInt64Fraction const &another) const
 		{
-			if (*this == another)
-			{
-				return true;
-			}
-
-			if (*this < another)
-			{
-				return true;
-			}
-
-			return false;
+			return Num() * another.Den() <= another.Num() * Den();
 		}
 
 		/* #endregion */
