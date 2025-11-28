@@ -401,13 +401,6 @@ namespace cb
 		///
 		constexpr bool operator==(Int64Fraction const &another) const
 		{
-			if (Num() == 0 && another.Num() == 0)
-			{
-				// 2 个分子都为 0 直接返回相等，这样更加安全，避免分子都为 0
-				// 分母不相等时错误地将两个分数判断为不相等。
-				return true;
-			}
-
 			return Num() == another.Num() && Den() == another.Den();
 		}
 
