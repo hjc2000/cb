@@ -1,6 +1,6 @@
 #include "base/string/define.h"
 #include "base/string/ToHexString.h"
-#include "cb/math/cb_int64_fraction.h"
+#include "cb/math/Int64Fraction.h"
 #include <cstdint>
 #include <iostream>
 
