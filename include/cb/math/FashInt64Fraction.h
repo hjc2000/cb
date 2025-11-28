@@ -50,7 +50,6 @@ namespace cb
 
 			__cb_assert(den != 0, "分母不能为 0.");
 			_den = den;
-			Simplify();
 		}
 
 		/* #endregion */
@@ -237,8 +236,6 @@ namespace cb
 					_num = _num / div * div;
 				}
 			}
-
-			Simplify();
 		}
 
 		/* #endregion */
