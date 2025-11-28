@@ -25,6 +25,12 @@ namespace cb
 				_den = 1;
 				return;
 			}
+
+			if (_den < 0)
+			{
+				_num = -_num;
+				_den = -_den;
+			}
 		}
 
 	public:
