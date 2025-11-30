@@ -219,7 +219,8 @@ namespace cb
 
 			if (_den >= resolution_copy._den)
 			{
-				// 本分数的分母比 resolution_copy 的分母大，说明本分数的分辨率大于 resolution_copy.
+				// 本分数的分母比 resolution_copy 的分母大，说明本分数的分辨率大于
+				// resolution_copy.
 				//
 				// 首先需要减小本分数的分母，将分辨率降下来。分子分母同时除以一个系数进行截断，
 				// 从而降低分辨率。
@@ -229,18 +230,19 @@ namespace cb
 				_num /= multiple;
 				_den /= multiple;
 
-				// 如果 resolution_copy._num > 1, 则还不够，刚才的分辨率降低到 1 / resolution_copy._den 了，
-				// 还要继续降低。
+				// 如果 resolution_copy._num > 1, 则还不够，刚才的分辨率降低到
+				// 1 / resolution_copy._den 了，还要继续降低。
 				_num = _num / resolution_copy._num * resolution_copy._num;
 			}
 			else
 			{
-				// 本分数的分母比 resolution_copy 的分母小。但这不能说明本分数的分辨率小于 resolution_copy,
-				// 因为 resolution_copy 的分子可能较大。
+				// 本分数的分母比 resolution_copy 的分母小。但这不能说明本分数的分辨率小于
+				// resolution_copy, 因为 resolution_copy 的分子可能较大。
 				//
-				// 将 resolution_copy 的分子分母同时除以一个系数，将 resolution_copy 的分母调整到与本分数的分母
-				// 相等，然后看一下调整后的 resolution_copy 的分子，如果不等于 0, 即没有被截断成 0, 说明原本的
-				// 分子确实较大，大到足以放大 resolution_copy 的大分母所导致的小步长，导致步长很大，分辨率低。
+				// 将 resolution_copy 的分子分母同时除以一个系数，将 resolution_copy
+				// 的分母调整到与本分数的分母相等，然后看一下调整后的 resolution_copy 的分子，
+				// 如果不等于 0, 即没有被截断成 0, 说明原本的分子确实较大，大到足以放大
+				// resolution_copy 的大分母所导致的小步长，导致步长很大，分辨率低。
 				// 这种情况下本分数的分辨率才是高于 resolution_copy, 才需要降低分辨率。
 				int64_t multiple = resolution_copy._den / _den;
 				int64_t div = resolution_copy._num / multiple;
