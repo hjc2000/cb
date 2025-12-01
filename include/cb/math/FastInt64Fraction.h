@@ -9,7 +9,7 @@ namespace cb
 	///
 	/// @brief 分数类
 	///
-	class FashInt64Fraction final
+	class FastInt64Fraction final
 	{
 	private:
 		int64_t _num = 0;
@@ -21,14 +21,14 @@ namespace cb
 		///
 		/// @brief 默认构造，分子为 0，分母为 1.
 		///
-		constexpr FashInt64Fraction() = default;
+		constexpr FastInt64Fraction() = default;
 
 		///
 		/// @brief 从整型值构造。分子为 num, 分母为 1.
 		///
 		/// @param num 分子。
 		///
-		constexpr FashInt64Fraction(int64_t int_num)
+		constexpr FastInt64Fraction(int64_t int_num)
 		{
 			_num = int_num;
 			_den = 1;
@@ -39,7 +39,7 @@ namespace cb
 		/// @param num 分子
 		/// @param den 分母
 		///
-		constexpr FashInt64Fraction(int64_t num, int64_t den)
+		constexpr FastInt64Fraction(int64_t num, int64_t den)
 		{
 			_num = num;
 			if (num == 0)
@@ -109,9 +109,9 @@ namespace cb
 		///
 		/// @return
 		///
-		constexpr FashInt64Fraction Reciprocal() const
+		constexpr FastInt64Fraction Reciprocal() const
 		{
-			cb::FashInt64Fraction ret{_den, _num};
+			cb::FastInt64Fraction ret{_den, _num};
 			return ret;
 		}
 
@@ -120,7 +120,7 @@ namespace cb
 		///
 		/// @return
 		///
-		constexpr FashInt64Fraction Abs() const
+		constexpr FastInt64Fraction Abs() const
 		{
 			if (*this < 0)
 			{
@@ -197,7 +197,7 @@ namespace cb
 		///
 		/// @param resolution
 		///
-		constexpr void ReduceResolution(cb::FashInt64Fraction const &resolution)
+		constexpr void ReduceResolution(cb::FastInt64Fraction const &resolution)
 		{
 			__cb_assert(resolution > 0, "分辨率不能 <= 0.");
 
@@ -209,7 +209,7 @@ namespace cb
 				_den = -_den;
 			}
 
-			cb::FashInt64Fraction resolution_copy = resolution;
+			cb::FastInt64Fraction resolution_copy = resolution;
 			if (resolution_copy._den < 0)
 			{
 				resolution_copy._num = -resolution_copy._num;
@@ -254,16 +254,32 @@ namespace cb
 
 		/* #endregion */
 
-		constexpr FashInt64Fraction operator-() const
+		constexpr FastInt64Fraction operator-() const
 		{
-			FashInt64Fraction ret{-_num, _den};
+			FastInt64Fraction ret{-_num, _den};
 			return ret;
 		}
 
 		/* #region 四则运算符 */
 
-		constexpr FashInt64Fraction operator+(FashInt64Fraction const &value) const
+		constexpr FastInt64Fraction operator+(FastInt64Fraction const &value) const
 		{
+			if (INT64_MAX / cb::abs(_den) > cb::abs(value.Den()))
+			{
+				// 不会溢出就执行快速加法，不执行缓慢的 lcm 了，直接用两个分母的积通分。
+				int64_t scaled_den = _den * value.Den();
+
+				int64_t scaled_num1 = _num * value.Den();
+				int64_t scaled_num2 = value.Num() * _den;
+
+				FastInt64Fraction ret{
+					scaled_num1 + scaled_num2,
+					scaled_den,
+				};
+
+				return ret;
+			}
+
 			// 通分后的分母为本对象的分母和 value 的分母的最小公倍数
 			int64_t scaled_den = cb::lcm(_den, value.Den());
 
@@ -271,7 +287,7 @@ namespace cb
 			int64_t scaled_num1 = _num * (scaled_den / _den);
 			int64_t scaled_num2 = value.Num() * (scaled_den / value.Den());
 
-			FashInt64Fraction ret{
+			FastInt64Fraction ret{
 				scaled_num1 + scaled_num2,
 				scaled_den,
 			};
@@ -279,15 +295,15 @@ namespace cb
 			return ret;
 		}
 
-		constexpr FashInt64Fraction operator-(FashInt64Fraction const &value) const
+		constexpr FastInt64Fraction operator-(FastInt64Fraction const &value) const
 		{
-			FashInt64Fraction ret = *this + (-value);
+			FastInt64Fraction ret = *this + (-value);
 			return ret;
 		}
 
-		constexpr FashInt64Fraction operator*(FashInt64Fraction const &value) const
+		constexpr FastInt64Fraction operator*(FastInt64Fraction const &value) const
 		{
-			cb::FashInt64Fraction ret{
+			cb::FastInt64Fraction ret{
 				_num * value.Num(),
 				_den * value.Den(),
 			};
@@ -295,9 +311,9 @@ namespace cb
 			return ret;
 		}
 
-		constexpr FashInt64Fraction operator/(FashInt64Fraction const &value) const
+		constexpr FastInt64Fraction operator/(FastInt64Fraction const &value) const
 		{
-			FashInt64Fraction ret{*this * value.Reciprocal()};
+			FastInt64Fraction ret{*this * value.Reciprocal()};
 			return ret;
 		}
 
@@ -305,25 +321,25 @@ namespace cb
 
 		/* #region 自改变四则运算符 */
 
-		constexpr FashInt64Fraction &operator+=(FashInt64Fraction const &value)
+		constexpr FastInt64Fraction &operator+=(FastInt64Fraction const &value)
 		{
 			*this = *this + value;
 			return *this;
 		}
 
-		constexpr FashInt64Fraction &operator-=(FashInt64Fraction const &value)
+		constexpr FastInt64Fraction &operator-=(FastInt64Fraction const &value)
 		{
 			*this = *this - value;
 			return *this;
 		}
 
-		constexpr FashInt64Fraction &operator*=(FashInt64Fraction const &value)
+		constexpr FastInt64Fraction &operator*=(FastInt64Fraction const &value)
 		{
 			*this = *this * value;
 			return *this;
 		}
 
-		constexpr FashInt64Fraction &operator/=(FashInt64Fraction const &value)
+		constexpr FastInt64Fraction &operator/=(FastInt64Fraction const &value)
 		{
 			*this = *this / value;
 			return *this;
@@ -385,7 +401,7 @@ namespace cb
 
 		constexpr explicit operator double() const
 		{
-			cb::FashInt64Fraction copy{*this};
+			cb::FastInt64Fraction copy{*this};
 			double int_part = static_cast<double>(copy.Div());
 			copy -= copy.Div();
 			double fraction_part = static_cast<double>(copy.Num()) / static_cast<double>(copy.Den());
@@ -394,7 +410,7 @@ namespace cb
 
 		constexpr explicit operator float() const
 		{
-			cb::FashInt64Fraction copy{*this};
+			cb::FastInt64Fraction copy{*this};
 			float int_part = static_cast<float>(copy.Div());
 			copy -= copy.Div();
 			float fraction_part = static_cast<float>(copy.Num()) / static_cast<float>(copy.Den());
@@ -410,7 +426,7 @@ namespace cb
 		/// @param another
 		/// @return
 		///
-		constexpr bool operator==(FashInt64Fraction const &another) const
+		constexpr bool operator==(FastInt64Fraction const &another) const
 		{
 			return Num() * another.Den() == another.Num() * Den();
 		}
@@ -420,7 +436,7 @@ namespace cb
 		/// @param another
 		/// @return
 		///
-		constexpr bool operator>(FashInt64Fraction const &another) const
+		constexpr bool operator>(FastInt64Fraction const &another) const
 		{
 			return Num() * another.Den() > another.Num() * Den();
 		}
@@ -430,7 +446,7 @@ namespace cb
 		/// @param another
 		/// @return
 		///
-		constexpr bool operator<(FashInt64Fraction const &another) const
+		constexpr bool operator<(FastInt64Fraction const &another) const
 		{
 			return Num() * another.Den() < another.Num() * Den();
 		}
@@ -442,7 +458,7 @@ namespace cb
 		///
 		/// @return
 		///
-		constexpr bool operator>=(FashInt64Fraction const &another) const
+		constexpr bool operator>=(FastInt64Fraction const &another) const
 		{
 			return Num() * another.Den() >= another.Num() * Den();
 		}
@@ -454,7 +470,7 @@ namespace cb
 		///
 		/// @return
 		///
-		constexpr bool operator<=(FashInt64Fraction const &another) const
+		constexpr bool operator<=(FastInt64Fraction const &another) const
 		{
 			return Num() * another.Den() <= another.Num() * Den();
 		}
@@ -468,7 +484,7 @@ namespace cb
 	/// @param value
 	/// @return
 	///
-	constexpr cb::FashInt64Fraction abs(cb::FashInt64Fraction const &value)
+	constexpr cb::FastInt64Fraction abs(cb::FastInt64Fraction const &value)
 	{
 		return value.Abs();
 	}
@@ -480,7 +496,7 @@ namespace cb
 	///
 	/// @return
 	///
-	constexpr int64_t floor(cb::FashInt64Fraction const &value)
+	constexpr int64_t floor(cb::FastInt64Fraction const &value)
 	{
 		return value.Floor();
 	}
@@ -492,7 +508,7 @@ namespace cb
 	///
 	/// @return
 	///
-	constexpr int64_t ceil(cb::FashInt64Fraction const &value)
+	constexpr int64_t ceil(cb::FastInt64Fraction const &value)
 	{
 		return value.Ceil();
 	}
@@ -502,10 +518,10 @@ namespace cb
 	///
 	/// @return 降低分辨率后的值。
 	///
-	constexpr cb::FashInt64Fraction reduce_resolution(cb::FashInt64Fraction const &value,
-													  cb::FashInt64Fraction const &resolution)
+	constexpr cb::FastInt64Fraction reduce_resolution(cb::FastInt64Fraction const &value,
+													  cb::FastInt64Fraction const &resolution)
 	{
-		cb::FashInt64Fraction copy = value;
+		cb::FastInt64Fraction copy = value;
 		copy.ReduceResolution(resolution);
 		return copy;
 	}
@@ -522,9 +538,9 @@ namespace cb
 ///
 /// @return
 ///
-inline cb::FashInt64Fraction operator+(int64_t left, cb::FashInt64Fraction const &right)
+inline cb::FastInt64Fraction operator+(int64_t left, cb::FastInt64Fraction const &right)
 {
-	return cb::FashInt64Fraction{left} + right;
+	return cb::FastInt64Fraction{left} + right;
 }
 
 ///
@@ -535,9 +551,9 @@ inline cb::FashInt64Fraction operator+(int64_t left, cb::FashInt64Fraction const
 ///
 /// @return
 ///
-inline cb::FashInt64Fraction operator-(int64_t left, cb::FashInt64Fraction const &right)
+inline cb::FastInt64Fraction operator-(int64_t left, cb::FastInt64Fraction const &right)
 {
-	return cb::FashInt64Fraction{left} - right;
+	return cb::FastInt64Fraction{left} - right;
 }
 
 ///
@@ -548,9 +564,9 @@ inline cb::FashInt64Fraction operator-(int64_t left, cb::FashInt64Fraction const
 ///
 /// @return
 ///
-inline cb::FashInt64Fraction operator*(int64_t left, cb::FashInt64Fraction const &right)
+inline cb::FastInt64Fraction operator*(int64_t left, cb::FastInt64Fraction const &right)
 {
-	return cb::FashInt64Fraction(left) * right;
+	return cb::FastInt64Fraction(left) * right;
 }
 
 ///
@@ -561,9 +577,9 @@ inline cb::FashInt64Fraction operator*(int64_t left, cb::FashInt64Fraction const
 ///
 /// @return
 ///
-inline cb::FashInt64Fraction operator/(int64_t left, cb::FashInt64Fraction const &right)
+inline cb::FastInt64Fraction operator/(int64_t left, cb::FastInt64Fraction const &right)
 {
-	return cb::FashInt64Fraction{left} / right;
+	return cb::FastInt64Fraction{left} / right;
 }
 
 /* #endregion */
