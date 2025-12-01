@@ -2,6 +2,7 @@
 #include "cb/cb_define.h"
 #include "cb/math/math.h"
 #include <cstdint>
+#include <limits>
 #include <string>
 
 namespace cb
@@ -276,7 +277,7 @@ namespace cb
 		///
 		constexpr FastInt64Fraction operator+(FastInt64Fraction const &value) const
 		{
-			if (INT64_MAX / cb::abs(_den) > cb::abs(value.Den()))
+			if (std::numeric_limits<int64_t>::max() / cb::abs(_den) > cb::abs(value.Den()))
 			{
 				// 不会溢出就执行快速加法，不执行缓慢的 lcm 了，直接用两个分母的积通分。
 				int64_t scaled_den = _den * value.Den();
