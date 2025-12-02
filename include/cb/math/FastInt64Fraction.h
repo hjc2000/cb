@@ -298,8 +298,9 @@ namespace cb
 
 		constexpr FastInt64Fraction operator/(FastInt64Fraction const &value) const
 		{
-			FastInt64Fraction ret{*this * value.Reciprocal()};
-			return ret;
+			cb::FastInt64Fraction copy{*this};
+			copy /= value;
+			return copy;
 		}
 
 		/* #endregion */
@@ -384,7 +385,7 @@ namespace cb
 
 		constexpr FastInt64Fraction &operator/=(FastInt64Fraction const &value)
 		{
-			*this = *this / value;
+			*this *= value.Reciprocal();
 			return *this;
 		}
 
