@@ -284,8 +284,9 @@ namespace cb
 
 		constexpr FastInt64Fraction operator-(FastInt64Fraction const &value) const
 		{
-			FastInt64Fraction ret = *this + (-value);
-			return ret;
+			cb::FastInt64Fraction copy{*this};
+			copy -= value;
+			return copy;
 		}
 
 		constexpr FastInt64Fraction operator*(FastInt64Fraction const &value) const
