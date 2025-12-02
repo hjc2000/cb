@@ -291,12 +291,9 @@ namespace cb
 
 		constexpr FastInt64Fraction operator*(FastInt64Fraction const &value) const
 		{
-			cb::FastInt64Fraction ret{
-				_num * value.Num(),
-				_den * value.Den(),
-			};
-
-			return ret;
+			cb::FastInt64Fraction copy{*this};
+			copy *= value;
+			return copy;
 		}
 
 		constexpr FastInt64Fraction operator/(FastInt64Fraction const &value) const
@@ -380,7 +377,8 @@ namespace cb
 
 		constexpr FastInt64Fraction &operator*=(FastInt64Fraction const &value)
 		{
-			*this = *this * value;
+			_num *= value.Num();
+			_den *= value.Den();
 			return *this;
 		}
 
