@@ -472,7 +472,27 @@ namespace cb
 		///
 		constexpr bool operator==(FastInt64Fraction const &another) const
 		{
-			return Num() * another.Den() == another.Num() * Den();
+			cb::FastInt64Fraction f1{*this};
+			cb::FastInt64Fraction f2{another};
+
+			if (f1.Den() == f2.Den())
+			{
+				return Num() == another.Num();
+			}
+
+			if (f1.Den() > f2.Den() && f1.Den() % f2.Den() == 0)
+			{
+				int64_t multiple = f1.Den() / f2.Den();
+				return f1.Num() == f2.Num() * multiple;
+			}
+
+			if (f2.Den() > f1.Den() && f2.Den() % f1.Den() == 0)
+			{
+				int64_t multiple = f2.Den() / f1.Den();
+				return f1.Num() * multiple == f2.Num();
+			}
+
+			return f1.Num() * f2.Den() == f2.Num() * f1.Den();
 		}
 
 		///
@@ -482,7 +502,27 @@ namespace cb
 		///
 		constexpr bool operator>(FastInt64Fraction const &another) const
 		{
-			return Num() * another.Den() > another.Num() * Den();
+			cb::FastInt64Fraction f1{*this};
+			cb::FastInt64Fraction f2{another};
+
+			if (f1.Den() == f2.Den())
+			{
+				return Num() > another.Num();
+			}
+
+			if (f1.Den() > f2.Den() && f1.Den() % f2.Den() == 0)
+			{
+				int64_t multiple = f1.Den() / f2.Den();
+				return f1.Num() > f2.Num() * multiple;
+			}
+
+			if (f2.Den() > f1.Den() && f2.Den() % f1.Den() == 0)
+			{
+				int64_t multiple = f2.Den() / f1.Den();
+				return f1.Num() * multiple > f2.Num();
+			}
+
+			return f1.Num() * f2.Den() > f2.Num() * f1.Den();
 		}
 
 		///
@@ -492,7 +532,27 @@ namespace cb
 		///
 		constexpr bool operator<(FastInt64Fraction const &another) const
 		{
-			return Num() * another.Den() < another.Num() * Den();
+			cb::FastInt64Fraction f1{*this};
+			cb::FastInt64Fraction f2{another};
+
+			if (f1.Den() == f2.Den())
+			{
+				return Num() < another.Num();
+			}
+
+			if (f1.Den() > f2.Den() && f1.Den() % f2.Den() == 0)
+			{
+				int64_t multiple = f1.Den() / f2.Den();
+				return f1.Num() < f2.Num() * multiple;
+			}
+
+			if (f2.Den() > f1.Den() && f2.Den() % f1.Den() == 0)
+			{
+				int64_t multiple = f2.Den() / f1.Den();
+				return f1.Num() * multiple < f2.Num();
+			}
+
+			return f1.Num() * f2.Den() < f2.Num() * f1.Den();
 		}
 
 		///
@@ -504,7 +564,27 @@ namespace cb
 		///
 		constexpr bool operator>=(FastInt64Fraction const &another) const
 		{
-			return Num() * another.Den() >= another.Num() * Den();
+			cb::FastInt64Fraction f1{*this};
+			cb::FastInt64Fraction f2{another};
+
+			if (f1.Den() == f2.Den())
+			{
+				return Num() >= another.Num();
+			}
+
+			if (f1.Den() > f2.Den() && f1.Den() % f2.Den() == 0)
+			{
+				int64_t multiple = f1.Den() / f2.Den();
+				return f1.Num() >= f2.Num() * multiple;
+			}
+
+			if (f2.Den() > f1.Den() && f2.Den() % f1.Den() == 0)
+			{
+				int64_t multiple = f2.Den() / f1.Den();
+				return f1.Num() * multiple >= f2.Num();
+			}
+
+			return f1.Num() * f2.Den() >= f2.Num() * f1.Den();
 		}
 
 		///
@@ -516,7 +596,27 @@ namespace cb
 		///
 		constexpr bool operator<=(FastInt64Fraction const &another) const
 		{
-			return Num() * another.Den() <= another.Num() * Den();
+			cb::FastInt64Fraction f1{*this};
+			cb::FastInt64Fraction f2{another};
+
+			if (f1.Den() == f2.Den())
+			{
+				return Num() <= another.Num();
+			}
+
+			if (f1.Den() > f2.Den() && f1.Den() % f2.Den() == 0)
+			{
+				int64_t multiple = f1.Den() / f2.Den();
+				return f1.Num() <= f2.Num() * multiple;
+			}
+
+			if (f2.Den() > f1.Den() && f2.Den() % f1.Den() == 0)
+			{
+				int64_t multiple = f2.Den() / f1.Den();
+				return f1.Num() * multiple <= f2.Num();
+			}
+
+			return f1.Num() * f2.Den() <= f2.Num() * f1.Den();
 		}
 
 		/* #endregion */
