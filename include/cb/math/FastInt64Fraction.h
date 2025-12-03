@@ -369,6 +369,33 @@ namespace cb
 				copyed_value._den = -copyed_value._den;
 			}
 
+			int64_t abs_num1 = cb::abs(_num);
+			int64_t abs_num2 = cb::abs(copyed_value.Num());
+
+			if (abs_num1 != 0 &&
+				abs_num2 != 0 &&
+				INT64_MAX / abs_num1 < abs_num2)
+			{
+				// _num *= copyed_value.Num() 会溢出，不能直接乘。
+				int64_t multiple = INT64_MAX / abs_num1;
+				_num *= multiple;
+				copyed_value._num /= multiple;
+
+				if (_den >= copyed_value.Den())
+				{
+					_num /= _den;
+					_num *= copyed_value.Num();
+					_den = copyed_value.Den();
+				}
+				else
+				{
+					_num /= copyed_value.Den();
+					_num *= copyed_value.Num();
+				}
+
+				return *this;
+			}
+
 			_num *= copyed_value.Num();
 			if (_den >= copyed_value.Den())
 			{
