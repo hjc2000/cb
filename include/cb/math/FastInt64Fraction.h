@@ -2,6 +2,7 @@
 #include "cb/cb_define.h"
 #include "cb/math/math.h"
 #include <cstdint>
+#include <limits>
 #include <string>
 
 namespace cb
@@ -374,10 +375,10 @@ namespace cb
 
 			if (abs_num1 != 0 &&
 				abs_num2 != 0 &&
-				INT64_MAX / abs_num1 < abs_num2)
+				std::numeric_limits<int64_t>::max() / abs_num1 < abs_num2)
 			{
 				// _num *= copyed_value.Num() 会溢出，不能直接乘。
-				int64_t multiple = INT64_MAX / abs_num1;
+				int64_t multiple = std::numeric_limits<int64_t>::max() / abs_num1;
 				_num *= multiple;
 				copyed_value._num /= multiple;
 
