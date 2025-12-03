@@ -382,6 +382,7 @@ namespace cb
 				_num *= multiple;
 				copyed_value._num /= multiple;
 
+				// 分子分母同时除以最大的分母，把最大的分母干掉。
 				if (_den >= copyed_value.Den())
 				{
 					_num /= _den;
