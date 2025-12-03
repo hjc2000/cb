@@ -228,7 +228,7 @@ namespace cb
 
 				// 首先将分辨率降低到 1 / resolution_copy._den.
 				_num /= multiple;
-				_den /= multiple;
+				_den = resolution_copy._den;
 
 				// 如果 resolution_copy._num > 1, 则还不够，刚才的分辨率降低到
 				// 1 / resolution_copy._den 了，还要继续降低。
