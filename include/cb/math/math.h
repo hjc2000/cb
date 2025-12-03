@@ -1,5 +1,9 @@
 #pragma once
 
+#include "cb/bit/cb_bit.h"
+#include <array>
+#include <cstdint>
+
 namespace cb
 {
 	///
@@ -107,6 +111,191 @@ namespace cb
 		}
 
 		return mul / gcd;
+	}
+
+	class MultiplyResult
+	{
+	private:
+		friend constexpr MultiplyResult multiply(int64_t value1, int64_t value2);
+
+		bool _is_negative = false;
+		uint64_t _high = 0;
+		uint64_t _low = 0;
+
+	public:
+		constexpr bool IsNegative() const
+		{
+			return _is_negative;
+		}
+
+		constexpr uint64_t High() const
+		{
+			return _high;
+		}
+
+		constexpr uint64_t Low() const
+		{
+			return _low;
+		}
+
+		constexpr bool operator==(MultiplyResult const &other) const
+		{
+			if (_is_negative != other._is_negative)
+			{
+				return false;
+			}
+
+			std::array<uint64_t, 2> array1{_high, _low};
+			std::array<uint64_t, 2> array2{other._high, other._low};
+			return array1 == array2;
+		}
+
+		constexpr bool operator<(MultiplyResult const &other) const
+		{
+			if (!_is_negative && other._is_negative)
+			{
+				return false;
+			}
+
+			if (_is_negative && !other._is_negative)
+			{
+				return true;
+			}
+
+			std::array<uint64_t, 2> array1{_high, _low};
+			std::array<uint64_t, 2> array2{other._high, other._low};
+			if (!_is_negative && !other._is_negative)
+			{
+				return array1 < array2;
+			}
+
+			// 两个都是负的
+			return array1 > array2;
+		}
+
+		constexpr bool operator>(MultiplyResult const &other) const
+		{
+			if (!_is_negative && other._is_negative)
+			{
+				return true;
+			}
+
+			if (_is_negative && !other._is_negative)
+			{
+				return false;
+			}
+
+			std::array<uint64_t, 2> array1{_high, _low};
+			std::array<uint64_t, 2> array2{other._high, other._low};
+			if (!_is_negative && !other._is_negative)
+			{
+				return array1 > array2;
+			}
+
+			// 两个都是负的
+			return array1 < array2;
+		}
+
+		constexpr bool operator<=(MultiplyResult const &other) const
+		{
+			if (!_is_negative && other._is_negative)
+			{
+				return false;
+			}
+
+			if (_is_negative && !other._is_negative)
+			{
+				return true;
+			}
+
+			std::array<uint64_t, 2> array1{_high, _low};
+			std::array<uint64_t, 2> array2{other._high, other._low};
+			if (!_is_negative && !other._is_negative)
+			{
+				return array1 <= array2;
+			}
+
+			// 两个都是负的
+			return array1 >= array2;
+		}
+
+		constexpr bool operator>=(MultiplyResult const &other) const
+		{
+			if (!_is_negative && other._is_negative)
+			{
+				return true;
+			}
+
+			if (_is_negative && !other._is_negative)
+			{
+				return false;
+			}
+
+			std::array<uint64_t, 2> array1{_high, _low};
+			std::array<uint64_t, 2> array2{other._high, other._low};
+			if (!_is_negative && !other._is_negative)
+			{
+				return array1 >= array2;
+			}
+
+			// 两个都是负的
+			return array1 <= array2;
+		}
+	};
+
+	constexpr MultiplyResult multiply(int64_t value1, int64_t value2)
+	{
+		MultiplyResult ret;
+		if (value1 > 0 && value2 > 0)
+		{
+			ret._is_negative = false;
+		}
+		else if (value1 < 0 && value2 < 0)
+		{
+			ret._is_negative = false;
+		}
+		else
+		{
+			ret._is_negative = true;
+		}
+
+		uint64_t u_value1 = value1;
+		if (value1 < 0)
+		{
+			u_value1 = static_cast<uint64_t>(0) - u_value1;
+		}
+
+		uint64_t u_value2 = value2;
+		if (value2 < 0)
+		{
+			u_value2 = static_cast<uint64_t>(0) - u_value2;
+		}
+
+		uint64_t h1 = cb::bit::ReadBits(u_value1, 32, 64);
+		uint64_t l1 = cb::bit::ReadBits(u_value1, 0, 32);
+		uint64_t h2 = cb::bit::ReadBits(u_value2, 32, 64);
+		uint64_t l2 = cb::bit::ReadBits(u_value2, 0, 32);
+
+		// h1l1 * h2l2
+		// = l1 * l2 + (l2 * h1) << 32 + (h2 * l1) << 32 + (h1 * h2) << 64
+		uint64_t l1l2 = l1 * l2;
+		uint64_t h1l2 = h1 * l2;
+		uint64_t l1h2 = l1 * h2;
+		uint64_t h1h2 = h1 * h2;
+
+		ret._low += l1l2;
+		ret._low += cb::bit::ReadBits(h1l2, 0, 32) << 32;
+		ret._high += cb::bit::ReadBits(h1l2, 32, 64);
+		ret._low += cb::bit::ReadBits(l1h2, 0, 32) << 32;
+		ret._high += cb::bit::ReadBits(l1h2, 32, 64);
+		ret._high += h1h2;
+
+		if (ret._low == 0 && ret._high == 0)
+		{
+			ret._is_negative = false;
+		}
+
+		return ret;
 	}
 
 } // namespace cb
