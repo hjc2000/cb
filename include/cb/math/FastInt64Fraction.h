@@ -355,8 +355,31 @@ namespace cb
 
 		constexpr FastInt64Fraction &operator*=(FastInt64Fraction const &value)
 		{
-			_num *= value.Num();
-			_den *= value.Den();
+			if (_den < 0)
+			{
+				_num = -_num;
+				_den = -_den;
+			}
+
+			cb::FastInt64Fraction copyed_value = value;
+
+			if (copyed_value._den < 0)
+			{
+				copyed_value._num = -copyed_value._num;
+				copyed_value._den = -copyed_value._den;
+			}
+
+			_num *= copyed_value.Num();
+			if (_den >= copyed_value.Den())
+			{
+				_num /= copyed_value.Den();
+			}
+			else
+			{
+				_num /= _den;
+				_den = copyed_value.Den();
+			}
+
 			return *this;
 		}
 
