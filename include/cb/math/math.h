@@ -246,6 +246,16 @@ namespace cb
 	constexpr MultiplyResult multiply(int64_t value1, int64_t value2)
 	{
 		MultiplyResult ret;
+		if (value1 == 0)
+		{
+			return ret;
+		}
+
+		if (value2 == 0)
+		{
+			return ret;
+		}
+
 		if (value1 > 0 && value2 > 0)
 		{
 			ret._is_negative = false;
@@ -289,11 +299,6 @@ namespace cb
 		ret._low += cb::bit::ReadBits(l1h2, 0, 32) << 32;
 		ret._high += cb::bit::ReadBits(l1h2, 32, 64);
 		ret._high += h1h2;
-
-		if (ret._low == 0 && ret._high == 0)
-		{
-			ret._is_negative = false;
-		}
 
 		return ret;
 	}
