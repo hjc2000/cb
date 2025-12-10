@@ -370,23 +370,17 @@ namespace cb
 				copyed_value._den = -copyed_value._den;
 			}
 
-			int64_t abs_num1 = cb::abs(_num);
-			int64_t abs_num2 = cb::abs(copyed_value.Num());
-
-			constexpr int64_t max_num_den = static_cast<int64_t>(1) << 31;
-
-			if (max_num_den / abs_num1 > abs_num2 &&
-				max_num_den / _den > copyed_value.Den())
+			if (_num == 0 || copyed_value.Num() == 0)
 			{
-				// 分子分母可以在一定范围内膨胀。
-				_num *= copyed_value.Num();
-				_den *= copyed_value.Den();
+				_num = 0;
+				_den = 1;
 				return *this;
 			}
 
-			if (abs_num1 != 0 &&
-				abs_num2 != 0 &&
-				std::numeric_limits<int64_t>::max() / abs_num1 < abs_num2)
+			int64_t abs_num1 = cb::abs(_num);
+			int64_t abs_num2 = cb::abs(copyed_value.Num());
+
+			if (std::numeric_limits<int64_t>::max() / abs_num1 < abs_num2)
 			{
 				// _num *= copyed_value.Num() 会溢出，不能直接乘。
 				int64_t multiple = std::numeric_limits<int64_t>::max() / abs_num1;
