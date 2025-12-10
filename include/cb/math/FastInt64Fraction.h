@@ -373,6 +373,17 @@ namespace cb
 			int64_t abs_num1 = cb::abs(_num);
 			int64_t abs_num2 = cb::abs(copyed_value.Num());
 
+			constexpr int64_t max_num_den = static_cast<int64_t>(1) << 31;
+
+			if (max_num_den / abs_num1 > abs_num2 &&
+				max_num_den / _den > copyed_value.Den())
+			{
+				// 分子分母可以在一定范围内膨胀。
+				_num *= copyed_value.Num();
+				_den *= copyed_value.Den();
+				return *this;
+			}
+
 			if (abs_num1 != 0 &&
 				abs_num2 != 0 &&
 				std::numeric_limits<int64_t>::max() / abs_num1 < abs_num2)
