@@ -1,6 +1,7 @@
 #pragma once
 #include "cb/cb_define.h"
 #include "cb/math/math.h"
+#include "FastInt64Fraction.h"
 #include <cstdint>
 #include <string>
 
@@ -32,6 +33,13 @@ namespace cb
 		{
 			_num = int_num;
 			_den = 1;
+		}
+
+		constexpr Int64Fraction(cb::FastInt64Fraction const &value)
+		{
+			_num = value.Num();
+			_den = value.Den();
+			Simplify();
 		}
 
 		///
@@ -413,6 +421,16 @@ namespace cb
 			copy -= copy.Div();
 			float fraction_part = static_cast<float>(copy.Num()) / static_cast<float>(copy.Den());
 			return int_part + fraction_part;
+		}
+
+		constexpr operator cb::FastInt64Fraction() const
+		{
+			cb::FastInt64Fraction ret{
+				_num,
+				_den,
+			};
+
+			return ret;
 		}
 
 		/* #endregion */
