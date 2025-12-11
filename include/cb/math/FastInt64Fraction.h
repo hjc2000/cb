@@ -415,8 +415,8 @@ namespace cb
 			int64_t multiple = std::numeric_limits<int64_t>::max() / abs_num;
 			int64_t remain_num = copyed_value._num / multiple;
 
-			int64_t small_den;
-			int64_t big_den;
+			int64_t small_den = 0;
+			int64_t big_den = 0;
 
 			if (_den >= copyed_value.Den())
 			{
