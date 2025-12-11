@@ -3,6 +3,7 @@
 #include "cb/bit/cb_bit.h"
 #include <array>
 #include <cstdint>
+#include <limits>
 
 namespace cb
 {
@@ -294,9 +295,30 @@ namespace cb
 		uint64_t h1h2 = h1 * h2;
 
 		ret._low += l1l2;
-		ret._low += cb::bit::ReadBits(h1l2, 0, 32) << 32;
+
+		{
+			uint64_t temp = cb::bit::ReadBits(h1l2, 0, 32) << 32;
+			if (std::numeric_limits<uint64_t>::max() - ret._low < temp)
+			{
+				// 进位
+				ret._high++;
+			}
+
+			ret._low += temp;
+		}
+
+		{
+			uint64_t temp = cb::bit::ReadBits(l1h2, 0, 32) << 32;
+			if (std::numeric_limits<uint64_t>::max() - ret._low < temp)
+			{
+				// 进位
+				ret._high++;
+			}
+
+			ret._low += temp;
+		}
+
 		ret._high += cb::bit::ReadBits(h1l2, 32, 64);
-		ret._low += cb::bit::ReadBits(l1h2, 0, 32) << 32;
 		ret._high += cb::bit::ReadBits(l1h2, 32, 64);
 		ret._high += h1h2;
 
