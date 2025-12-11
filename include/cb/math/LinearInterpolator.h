@@ -1,5 +1,4 @@
 #pragma once
-#include "cb/math/Int64Fraction.h"
 #include "cb/math/math.h"
 
 namespace cb
