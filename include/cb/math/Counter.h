@@ -1,5 +1,5 @@
 #pragma once
-#include "cb/cb_define.h"
+#include "cb/define.h"
 #include <limits>
 
 namespace cb

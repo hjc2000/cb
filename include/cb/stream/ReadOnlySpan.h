@@ -1,34 +1,34 @@
 #pragma once
-#include "cb/cb_define.h"
-#include "cb/container/cb_range.h"
-#include "cb/stream/cb_read_only_span.h"
+#include "cb/container/Range.h"
+#include "cb/define.h"
+#include <algorithm>
 #include <cstdint>
+#include <cstring>
 
 namespace cb
 {
 	///
-	/// @brief 引用一段连续内存，不持有这段内存。
+	/// @brief 只读内存段。
+	///
+	/// @note 引用一段只读的内存。
 	///
 	/// @warning 要求本类对象的生命周期内，引用的外部内存始终存活。
 	///
-	/// @note 本类的很多方法都有 const 修饰符。这并不是说不会改变所引用的内存，
-	/// 而是不会改变本对象的字段，即不会变成引用别的内存，或者更改引用的内存段大小。
-	///
-	class Span
+	class ReadOnlySpan
 	{
 	private:
-		uint8_t *_buffer = nullptr;
+		uint8_t const *_buffer = nullptr;
 		int64_t _size = 0;
 
 	public:
-		/* #region 生命周期 */
+		/* #region 构造函数 */
 
 		///
 		/// @brief 无参构造函数。引用一段空内存。
 		///
 		/// @note 可以通过 Size 属性判断本对象是否引用到了有效的内存。
 		///
-		Span() = default;
+		ReadOnlySpan() = default;
 
 		///
 		/// @brief 引用 buffer 指向的内存。在本对象的生命周期内，buffer 指向的内存必须始终存活。
@@ -36,7 +36,7 @@ namespace cb
 		/// @param buffer 要引用的内存。
 		/// @param size buffer 的大小。
 		///
-		Span(uint8_t *buffer, int64_t size)
+		ReadOnlySpan(uint8_t const *buffer, int64_t size)
 		{
 			_buffer = buffer;
 			_size = size;
@@ -52,7 +52,7 @@ namespace cb
 		///
 		/// @param str
 		///
-		Span(char *str)
+		ReadOnlySpan(char const *str)
 		{
 			int64_t white_char_index = 0;
 			while (true)
@@ -65,7 +65,7 @@ namespace cb
 				white_char_index++;
 			}
 
-			_buffer = reinterpret_cast<uint8_t *>(str);
+			_buffer = reinterpret_cast<uint8_t const *>(str);
 			_size = white_char_index;
 		}
 
@@ -80,9 +80,9 @@ namespace cb
 		///
 		/// @return
 		///
-		uint8_t &operator[](int64_t index) const
+		uint8_t const &operator[](int64_t index) const
 		{
-			__cb_assert(index >= 0 && index < _size, "索引超出范围。");
+			__cb_assert(index >= 0 && index < _size, "索引超出范围");
 			return _buffer[index];
 		}
 
@@ -93,7 +93,7 @@ namespace cb
 		///
 		/// @return
 		///
-		cb::Span operator[](cb::Range const &range) const
+		cb::ReadOnlySpan operator[](cb::Range const &range) const
 		{
 			return Slice(range);
 		}
@@ -105,7 +105,7 @@ namespace cb
 		///
 		/// @return
 		///
-		uint8_t *Buffer() const
+		uint8_t const *Buffer() const
 		{
 			return _buffer;
 		}
@@ -120,30 +120,22 @@ namespace cb
 			return _size;
 		}
 
-		///
-		/// @brief 翻转本 Span 所引用的内存段。
-		///
-		void Reverse() const
-		{
-			std::reverse(_buffer, _buffer + _size);
-		}
-
 		/* #region Slice */
 
 		///
-		/// @brief 将本 Span 切片，得到一个更小的 Span.
+		/// @brief 将本 ReadOnlySpan 切片，得到一个更小的 ReadOnlySpan.
 		///
 		/// @param start 切片起始位置。
 		/// @param size 切片大小。
 		///
 		/// @return
 		///
-		cb::Span Slice(int64_t start, int64_t size) const
+		cb::ReadOnlySpan Slice(int64_t start, int64_t size) const
 		{
 			__cb_assert(start >= 0, "start 不能小于 0.");
 			__cb_assert(size >= 0, "size 不能小于 0.");
 			__cb_assert(start + size <= _size, "切片超出范围。");
-			return cb::Span{_buffer + start, size};
+			return cb::ReadOnlySpan{_buffer + start, size};
 		}
 
 		///
@@ -153,77 +145,9 @@ namespace cb
 		///
 		/// @return
 		///
-		cb::Span Slice(cb::Range const &range) const
+		cb::ReadOnlySpan Slice(cb::Range const &range) const
 		{
 			return Slice(range.Begin(), range.Size());
-		}
-
-		/* #endregion */
-
-		/* #region CopyFrom */
-
-		///
-		/// @brief 将 span 所引用的内存的数据拷贝过来。
-		///
-		/// @param span
-		///
-		void CopyFrom(cb::ReadOnlySpan const &span) const
-		{
-			__cb_assert(span.Size() == _size, "span 的大小和本对象不一致。");
-
-			std::copy(span.Buffer(),
-					  span.Buffer() + span.Size(),
-					  _buffer);
-		}
-
-		///
-		/// @brief 将 span 所引用的内存的数据拷贝过来。
-		///
-		/// @param span
-		///
-		void CopyFrom(cb::Span const &span) const
-		{
-			CopyFrom(cb::ReadOnlySpan{span});
-		}
-
-		///
-		/// @brief 将 list 的数据拷贝过来。
-		///
-		/// @param list
-		///
-		void CopyFrom(std::initializer_list<uint8_t> const &list) const
-		{
-			__cb_assert(static_cast<int64_t>(list.size()) == _size, "list 的大小和本对象不一致。");
-
-			int64_t i = 0;
-			for (uint8_t const &value : list)
-			{
-				_buffer[i] = value;
-				i++;
-			}
-		}
-
-		/* #endregion */
-
-		/* #region 填充 */
-
-		///
-		/// @brief 将本 Span 所引用的内存的每一个字节都填充为 0.
-		///
-		void FillWithZero()
-		{
-			// std::fill(_buffer, _buffer + _size, 0);
-			FillWith(0);
-		}
-
-		///
-		/// @brief 将所有字节填充为 value.
-		///
-		/// @param value
-		///
-		void FillWith(uint8_t value)
-		{
-			std::fill(_buffer, _buffer + _size, value);
 		}
 
 		/* #endregion */
@@ -231,7 +155,7 @@ namespace cb
 		/* #region IndexOf */
 
 		///
-		/// @brief 从本内存段查找匹配项所在的索引。
+		/// @brief 在本内存段中从前往后查找最后一个匹配项所在的索引。
 		///
 		/// @param match 匹配项。
 		///
@@ -239,7 +163,15 @@ namespace cb
 		///
 		int64_t IndexOf(uint8_t match) const
 		{
-			return cb::ReadOnlySpan{*this}.IndexOf(match);
+			for (int64_t i = 0; i < _size; i++)
+			{
+				if (_buffer[i] == match)
+				{
+					return i;
+				}
+			}
+
+			return -1;
 		}
 
 		///
@@ -252,7 +184,16 @@ namespace cb
 		///
 		int64_t IndexOf(int64_t start, uint8_t match) const
 		{
-			return cb::ReadOnlySpan{*this}.IndexOf(match);
+			__cb_assert(start >= 0, "start 不能小于 0.");
+			__cb_assert(start < _size, "start 索引超出边界，大于 Size.");
+
+			int64_t result = Slice(cb::Range{start, _size}).IndexOf(match);
+			if (result < 0)
+			{
+				return result;
+			}
+
+			return start + result;
 		}
 
 		///
@@ -264,7 +205,34 @@ namespace cb
 		///
 		int64_t IndexOf(cb::ReadOnlySpan const &match) const
 		{
-			return cb::ReadOnlySpan{*this}.IndexOf(match);
+			__cb_assert(match.Size() > 0, "match 的长度不能是 0.");
+
+			if (Size() < match.Size())
+			{
+				// 本内存段的大小还没 match 的大，不可能匹配。
+				return -1;
+			}
+
+			uint8_t const first_byte_of_match = match[0];
+			for (int64_t i = 0; i < Size(); i++)
+			{
+				if (i + match.Size() > Size())
+				{
+					// 剩下的未匹配的部分已经没有 match 的长的，不可能匹配了。
+					return -1;
+				}
+
+				if (_buffer[i] == first_byte_of_match)
+				{
+					// 匹配到第 1 个字符了。
+					if (Slice(i, match.Size()) == match)
+					{
+						return i;
+					}
+				}
+			}
+
+			return -1;
 		}
 
 		///
@@ -277,7 +245,16 @@ namespace cb
 		///
 		int64_t IndexOf(int64_t start, cb::ReadOnlySpan const &match) const
 		{
-			return cb::ReadOnlySpan{*this}.IndexOf(match);
+			__cb_assert(start >= 0, "start 不能小于 0.");
+			__cb_assert(start < Size(), "start 索引超出边界，大于 Size.");
+
+			int64_t result = Slice(cb::Range{start, _size}).IndexOf(match);
+			if (result < 0)
+			{
+				return result;
+			}
+
+			return start + result;
 		}
 
 		/* #endregion */
@@ -293,7 +270,15 @@ namespace cb
 		///
 		int64_t LastIndexOf(uint8_t match) const
 		{
-			return cb::ReadOnlySpan{*this}.LastIndexOf(match);
+			for (int64_t i = _size - 1; i >= 0; i--)
+			{
+				if (_buffer[i] == match)
+				{
+					return i;
+				}
+			}
+
+			return -1;
 		}
 
 		///
@@ -306,7 +291,11 @@ namespace cb
 		///
 		int64_t LastIndexOf(int64_t start, uint8_t match) const
 		{
-			return cb::ReadOnlySpan{*this}.LastIndexOf(start, match);
+			__cb_assert(start >= 0, "start 不能小于 0.");
+			__cb_assert(start < Size(), "start 索引超出边界，大于 Size.");
+
+			int64_t result = Slice(cb::Range{0, start + 1}).LastIndexOf(match);
+			return result;
 		}
 
 		///
@@ -318,7 +307,29 @@ namespace cb
 		///
 		int64_t LastIndexOf(cb::ReadOnlySpan const &match) const
 		{
-			return cb::ReadOnlySpan{*this}.LastIndexOf(match);
+			__cb_assert(match.Size() > 0, "match 的长度必须大于 0.");
+
+			if (Size() < match.Size())
+			{
+				// 本内存段的大小还没 match 的大，不可能匹配。
+				return -1;
+			}
+
+			uint8_t const first_byte_of_match = match[0];
+
+			for (int64_t i = Size() - match.Size(); i >= 0; i--)
+			{
+				if (_buffer[i] == first_byte_of_match)
+				{
+					// 匹配到第 1 个字符了。
+					if (Slice(i, match.Size()) == match)
+					{
+						return i;
+					}
+				}
+			}
+
+			return -1;
 		}
 
 		///
@@ -331,7 +342,11 @@ namespace cb
 		///
 		int64_t LastIndexOf(int64_t start, cb::ReadOnlySpan const &match) const
 		{
-			return cb::ReadOnlySpan{*this}.LastIndexOf(start, match);
+			__cb_assert(start >= 0, "start 不能小于 0.");
+			__cb_assert(start < Size(), "start 索引超出边界，大于 Size.");
+
+			int64_t result = Slice(cb::Range{0, start + 1}).LastIndexOf(match);
+			return result;
 		}
 
 		/* #endregion */
@@ -345,9 +360,14 @@ namespace cb
 		///
 		/// @return
 		///
-		bool StartWith(uint8_t match) const
+		bool StartWith(uint8_t match)
 		{
-			return cb::ReadOnlySpan{*this}.StartWith(match);
+			if (Size() == 0)
+			{
+				return false;
+			}
+
+			return _buffer[0] == match;
 		}
 
 		///
@@ -357,9 +377,14 @@ namespace cb
 		///
 		/// @return
 		///
-		bool StartWith(cb::ReadOnlySpan const &match) const
+		bool StartWith(cb::ReadOnlySpan const &match)
 		{
-			return cb::ReadOnlySpan{*this}.StartWith(match);
+			if (Size() < match.Size())
+			{
+				return false;
+			}
+
+			return Slice(cb::Range{0, match.Size()}) == match;
 		}
 
 		///
@@ -369,9 +394,14 @@ namespace cb
 		///
 		/// @return
 		///
-		bool EndWith(uint8_t match) const
+		bool EndWith(uint8_t match)
 		{
-			return cb::ReadOnlySpan{*this}.EndWith(match);
+			if (Size() == 0)
+			{
+				return false;
+			}
+
+			return _buffer[_size - 1] == match;
 		}
 
 		///
@@ -381,9 +411,14 @@ namespace cb
 		///
 		/// @return
 		///
-		bool EndWith(cb::ReadOnlySpan const &match) const
+		bool EndWith(cb::ReadOnlySpan const &match)
 		{
-			return cb::ReadOnlySpan{*this}.EndWith(match);
+			if (Size() < match.Size())
+			{
+				return false;
+			}
+
+			return Slice(cb::Range{_size - match.Size(), _size}) == match;
 		}
 
 		/* #endregion */
@@ -391,13 +426,7 @@ namespace cb
 		/* #region 比较 */
 
 		///
-		/// @brief 比较两段内存。
-		///
-		/// @note 如果两段内存大小相等，且每个字节都相等，则这两段内存相等。
-		///
-		/// @note 逐个字节比较，直到找到一对不等的字节，这个字节的大小关系就是内存段的大小
-		/// 关系。例如本内存段第 1 个字节就和 another 的第 1 个字节不等了，并且本内存段的第
-		/// 1 个字节小于 another 的第 1 个字节，则认为本内存段小于 another.
+		/// @brief 基于字典序的比较逻辑比较两段内存。
 		///
 		/// @param another
 		///
@@ -405,25 +434,25 @@ namespace cb
 		///
 		int64_t Compare(cb::ReadOnlySpan const &another) const
 		{
-			return cb::ReadOnlySpan{*this}.Compare(another);
-		}
+			if (Size() == 0 && another.Size() == 0)
+			{
+				// 两段内存的大小都为 0，也认为相等。
+				return 0;
+			}
 
-		///
-		/// @brief 比较两段内存。
-		///
-		/// @note 如果两段内存大小相等，且每个字节都相等，则这两段内存相等。
-		///
-		/// @note 逐个字节比较，直到找到一对不等的字节，这个字节的大小关系就是内存段的大小
-		/// 关系。例如本内存段第 1 个字节就和 another 的第 1 个字节不等了，并且本内存段的第
-		/// 1 个字节小于 another 的第 1 个字节，则认为本内存段小于 another.
-		///
-		/// @param another
-		///
-		/// @return
-		///
-		int64_t Compare(cb::Span const &another) const
-		{
-			return cb::ReadOnlySpan{*this}.Compare(another);
+			int64_t result = std::memcmp(Buffer(),
+										 another.Buffer(),
+										 std::min<int64_t>(Size(), another.Size()));
+
+			if (result == 0)
+			{
+				// 如果比较结果 == 0, 说明说比较的直接都相等。接下来就是谁更长，谁的字典序更后面了。
+				// 如果本内存段更长，减法的结果是正数，表示本内存段应该排更后面。
+				// 如果本内存段更短，减法的结果是负数，表示本内存段应该排更后面。
+				return Size() - another.Size();
+			}
+
+			return result;
 		}
 
 		///
@@ -434,18 +463,6 @@ namespace cb
 		/// @return
 		///
 		bool operator==(cb::ReadOnlySpan const &another) const
-		{
-			return Compare(another) == 0;
-		}
-
-		///
-		/// @brief 基于 Compare 方法。
-		///
-		/// @param another
-		///
-		/// @return
-		///
-		bool operator==(cb::Span const &another) const
 		{
 			return Compare(another) == 0;
 		}
@@ -469,31 +486,7 @@ namespace cb
 		///
 		/// @return
 		///
-		bool operator<(cb::Span const &another) const
-		{
-			return Compare(another) < 0;
-		}
-
-		///
-		/// @brief 基于 Compare 方法。
-		///
-		/// @param another
-		///
-		/// @return
-		///
 		bool operator>(cb::ReadOnlySpan const &another) const
-		{
-			return Compare(another) > 0;
-		}
-
-		///
-		/// @brief 基于 Compare 方法。
-		///
-		/// @param another
-		///
-		/// @return
-		///
-		bool operator>(cb::Span const &another) const
 		{
 			return Compare(another) > 0;
 		}
@@ -517,31 +510,7 @@ namespace cb
 		///
 		/// @return
 		///
-		bool operator<=(cb::Span const &another) const
-		{
-			return Compare(another) <= 0;
-		}
-
-		///
-		/// @brief 基于 Compare 方法。
-		///
-		/// @param another
-		///
-		/// @return
-		///
 		bool operator>=(cb::ReadOnlySpan const &another) const
-		{
-			return Compare(another) >= 0;
-		}
-
-		///
-		/// @brief 基于 Compare 方法。
-		///
-		/// @param another
-		///
-		/// @return
-		///
-		bool operator>=(cb::Span const &another) const
 		{
 			return Compare(another) >= 0;
 		}
@@ -549,16 +518,6 @@ namespace cb
 		/* #endregion */
 
 		/* #region 迭代 */
-
-		uint8_t *begin()
-		{
-			return _buffer;
-		}
-
-		uint8_t *end()
-		{
-			return _buffer + _size;
-		}
 
 		uint8_t const *begin() const
 		{
@@ -571,16 +530,6 @@ namespace cb
 		}
 
 		/* #endregion */
-
-		operator cb::ReadOnlySpan() const
-		{
-			cb::ReadOnlySpan ret{
-				_buffer,
-				_size,
-			};
-
-			return ret;
-		}
 	};
 
 } // namespace cb

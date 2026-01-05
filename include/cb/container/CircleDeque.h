@@ -1,7 +1,7 @@
 #pragma once
-#include "cb/cb_define.h"
-#include "cb/cb_placement.h"
-#include "cb/math/cb_counter.h"
+#include "cb/define.h"
+#include "cb/math/Counter.h"
+#include "cb/Placement.h"
 #include <algorithm>
 #include <cstdint>
 

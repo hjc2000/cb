@@ -1,7 +1,7 @@
 #pragma once
-#include "cb/cb_define.h"
-#include "cb/stream/cb_read_only_span.h"
-#include "cb/stream/cb_span.h"
+#include "cb/define.h"
+#include "cb/stream/ReadOnlySpan.h"
+#include "cb/stream/Span.h"
 #include <algorithm>
 #include <cstdint>
 #include <stdint.h>

@@ -1,11 +1,11 @@
 #pragma once
-#include "cb/bit/cb_endian.h"
-#include "cb/stream/cb_read_only_span.h"
-#include "cb/stream/cb_span.h"
-#include "cb_bit_converte.h"
+#include "cb/bit/bit_converte.h"
+#include "cb/bit/Endian.h"
+#include "cb/stream/ReadOnlySpan.h"
+#include "cb/stream/Span.h"
 #include <algorithm>
-#include <stdbool.h>
-#include <stdint.h>
+#include <cstdbool>
+#include <cstdint>
 
 namespace cb
 {

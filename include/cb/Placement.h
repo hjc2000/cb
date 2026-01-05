@@ -1,5 +1,5 @@
 #pragma once
-#include "cb/cb_define.h"
+#include "cb/define.h"
 #include <cstdint>
 #include <new> // IWYU pragma: keep
 #include <utility>

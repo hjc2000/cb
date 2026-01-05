@@ -1,5 +1,5 @@
 #include "base/string/define.h"
-#include "cb/cb_define.h"
+#include "cb/define.h"
 #include <stdexcept>
 
 void cb_assert_block()
