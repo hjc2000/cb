@@ -73,8 +73,9 @@ namespace cb
 		void PushBack(T const &obj)
 		{
 			__cb_assert(!_is_full, "队列已满，无法入队。");
-			new (&Buffer()[_end.CurrentValue()]) T{obj};
+			new (&Buffer()[_end.Value()]) T{obj};
 			_end++;
+
 			if (_begin == _end)
 			{
 				_is_full = true;
@@ -91,7 +92,8 @@ namespace cb
 			__cb_assert(!_is_full, "队列已满，无法入队。");
 			_begin--;
 
-			new (&Buffer()[_begin.CurrentValue()]) T{obj};
+			new (&Buffer()[_begin.Value()]) T{obj};
+
 			if (_begin == _end)
 			{
 				_is_full = true;
@@ -110,7 +112,7 @@ namespace cb
 
 			_end--;
 			_is_full = false;
-			Buffer()[_end.CurrentValue()].~T();
+			Buffer()[_end.Value()].~T();
 		}
 
 		///
@@ -123,8 +125,8 @@ namespace cb
 			__cb_assert(Count() > 0, "队列为空，无法退队。");
 			_end--;
 			_is_full = false;
-			T ret{std::move(Buffer()[_end.CurrentValue()])};
-			Buffer()[_end.CurrentValue()].~T();
+			T ret{std::move(Buffer()[_end.Value()])};
+			Buffer()[_end.Value()].~T();
 			return ret;
 		}
 
@@ -140,8 +142,8 @@ namespace cb
 
 			_end--;
 			_is_full = false;
-			placement = std::move(Buffer()[_end.CurrentValue()]);
-			Buffer()[_end.CurrentValue()].~T();
+			placement = std::move(Buffer()[_end.Value()]);
+			Buffer()[_end.Value()].~T();
 		}
 
 		///
@@ -154,7 +156,7 @@ namespace cb
 				return;
 			}
 
-			int64_t index = _begin.CurrentValue();
+			int64_t index = _begin.Value();
 			Buffer()[index].~T();
 			_begin++;
 			_is_full = false;
@@ -168,7 +170,7 @@ namespace cb
 		T PopFront()
 		{
 			__cb_assert(Count() > 0, "队列为空，无法退队。");
-			int64_t index = _begin.CurrentValue();
+			int64_t index = _begin.Value();
 			T ret{std::move(Buffer()[index])};
 			Buffer()[index].~T();
 			_begin++;
@@ -186,7 +188,7 @@ namespace cb
 				return;
 			}
 
-			int64_t index = _begin.CurrentValue();
+			int64_t index = _begin.Value();
 			placement = std::move(Buffer()[index]);
 			Buffer()[index].~T();
 			_begin++;

@@ -94,9 +94,9 @@ namespace cb
 			return copy._count;
 		}
 
-		constexpr T operator+(cb::Counter<T> const &another) const
+		constexpr T operator+(cb::Counter<T> const &other) const
 		{
-			return *this + another._count;
+			return *this + other._count;
 		}
 
 		constexpr T operator-(T value) const
@@ -106,9 +106,9 @@ namespace cb
 			return copy._count;
 		}
 
-		constexpr T operator-(cb::Counter<T> const &another) const
+		constexpr T operator-(cb::Counter<T> const &other) const
 		{
-			return *this - another._count;
+			return *this - other._count;
 		}
 
 		/* #endregion */
@@ -135,6 +135,7 @@ namespace cb
 
 			// 剩余多少达到最大值
 			T remain = _max_value - _count;
+
 			if (value > remain)
 			{
 				// _count + value 会发生溢出
@@ -176,6 +177,7 @@ namespace cb
 
 			// 将要减的值约束在一个最小正周期内。
 			value %= _max_value + 1;
+
 			if (value > _count)
 			{
 				// 假设将 _count 减到 0 后还剩下多少没减
@@ -207,21 +209,21 @@ namespace cb
 		}
 
 		///
-		/// @brief 获取计数器的当前值。
+		/// @brief 计数器的当前值。
 		///
 		/// @return
 		///
-		constexpr T CurrentValue() const
+		constexpr T Value() const
 		{
 			return _count;
 		}
 
 		///
-		/// @brief 设置计数器的当前值。
+		/// @brief 计数器的当前值。
 		///
 		/// @param value
 		///
-		constexpr void SetCurrentValue(T value)
+		constexpr void SetValue(T value)
 		{
 			_count = 0;
 
@@ -236,29 +238,54 @@ namespace cb
 
 		/* #region 比较运算符 */
 
-		constexpr bool operator==(cb::Counter<T> const &another) const
+		constexpr bool operator==(cb::Counter<T> const &other) const
 		{
-			return _count == another._count;
+			return _count == other._count;
 		}
 
-		constexpr bool operator<(cb::Counter<T> const &another) const
+		constexpr bool operator<(cb::Counter<T> const &other) const
 		{
-			return _count < another._count;
+			return _count < other._count;
 		}
 
-		constexpr bool operator>(cb::Counter<T> const &another) const
+		constexpr bool operator>(cb::Counter<T> const &other) const
 		{
-			return _count > another._count;
+			return _count > other._count;
 		}
 
-		constexpr bool operator<=(cb::Counter<T> const &another) const
+		constexpr bool operator<=(cb::Counter<T> const &other) const
 		{
-			return _count <= another._count;
+			return _count <= other._count;
 		}
 
-		constexpr bool operator>=(cb::Counter<T> const &another) const
+		constexpr bool operator>=(cb::Counter<T> const &other) const
 		{
-			return _count >= another._count;
+			return _count >= other._count;
+		}
+
+		constexpr bool operator==(T const &other) const
+		{
+			return _count == other;
+		}
+
+		constexpr bool operator<(T const &other) const
+		{
+			return _count < other;
+		}
+
+		constexpr bool operator>(T const &other) const
+		{
+			return _count > other;
+		}
+
+		constexpr bool operator<=(T const &other) const
+		{
+			return _count <= other;
+		}
+
+		constexpr bool operator>=(T const &other) const
+		{
+			return _count >= other;
 		}
 
 		/* #endregion */
