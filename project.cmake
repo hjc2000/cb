@@ -4,6 +4,7 @@ target_import_src(${ProjectName})
 
 target_compile_definitions(${ProjectName} PUBLIC
 	__cb_use_assert
+	__cb_use_assert_print
 )
 
 

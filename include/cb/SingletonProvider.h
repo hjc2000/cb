@@ -1,6 +1,6 @@
 #pragma once
-#include <cstdint> // IWYU pragma: keep
-#include <new>     // IWYU pragma: keep
+#include <cstdint>
+#include <new> // IWYU pragma: keep
 
 namespace cb
 {
