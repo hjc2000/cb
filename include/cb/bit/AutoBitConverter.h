@@ -62,7 +62,7 @@ namespace cb
 
 			if (ShouldReverse())
 			{
-				std::reverse(span.Buffer(), span.Buffer() + sizeof(ValueType));
+				span.Reverse();
 			}
 		}
 	};
