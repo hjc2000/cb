@@ -30,6 +30,7 @@ namespace cb
 		/// @note 会自动根据本机字节序和远端字节序进行字节序转换。
 		///
 		/// @param span
+		///
 		/// @return
 		///
 		template <typename ReturnType>
@@ -53,6 +54,7 @@ namespace cb
 		///
 		/// @param value
 		/// @param span
+		///
 		/// @return
 		///
 		template <typename ValueType>
