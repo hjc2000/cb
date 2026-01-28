@@ -45,10 +45,10 @@ namespace cb
 		{
 			__cb_assert(span.Size() == static_cast<int64_t>(sizeof(ValueType)), "传入的 span 大小不符。");
 
-			uint8_t const *buffer = reinterpret_cast<uint8_t const *>(&value);
+			uint8_t const *value_buffer = reinterpret_cast<uint8_t const *>(&value);
 
-			std::copy(buffer,
-					  buffer + sizeof(ValueType),
+			std::copy(value_buffer,
+					  value_buffer + sizeof(ValueType),
 					  span.Buffer());
 		}
 
