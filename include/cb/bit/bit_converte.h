@@ -4,7 +4,6 @@
 #include "cb/stream/Span.h"
 #include <algorithm>
 #include <cstdint>
-#include <stdint.h>
 
 namespace cb
 {

@@ -4,7 +4,6 @@
 #include "cb/stream/ReadOnlySpan.h"
 #include "cb/stream/Span.h"
 #include <algorithm>
-#include <cstdbool>
 #include <cstdint>
 
 namespace cb
