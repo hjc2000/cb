@@ -48,7 +48,7 @@ namespace cb
 			uint8_t const *buffer = reinterpret_cast<uint8_t const *>(&value);
 
 			std::copy(buffer,
-					  buffer + sizeof(value),
+					  buffer + sizeof(ValueType),
 					  span.Buffer());
 		}
 
