@@ -4,7 +4,6 @@
 #include "cb/stream/ReadOnlySpan.h"
 #include "cb/stream/Span.h"
 #include <algorithm>
-#include <cstdbool>
 #include <cstdint>
 
 namespace cb
@@ -31,6 +30,7 @@ namespace cb
 		/// @note 会自动根据本机字节序和远端字节序进行字节序转换。
 		///
 		/// @param span
+		///
 		/// @return
 		///
 		template <typename ReturnType>
@@ -54,6 +54,7 @@ namespace cb
 		///
 		/// @param value
 		/// @param span
+		///
 		/// @return
 		///
 		template <typename ValueType>
@@ -63,7 +64,7 @@ namespace cb
 
 			if (ShouldReverse())
 			{
-				std::reverse(span.Buffer(), span.Buffer() + sizeof(ValueType));
+				span.Reverse();
 			}
 		}
 	};

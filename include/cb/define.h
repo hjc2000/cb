@@ -1,17 +1,17 @@
 #pragma once
 
-// IWYU pragma: begin_keep
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+	// IWYU pragma: begin_keep
 
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 
-// IWYU pragma: end_keep
-
-#ifdef __cplusplus
-extern "C"
-{
-#endif
+	// IWYU pragma: end_keep
 
 #define __cb_force_inline inline __attribute__((always_inline))
 

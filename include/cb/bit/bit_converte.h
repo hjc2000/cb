@@ -4,7 +4,6 @@
 #include "cb/stream/Span.h"
 #include <algorithm>
 #include <cstdint>
-#include <stdint.h>
 
 namespace cb
 {
@@ -21,13 +20,17 @@ namespace cb
 		{
 			__cb_assert(span.Size() == static_cast<int64_t>(sizeof(ReturnType)), "传入的 span 大小不符。");
 
-			ReturnType ret;
+			struct
+			{
+				// 使用普通字节缓冲区，避免 ReturnType 的构造函数被调用。
+				alignas(ReturnType) uint8_t _buffer[sizeof(ReturnType)];
+			} buffer_provider;
 
 			std::copy(span.Buffer(),
-					  span.Buffer() + sizeof(ret),
-					  reinterpret_cast<uint8_t *>(&ret));
+					  span.Buffer() + sizeof(ReturnType),
+					  buffer_provider._buffer);
 
-			return ret;
+			return *reinterpret_cast<ReturnType *>(buffer_provider._buffer);
 		}
 
 		///
@@ -42,10 +45,10 @@ namespace cb
 		{
 			__cb_assert(span.Size() == static_cast<int64_t>(sizeof(ValueType)), "传入的 span 大小不符。");
 
-			uint8_t const *buffer = reinterpret_cast<uint8_t const *>(&value);
+			uint8_t const *value_buffer = reinterpret_cast<uint8_t const *>(&value);
 
-			std::copy(buffer,
-					  buffer + sizeof(value),
+			std::copy(value_buffer,
+					  value_buffer + sizeof(ValueType),
 					  span.Buffer());
 		}
 
