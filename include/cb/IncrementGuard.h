@@ -6,7 +6,7 @@ namespace cb
 	class IncrementGuard
 	{
 	private:
-		int32_t _value = 0;
+		int32_t &_value;
 
 	public:
 		IncrementGuard(int32_t &value)
